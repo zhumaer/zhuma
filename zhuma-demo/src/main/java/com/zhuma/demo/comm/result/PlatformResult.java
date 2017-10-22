@@ -5,8 +5,10 @@ import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * 平台通用返回结果（不同JAVA 团队、C++端对统一接口返回值）
- * Created by jingkun.wang on 17/6/14.
+ * @desc 平台通用返回结果
+ * 
+ * @author zhumaer
+ * @since 10/9/2017 3:00 PM
  */
 public class PlatformResult<T> implements Serializable {
 

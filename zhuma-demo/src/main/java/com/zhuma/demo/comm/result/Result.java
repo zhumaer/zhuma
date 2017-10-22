@@ -5,7 +5,10 @@ import java.io.Serializable;
 import com.zhuma.demo.enums.ResultCode;
 
 /**
- * Created by jingkun.wang on 17/5/24.
+ * @desc 平台通用返回结果
+ * 
+ * @author zhumaer
+ * @since 10/9/2017 3:00 PM
  */
 public class Result implements Serializable {
 

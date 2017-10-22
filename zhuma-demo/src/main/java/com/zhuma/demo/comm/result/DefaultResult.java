@@ -10,7 +10,7 @@ import com.zhuma.demo.enums.ResultCode;
  * @desc 默认全局错误返回结果
  *       备注：该返回信息是spring boot的默认异常时返回结果{@link DefaultErrorAttributes}，目前也是我们原子层服务的默认返回结果
  * 
- * @author jingkun.wang@baidao.com
+ * @author zhumaer
  * @since 9/29/2017 3:00 PM
  */
 public class DefaultResult {

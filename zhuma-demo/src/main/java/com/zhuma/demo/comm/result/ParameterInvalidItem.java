@@ -3,7 +3,7 @@ package com.zhuma.demo.comm.result;
 /**
  * @desc 参数无效项
  * 
- * @author jingkun.wang@baidao.com
+ * @author zhumaer
  * @since 10/9/2017 3:00 PM
  */
 public class ParameterInvalidItem {
