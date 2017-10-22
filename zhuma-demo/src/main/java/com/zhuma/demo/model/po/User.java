@@ -9,13 +9,13 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
-import com.zhuma.demo.annotations.EnumValueAnn;
-import com.zhuma.demo.utils.StringUtil;
+import com.zhuma.demo.annotation.EnumValueAnn;
+import com.zhuma.demo.util.StringUtil;
 
 /**
- * @desc 用户
+ * @desc 用户PO
 
- * @author yujia.cheng@baidao.com
+ * @author zhumaer
  * @since 6/15/2017 2:48 PM
  */
 public class User implements Serializable {

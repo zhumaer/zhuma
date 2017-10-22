@@ -1,8 +1,10 @@
 package com.zhuma.demo.enums;
 
 /**
- * 常用时间枚举类
- * Created by jingkun.wang on 17/6/2.
+ * @desc 常用时间枚举类
+ * 
+ * @author zhumaer
+ * @since 8/31/2017 3:00 PM
  */
 public enum Time {
 

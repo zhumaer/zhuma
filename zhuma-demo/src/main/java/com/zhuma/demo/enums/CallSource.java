@@ -3,7 +3,7 @@ package com.zhuma.demo.enums;
 /**
  * @desc 调用来源枚举类
  * 
- * @author jingkun.wang@baidao.com
+ * @author zhumaer
  * @since 8/31/2017 3:00 PM
  */
 public enum CallSource {
