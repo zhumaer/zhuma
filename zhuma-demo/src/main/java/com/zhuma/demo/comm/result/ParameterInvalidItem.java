@@ -9,11 +9,6 @@ package com.zhuma.demo.comm.result;
 public class ParameterInvalidItem {
 
 	/**
-	 * 对象的名称
-	 */
-	private String objectName;
-
-	/**
 	 * 无效字段的名称
 	 */
 	private String fieldName;
@@ -22,14 +17,6 @@ public class ParameterInvalidItem {
 	 * 错误信息
 	 */
 	private String message;
-
-	public String getObjectName() {
-		return objectName;
-	}
-
-	public void setObjectName(String objectName) {
-		this.objectName = objectName;
-	}
 
 	public String getFieldName() {
 		return fieldName;

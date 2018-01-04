@@ -1,6 +1,6 @@
 package com.zhuma.demo.exception;
 
-import org.apache.commons.lang3.StringUtils;
+import com.zhuma.demo.enums.ResultCode;
 
 /**
  * @desc 远程访问异常
@@ -12,35 +12,28 @@ public class RemoteAccessException extends BusinessException {
 
 	private static final long serialVersionUID = -832464574076215195L;
 
-	private String message;
-
 	public RemoteAccessException() {
 		super();
 	}
-	public RemoteAccessException(String msg, Throwable cause, Object... objects) {
-		super(cause);
-		String format = StringUtils.replace(msg, "{}", "%s");
-		this.message= String.format(format, objects);
+
+	public RemoteAccessException(Object data) {
+		super.data = data;
 	}
 
-	public RemoteAccessException(String msg, Throwable cause) {
-		super(msg, cause);
+	public RemoteAccessException(ResultCode resultCode) {
+		super(resultCode);
 	}
 
-	public RemoteAccessException(Throwable cause) {
-		super(cause);
+	public RemoteAccessException(ResultCode resultCode, Object data) {
+		super(resultCode, data);
 	}
 
 	public RemoteAccessException(String msg) {
 		super(msg);
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
+	public RemoteAccessException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

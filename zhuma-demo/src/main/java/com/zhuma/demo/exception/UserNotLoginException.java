@@ -14,24 +14,12 @@ public class UserNotLoginException extends BusinessException {
 		super();
 	}
 
-	public UserNotLoginException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
-	}
-
-	public UserNotLoginException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
-
-	public UserNotLoginException(Throwable cause) {
-		super(cause);
-	}
-
 	public UserNotLoginException(String msg) {
 		super(msg);
 	}
 
-	public UserNotLoginException(String format, Object... objects) {
-		super(format, objects);
+	public UserNotLoginException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

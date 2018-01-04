@@ -1,8 +1,10 @@
 package com.zhuma.demo.comm.result;
 
-import java.io.Serializable;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zhuma.demo.enums.ResultCode;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @desc 平台通用返回结果
@@ -10,56 +12,56 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author zhumaer
  * @since 10/9/2017 3:00 PM
  */
-public class PlatformResult<T> implements Serializable {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class PlatformResult implements Result {
 
-	private static final long serialVersionUID = 7356370835188276633L;
+	private static final long serialVersionUID = 874200365941306385L;
 
-	public static final String SUCCESS_RET = "0";
-
-	public static final String SUCCESS = "Success";
-
-	private String ret;
+	private Integer code;
 
 	private String msg;
 
-	private T info;
+	private Object data;
 
-	private String link;
-
-	@JsonIgnore
-	public boolean isSuccess() {
-		return SUCCESS_RET.equals(ret);
+	public static PlatformResult success() {
+		PlatformResult result = new PlatformResult();
+		result.setResultCode(ResultCode.SUCCESS);
+		return result;
 	}
 
-	public String getRet() {
-		return ret;
+	public static PlatformResult success(Object data) {
+		PlatformResult result = new PlatformResult();
+		result.setResultCode(ResultCode.SUCCESS);
+		result.setData(data);
+		return result;
 	}
 
-	public void setRet(String ret) {
-		this.ret = ret;
+	public static PlatformResult failure(ResultCode resultCode) {
+		PlatformResult result = new PlatformResult();
+		result.setResultCode(resultCode);
+		return result;
 	}
 
-	public String getMsg() {
-		return msg;
+	public static PlatformResult failure(ResultCode resultCode, Object data) {
+		PlatformResult result = new PlatformResult();
+		result.setResultCode(resultCode);
+		result.setData(data);
+		return result;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	public static PlatformResult failure(String message) {
+		PlatformResult result = new PlatformResult();
+		result.setCode(ResultCode.PARAM_IS_INVALID.code());
+		result.setMsg(message);
+		return result;
 	}
 
-	public T getInfo() {
-		return info;
+	private void setResultCode(ResultCode code) {
+		this.code = code.code();
+		this.msg = code.message();
 	}
 
-	public void setInfo(T info) {
-		this.info = info;
-	}
-
-	public String getLink() {
-		return link;
-	}
-
-	public void setLink(String link) {
-		this.link = link;
-	}
 }

@@ -1,5 +1,7 @@
 package com.zhuma.demo.exception;
 
+import com.zhuma.demo.enums.ResultCode;
+
 /**
  * @desc 内部服务异常
  * 
@@ -14,24 +16,24 @@ public class InternalServerException extends BusinessException {
 		super();
 	}
 
-	public InternalServerException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
+	public InternalServerException(Throwable cause) {
+		super(cause);
 	}
 
 	public InternalServerException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public InternalServerException(Throwable cause) {
-		super(cause);
+	public InternalServerException(String msg, Throwable cause, Object... objects) {
+		super(msg, cause, objects);
 	}
 
 	public InternalServerException(String msg) {
 		super(msg);
 	}
 
-	public InternalServerException(String format, Object... objects) {
-		super(format, objects);
+	public InternalServerException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

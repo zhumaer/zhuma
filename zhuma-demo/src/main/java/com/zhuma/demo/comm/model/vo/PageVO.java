@@ -3,6 +3,10 @@ package com.zhuma.demo.comm.model.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -14,9 +18,12 @@ import com.zhuma.demo.util.BeanUtil;
 /**
  * @desc 分页VO对象
 
- * @author jingkun.wang@baidao.com
+ * @author zhumaer
  * @since 7/6/2017 2:48 PM
  */
+@Builder
+@AllArgsConstructor
+@Data
 public class PageVO<T> implements Serializable {
 
 	private static final long serialVersionUID = -4426958360243585882L;
@@ -135,47 +142,6 @@ public class PageVO<T> implements Serializable {
 
 	public static int getPages(int total, int pageSize) {
 		return total % pageSize == 0 ? (total / pageSize) : (total / pageSize + 1);
-	}
-
-
-	public int getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	public int getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-	}
-
-	public long getTotal() {
-		return total;
-	}
-
-	public void setTotal(long total) {
-		this.total = total;
-	}
-
-	public int getPages() {
-		return pages;
-	}
-
-	public void setPages(int pages) {
-		this.pages = pages;
-	}
-
-	public List<T> getList() {
-		return list;
-	}
-
-	public void setList(List<T> list) {
-		this.list = list;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.zhuma.demo.exception;
 
+import com.zhuma.demo.enums.ResultCode;
+
 /**
  * @desc 数据没有找到异常
  * 
@@ -14,24 +16,24 @@ public class DataNotFoundException extends BusinessException {
 		super();
 	}
 
-	public DataNotFoundException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
+	public DataNotFoundException(Object data) {
+		super.data = data;
 	}
 
-	public DataNotFoundException(String msg, Throwable cause) {
-		super(msg, cause);
+	public DataNotFoundException(ResultCode resultCode) {
+		super(resultCode);
 	}
 
-	public DataNotFoundException(Throwable cause) {
-		super(cause);
+	public DataNotFoundException(ResultCode resultCode, Object data) {
+		super(resultCode, data);
 	}
 
 	public DataNotFoundException(String msg) {
 		super(msg);
 	}
 
-	public DataNotFoundException(String format, Object... objects) {
-		super(format, objects);
+	public DataNotFoundException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

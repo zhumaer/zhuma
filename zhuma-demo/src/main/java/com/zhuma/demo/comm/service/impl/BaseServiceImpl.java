@@ -58,7 +58,7 @@ public class BaseServiceImpl<T extends BasePO> implements BaseService<T> {
 	@Override
 	public PageVO<T> selectPageVO(PageQO<T> pageQO) {
 		Page<T> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize(), pageQO.getOrderBy());
-		baseMapper.selectByCondition(pageQO.getQueryModel());
+		baseMapper.select(pageQO.getCondition());
 		return PageVO.build(page);
 	}
 

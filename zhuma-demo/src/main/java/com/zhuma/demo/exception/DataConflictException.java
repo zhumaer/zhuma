@@ -1,5 +1,8 @@
 package com.zhuma.demo.exception;
 
+import com.zhuma.demo.enums.ExceptionEnum;
+import com.zhuma.demo.enums.ResultCode;
+
 /**
  * @desc 数据已经存在异常
  * 
@@ -14,24 +17,25 @@ public class DataConflictException extends BusinessException {
 		super();
 	}
 
-	public DataConflictException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
+	public DataConflictException(Object data) {
+		super.data = data;
 	}
 
-	public DataConflictException(String msg, Throwable cause) {
-		super(msg, cause);
+	public DataConflictException(ResultCode resultCode) {
+		super(resultCode);
 	}
 
-	public DataConflictException(Throwable cause) {
-		super(cause);
+	public DataConflictException(ResultCode resultCode, Object data) {
+		super(resultCode, data);
 	}
 
 	public DataConflictException(String msg) {
 		super(msg);
 	}
 
-	public DataConflictException(String format, Object... objects) {
-		super(format, objects);
+	public DataConflictException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
+
 
 }

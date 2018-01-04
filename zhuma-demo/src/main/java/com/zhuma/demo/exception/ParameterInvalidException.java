@@ -2,7 +2,6 @@ package com.zhuma.demo.exception;
 
 import com.zhuma.demo.enums.ResultCode;
 
-
 /**
  * @desc 参数无效异常
  * 
@@ -21,29 +20,20 @@ public class ParameterInvalidException extends BusinessException {
 		super.data = data;
 	}
 
+	public ParameterInvalidException(ResultCode resultCode) {
+		super(resultCode);
+	}
+
 	public ParameterInvalidException(ResultCode resultCode, Object data) {
-		super.resultCode = resultCode;
-		super.data = data;
-	}
-
-	public ParameterInvalidException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
-	}
-
-	public ParameterInvalidException(String msg, Throwable cause) {
-		super(msg, cause);
-	}
-
-	public ParameterInvalidException(Throwable cause) {
-		super(cause);
+		super(resultCode, data);
 	}
 
 	public ParameterInvalidException(String msg) {
 		super(msg);
 	}
 
-	public ParameterInvalidException(String format, Object... objects) {
-		super(format, objects);
+	public ParameterInvalidException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

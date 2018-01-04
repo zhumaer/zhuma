@@ -1,5 +1,7 @@
 package com.zhuma.demo.exception;
 
+import com.zhuma.demo.enums.ResultCode;
+
 /**
  * @desc 权限不足异常
  * 
@@ -14,24 +16,24 @@ public class PermissionForbiddenException extends BusinessException {
 		super();
 	}
 
-	public PermissionForbiddenException(String msg, Throwable cause, Object... objects) {
-		super(msg, cause, objects);
+	public PermissionForbiddenException(Object data) {
+		super.data = data;
 	}
 
-	public PermissionForbiddenException(String msg, Throwable cause) {
-		super(msg, cause);
+	public PermissionForbiddenException(ResultCode resultCode) {
+		super(resultCode);
 	}
 
-	public PermissionForbiddenException(Throwable cause) {
-		super(cause);
+	public PermissionForbiddenException(ResultCode resultCode, Object data) {
+		super(resultCode, data);
 	}
 
 	public PermissionForbiddenException(String msg) {
 		super(msg);
 	}
 
-	public PermissionForbiddenException(String format, Object... objects) {
-		super(format, objects);
+	public PermissionForbiddenException(String formatMsg, Object... objects) {
+		super(formatMsg, objects);
 	}
 
 }

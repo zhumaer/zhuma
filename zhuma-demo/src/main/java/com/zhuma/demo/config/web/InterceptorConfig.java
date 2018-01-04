@@ -1,5 +1,6 @@
 package com.zhuma.demo.config.web;
 
+import com.zhuma.demo.interceptor.ResponseResultInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,6 +18,9 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	private HeaderParamsCheckInterceptor headerParamsCheckInterceptor;
 
+	@Autowired
+	private ResponseResultInterceptor responseResultInterceptor;
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		String apiUri = "/**";
@@ -24,6 +28,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(headerParamsCheckInterceptor).addPathPatterns(apiUri);
 		//登录拦截
 		registry.addInterceptor(loginedAuthInterceptor).addPathPatterns(apiUri);
+		//响应结果控制拦截
+		registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUri);
 	}
 
 }

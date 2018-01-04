@@ -22,8 +22,8 @@ import org.assertj.core.util.Strings;
  */
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EnumValueAnn.Validator.class)
-public @interface EnumValueAnn {
+@Constraint(validatedBy = EnumValue.Validator.class)
+public @interface EnumValue {
 
 	String message() default "{custom.value.invalid}";
 
@@ -35,13 +35,13 @@ public @interface EnumValueAnn {
 
 	String enumMethod();
 
-	class Validator implements ConstraintValidator<EnumValueAnn, Object> {
+	class Validator implements ConstraintValidator<EnumValue, Object> {
 
 		private Class<? extends Enum<?>> enumClass;
 		private String enumMethod;
 
 		@Override
-		public void initialize(EnumValueAnn enumValue) {
+		public void initialize(EnumValue enumValue) {
 			enumMethod = enumValue.enumMethod();
 			enumClass = enumValue.enumClass();
 		}
@@ -72,6 +72,6 @@ public @interface EnumValueAnn {
 				throw new RuntimeException(Strings.formatIfArgs("This %s(%s) method does not exist in the %s", enumMethod, valueClass, enumClass), e);
 			}
 		}
-
+ 
 	}
 }
