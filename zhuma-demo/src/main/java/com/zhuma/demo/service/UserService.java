@@ -1,9 +1,9 @@
 package com.zhuma.demo.service;
 
+import com.zhuma.demo.model.po.User;
+
 public interface UserService {
 
-//	userService.getUserById(userId)
-//
-//	userService.pageList(queryUser, pageNum, pageSize);
+	User getById(String id);
 
 }

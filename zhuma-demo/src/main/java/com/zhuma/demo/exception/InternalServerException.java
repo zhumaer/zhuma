@@ -16,10 +16,6 @@ public class InternalServerException extends BusinessException {
 		super();
 	}
 
-	public InternalServerException(Throwable cause) {
-		super(cause);
-	}
-
 	public InternalServerException(String msg, Throwable cause) {
 		super(msg, cause);
 	}

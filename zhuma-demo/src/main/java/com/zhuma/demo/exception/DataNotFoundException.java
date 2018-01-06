@@ -17,6 +17,7 @@ public class DataNotFoundException extends BusinessException {
 	}
 
 	public DataNotFoundException(Object data) {
+		super();
 		super.data = data;
 	}
 

@@ -60,7 +60,7 @@ public enum ExceptionEnum {
 
 	private ResultCode resultCode;
 
-	private ExceptionEnum(Class<? extends BusinessException> eClass, HttpStatus httpStatus, ResultCode resultCode) {
+	ExceptionEnum(Class<? extends BusinessException> eClass, HttpStatus httpStatus, ResultCode resultCode) {
 		this.eClass = eClass;
 		this.httpStatus = httpStatus;
 		this.resultCode = resultCode;

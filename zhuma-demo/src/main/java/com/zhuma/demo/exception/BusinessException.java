@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import com.zhuma.demo.enums.ResultCode;
+import org.springframework.core.NestedCheckedException;
 
 /**
  * @desc 业务异常类
@@ -36,19 +37,18 @@ public class BusinessException extends RuntimeException {
 	}
 
 	public BusinessException(String message) {
+		this();
 		this.message = message;
 	}
 
-	public BusinessException(Throwable cause) {
-		super(cause);
-	}
-
 	public BusinessException(String format, Object... objects) {
+		this();
 		format = StringUtils.replace(format, "{}", "%s");
 		this.message = String.format(format, objects);
 	}
 
 	public BusinessException(String msg, Throwable cause, Object... objects) {
+		this();
 		String format = StringUtils.replace(msg, "{}", "%s");
 		this.message= String.format(format, objects);
 	}

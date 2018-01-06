@@ -17,6 +17,7 @@ public class ParameterInvalidException extends BusinessException {
 	}
 
 	public ParameterInvalidException(Object data) {
+		super();
 		super.data = data;
 	}
 
