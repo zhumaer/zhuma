@@ -26,12 +26,6 @@
 			<artifactId>mapper</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.zm</groupId>
-			<artifactId>zhuma-commons-model</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
