@@ -1,3 +1,6 @@
+**/target/
+**/out/
+**/log/
 #
 */product/
 */.classpath

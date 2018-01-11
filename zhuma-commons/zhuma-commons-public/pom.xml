@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>zhuma-commons-public</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>com.zm</groupId>
+		<artifactId>zhuma-commons</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<mybatis-spring-boot>1.2.0</mybatis-spring-boot>
+		<mysql-connector>5.1.39</mysql-connector>
+		<druid-version>1.0.26</druid-version>
+		<elastic.version>5.6.3</elastic.version>
+
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.compilerVersion>${java.version}</maven.compiler.compilerVersion>
+	</properties>
+
+	<dependencies>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<classifier></classifier>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

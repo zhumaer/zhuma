@@ -1,49 +1,57 @@
 package com.zhuma.demo.comm.model.vo;
 
-import java.io.Serializable;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.zhuma.demo.comm.model.Model;
+import com.zhuma.demo.comm.model.qo.PageQO;
+import com.zhuma.demo.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
-import com.zhuma.demo.util.BeanUtil;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @desc 分页VO对象
 
- * @author zhumaer
+ * @author zhuamer
  * @since 7/6/2017 2:48 PM
  */
+@ApiModel("分页对象")
 @Builder
-@AllArgsConstructor
 @Data
-public class PageVO<T> implements Serializable {
+@AllArgsConstructor
+@NoArgsConstructor
+public class PageVO<T> implements Model {
 
 	private static final long serialVersionUID = -4426958360243585882L;
 
-	//当前页
+	@ApiModelProperty(value = "当前页号")
 	private int pageNum;
 
-	//每页的数量
+	@ApiModelProperty(value = "每页的数量")
 	private int pageSize;
 
-	//总记录数
+	@ApiModelProperty(value = "总记录数")
 	private long total;
 
-	//总页数
+	@ApiModelProperty(value = "总页数")
 	private int pages;
 
-	//结果集
+	@ApiModelProperty(value = "结果集")
 	private List<T> list;
 
-	public PageVO() {
+	public PageVO(PageQO pageQO) {
+		this.setPageNum(pageQO.getPageNum());
+		this.setPageSize(pageQO.getPageSize());
 	}
 
 	public PageVO(List<T> poList) {
@@ -51,11 +59,11 @@ public class PageVO<T> implements Serializable {
 	}
 
 	public static <T> PageVO<T> build(List<T> poList) {
-		return new PageVO<T>(poList);
+		return new PageVO<>(poList);
 	}
 
 	public static <T> PageVO<T> build(Page<T> page) {
-		PageVO<T> pageVO = new PageVO<T>();
+		PageVO<T> pageVO = new PageVO<>();
 		BeanUtils.copyProperties(page.toPageInfo(), pageVO);
 		return pageVO;
 	}
@@ -140,8 +148,14 @@ public class PageVO<T> implements Serializable {
 		return page;
 	}
 
-	public static int getPages(int total, int pageSize) {
-		return total % pageSize == 0 ? (total / pageSize) : (total / pageSize + 1);
+	public static int getPages(long total, int pageSize) {
+		if (total == 0 || pageSize == 0) {
+			return 0;
+		}
+		return (int) (total % pageSize == 0 ? (total / pageSize) : (total / pageSize + 1));
 	}
 
+	public int getPages(){
+		return getPages(this.total, this.pageSize);
+	}
 }

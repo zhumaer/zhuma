@@ -158,6 +158,12 @@
 			<artifactId>lombok</artifactId>
 			<version>1.16.18</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.17</version>
+		</dependency>
 	</dependencies>
 
 	<!--依赖管理，用于管理spring-cloud的依赖 -->

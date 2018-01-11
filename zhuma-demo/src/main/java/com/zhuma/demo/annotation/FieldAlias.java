@@ -29,7 +29,7 @@ public @interface FieldAlias {
 	/**
 	 * @desc 别名注解复数
 	 * 
-	 * @author jingkun.wang@baidao.com
+	 * @author zhuamer
 	 * @since 7/6/2017 3:13 PM
 	 */
 	@Target(ElementType.FIELD)

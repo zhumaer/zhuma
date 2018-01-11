@@ -20,7 +20,7 @@ import com.zhuma.demo.annotation.FieldAlias;
 /**
  * @desc Bean操作工具类（拷贝方法时支持添加{@link FieldAlias} 注解）
  *
- * @author jingkun.wang@baidao.com
+ * @author zhuamer
  * @since 7/6/2017 3:13 PM
  */
 public class BeanUtil {

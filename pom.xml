@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>zhuma</name>
+
+    <artifactId>zhuma</artifactId>
+    <groupId>com.zhuma</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+		<module>eureka-server</module>
+		<module>zhuma-parent</module>
+		<module>zhuma-commons</module>
+		<module>zhuma-user</module>
+		<module>zhuma-console-server</module>
+		<module>zhuma-app-server</module>
+
+    </modules>
+
+<!--    <repositories>
+        <repository>
+            <id>releases</id>
+            <name>releases</name>
+            <url>http://192.168.19.129:8081/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>releases</name>
+            <url>http://192.168.19.129:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>snapshots</name>
+            <url>http://192.168.19.129:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+	-->
+</project>

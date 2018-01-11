@@ -1,19 +1,14 @@
 package com.zhuma.demo.config.mybatis;
 
-import java.util.Properties;
-
+import com.zhuma.demo.comm.mapper.CrudMapper;
 import org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
-import com.zhuma.demo.comm.mapper.BaseMapper;
+import java.util.Properties;
 
-/**
- * Created by jingkun.wang on 17/5/26.
- */
 @Configuration
 @AutoConfigureAfter(MybatisAutoConfiguration.class)
 public class MyBatisConfig {
@@ -22,10 +17,10 @@ public class MyBatisConfig {
 	public MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		mapperScannerConfigurer.setBasePackage("com.isea533.mybatis.mapper,com.dx.ia.label.mapper");
+		mapperScannerConfigurer.setBasePackage("com.zhuma.demo.mapper");
 
 		Properties properties = new Properties();
-		properties.setProperty("mappers", BaseMapper.class.getName());
+		properties.setProperty("mappers", CrudMapper.class.getName());
 		properties.setProperty("notEmpty", "false");
 		properties.setProperty("IDENTITY", "MYSQL");
 		mapperScannerConfigurer.setProperties(properties);
