@@ -20,6 +20,8 @@
 		<module>zhuma-commons-dao</module>
         <module>zhuma-commons-service</module>
 		<module>zhuma-commons-controller</module>
+		<module>zhuma-commons-elasticsearch</module>
+		<module>zhuma-commons-attributes</module>
     </modules>
 	
 	<properties>

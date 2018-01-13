@@ -21,6 +21,7 @@
         <module>zhuma-user-client</module>
 		<module>zhuma-user-event</module>
 		<module>zhuma-user-worker</module>
+		<module>zhuma-user-token</module>
     </modules>
 
 	<properties>

@@ -39,7 +39,7 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 			if (body instanceof DefaultErrorResult) {
 				DefaultErrorResult defaultErrorResult = (DefaultErrorResult) body;
 				return PlatformResult.builder()
-						.code(Integer.valueOf(defaultErrorResult.getCode()))
+						.code(defaultErrorResult.getCode())
 						.msg(defaultErrorResult.getMessage())
 						.data(defaultErrorResult.getErrors())
 						.build();
