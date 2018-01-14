@@ -28,15 +28,15 @@ public class TokenBeanConfig {
     
     @Bean
     public RedisTemplate<String, LoginToken> loginTokenRedisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, LoginToken> redis = new RedisTemplate<>();
-        redis.setKeySerializer(new GenericToStringSerializer<>(String.class));
+        RedisTemplate<String, LoginToken> tokenRedisTemplate = new RedisTemplate<>();
+        tokenRedisTemplate.setKeySerializer(new GenericToStringSerializer<>(String.class));
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(Include.NON_NULL);
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         Jackson2JsonRedisSerializer<LoginToken> serializer = new Jackson2JsonRedisSerializer<>(LoginToken.class);
         serializer.setObjectMapper(mapper);
-        redis.setValueSerializer(serializer);
-        redis.setConnectionFactory(connectionFactory);
-        return redis;
+        tokenRedisTemplate.setValueSerializer(serializer);
+        tokenRedisTemplate.setConnectionFactory(connectionFactory);
+        return tokenRedisTemplate;
     }
 }

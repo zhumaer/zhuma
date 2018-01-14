@@ -1,6 +1,8 @@
 package com.zm.zhuma.user.model.po;
 
 import com.zm.zhuma.commons.annotations.EnumValue;
+import com.zm.zhuma.commons.model.po.BasePO;
+import com.zm.zhuma.commons.model.po.PO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,20 +24,15 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User implements Serializable {
+public class User extends BasePO<String> {
 
-	private static final long serialVersionUID = 2594274431751408585L;
+	private static final long serialVersionUID = -7491215402569546437L;
 
 	/**
 	 * 用户ID
 	 */
-	private Long id;
-
-	/**
-	 * 登录密码
-	 */
-	@NotBlank
-	private String pwd;
+	@Length(min=1, max=64)
+	private String id;
 
 	/**
 	 * 昵称
@@ -45,15 +42,24 @@ public class User implements Serializable {
 	private String nickname;
 
 	/**
-	 * 头像
+	 * 性别
 	 */
-	private String img;
+	@NotBlank
+	@EnumValue(enumClass=UserGenderEnum.class, enumMethod="isValidName")
+	private String gender;
 
 	/**
-	 * 电话
+	 * 头像
 	 */
-	@Pattern(regexp = "^1[3-9]\\d{9}$")
-	private String phone;
+	@Length(min=0, max=256)
+	private String avatar;
+
+	/**
+	 * 状态
+	 */
+	@NotBlank
+	@EnumValue(enumClass=UserTypeEnum.class, enumMethod="isValidName")
+	private String type;
 
 	/**
 	 * 账号状态
@@ -62,32 +68,54 @@ public class User implements Serializable {
 	private String status;
 
 	/**
-	 * 最新的登录时间
+	 * 用户性别枚举
 	 */
-	private Date latestLoginTime;
+	public enum UserGenderEnum {
+		/**男*/
+		MALE,
+		/**女*/
+		FEMALE,
+		/**未知*/
+		UNKNOWN;
+
+		public static boolean isValidName(String name) {
+			for (UserGenderEnum userGenderEnum : UserGenderEnum.values()) {
+				if (userGenderEnum.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
 
 	/**
-	 * 最新的登录IP
+	 * 用户类型枚举
 	 */
-	private String latestLoginIp;
+	public enum UserTypeEnum {
+		/**普通*/
+		NORMAL,
+		/**管理员*/
+		ADMIN;
 
-	private Date createTime;
-	private Date updateTime;
-	
+		public static boolean isValidName(String name) {
+			for (UserTypeEnum userTypeEnum : UserTypeEnum.values()) {
+				if (userTypeEnum.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	/**
 	 * 用户状态枚举
 	 */
 	public enum UserStatusEnum {
-		/**正常的*/
-		NORMAL,
-		/**禁用的*/
-		DISABLED,
-		/**已删除的*/
-		DELETED;
+		/**启用*/
+		ENABLED,
+		/**禁用*/
+		DISABLED;
 
-		/**
-		 * 判断参数合法性
-		 */
 		public static boolean isValidName(String name) {
 			for (UserStatusEnum userStatusEnum : UserStatusEnum.values()) {
 				if (userStatusEnum.name().equals(name)) {
@@ -97,5 +125,4 @@ public class User implements Serializable {
 			return false;
 		}
 	}
-	
 }
