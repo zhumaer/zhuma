@@ -4,12 +4,12 @@ package com.zm.zhuma.user.token.service;
 import com.zm.zhuma.user.model.bo.LoginToken;
 
 /**
- * @desc 用户登录TOKEN缓存服务
+ * @desc 用户登录TOKEN服务
  *
- * @author zhumaer@baidao.com
+ * @author zhumaer
  * @since 6/20/2017 3:00 PM
  */
-public interface LoginTokenCacheService {
+public interface LoginTokenService {
 
 	/**
 	 *

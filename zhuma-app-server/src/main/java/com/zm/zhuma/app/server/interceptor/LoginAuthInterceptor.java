@@ -11,7 +11,7 @@ import com.zm.zhuma.commons.annotations.LoginAuth;
 import com.zm.zhuma.commons.enums.ResultCode;
 import com.zm.zhuma.commons.exceptions.BusinessException;
 import com.zm.zhuma.user.token.helper.LoginTokenHelper;
-import com.zm.zhuma.user.token.service.LoginTokenCacheService;
+import com.zm.zhuma.user.token.service.LoginTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -30,7 +30,7 @@ import tk.mybatis.mapper.util.StringUtil;
 public class LoginAuthInterceptor implements HandlerInterceptor {
 
 	@Autowired
-	private LoginTokenCacheService loginTokenCacheService;
+	private LoginTokenService loginTokenCacheService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

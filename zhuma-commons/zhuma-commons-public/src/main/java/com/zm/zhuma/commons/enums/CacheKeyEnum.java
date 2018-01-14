@@ -19,7 +19,7 @@ public enum CacheKeyEnum {
 	/**
 	 * 登录TOKEN缓存key
 	 */
-	VALUE_LOGIN_TOKENS("asst:login_tokens:%s", TimeEnum.ONE_WEEK.sec()),
+	VALUE_LOGIN_TOKENS("asst:login_tokens:", TimeEnum.ONE_WEEK.sec()),
 
 	/**
 	 * 用户缓存

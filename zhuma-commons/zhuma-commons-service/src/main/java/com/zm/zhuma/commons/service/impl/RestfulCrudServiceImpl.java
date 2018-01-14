@@ -1,9 +1,9 @@
 package com.zm.zhuma.commons.service.impl;
 
-import com.zm.zhuma.commons.model.bo.validator.CreateGroup;
-import com.zm.zhuma.commons.model.bo.validator.UpdateGroup;
 import com.zm.zhuma.commons.model.po.PO;
 import com.zm.zhuma.commons.service.RestfulCrudService;
+import com.zm.zhuma.commons.validator.CreateGroup;
+import com.zm.zhuma.commons.validator.UpdateGroup;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;

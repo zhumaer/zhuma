@@ -5,7 +5,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Configuration;
 
 
-//@MapperScan(basePackages = { "com.dx.*.**.*.dao","cn.get88.xuegutang.adschudule.dao" })
+//@MapperScan(basePackages = { "com.dx.*.**.*.dao"})
 @Configuration
 @EnableBinding(value=AttributeEventOutputs.class)
 public class AttributeBeanConfig {
