@@ -1,12 +1,12 @@
-package com.zm.zhuma.app.server.helper;
+package com.zm.zhuma.user.token.helper;
 
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zm.zhuma.app.server.model.bo.LoginToken;
-import com.zm.zhuma.app.server.model.bo.LoginUser;
+import com.zm.zhuma.user.model.bo.LoginToken;
+import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.commons.annotations.LoginAuth;
 import com.zm.zhuma.commons.utils.CookieUtil;
 import com.zm.zhuma.commons.utils.RequestContextUtil;
@@ -23,7 +23,7 @@ public class LoginTokenHelper {
 
 	private final static String SECRET_KEY = "Ld4Dl5f9OoYTezPK";
 
-	private final static String LOGIN_TOKEN_COOKIE_NAME = "token";
+	private final static String LOGIN_TOKEN_COOKIE_NAME = "X-Token";
 
 	private final static String LOGIN_TOKEN_KEY = "LOGIN-TOKEN";
 

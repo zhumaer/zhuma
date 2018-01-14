@@ -1,4 +1,4 @@
-package com.zm.zhuma.user.po;
+package com.zm.zhuma.user.model.po;
 
 import com.zm.zhuma.commons.annotations.EnumValue;
 import lombok.AllArgsConstructor;

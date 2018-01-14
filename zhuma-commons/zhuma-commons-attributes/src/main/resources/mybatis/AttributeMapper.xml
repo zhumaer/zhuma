@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dx.commons.attributes.dao.AttributeDao">
+
+	<select id="getAttrMapByKeys" resultType="com.dx.commons.attributes.model.Attribute">
+		select * from ${tableName}
+		<where>
+			<if test="objectIds != null and objectIds.size() > 0">
+				objectId in
+				<foreach collection="objectIds" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="keys != null and keys.size() > 0">
+				and `key` in 
+		        <foreach collection="keys" item="key" open="("
+		            separator="," close=")">
+		            #{key}
+		        </foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getAttrMapByKeyAndValue" resultType="com.dx.commons.attributes.model.Attribute">
+		select * from ${tableName}
+		<where>
+			<if test="objectIds != null and objectIds.size() > 0">
+				objectId in
+				<foreach collection="objectIds" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="key != null and key != ''">
+				and `key` = #{key}
+			</if>
+			<if test="value != null and value != ''">
+				and `value` = #{value}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addAttrs" useGeneratedKeys="true">
+	   insert into ${tableName} (objectId,`key`,value,type,createTime) values
+	   <foreach collection="attributes" item="item" index="index" separator=",">
+	   	(#{item.objectId},#{item.key},#{item.value},#{item.type},now())
+	   </foreach>
+	</insert>
+
+	<update id="updateAttrs">
+		update ${tableName}
+		<set>
+			<if test="attr.value != null">`value` = #{attr.value},</if>
+			<if test="attr.type != null">type = #{attr.type}</if>
+		</set>
+		<where>
+			<if test="attr.id != null">id = #{attr.id}</if>
+			<if test="attr.objectId != null and attr.objectId != ''"> and objectId = #{attr.objectId}</if>
+			<if test="attr.key != null and attr.key != '' "> and `key` = #{attr.key}</if>
+		</where>
+	</update>
+	
+	<delete id="deleteAttrs">
+		delete from ${tableName} where objectId=#{objectId} 
+		<if test="keys != null and keys.size() > 0">
+			and `key` in
+			<foreach collection="keys" item="key" open="(" separator=","
+				close=")">
+				#{key}
+			</foreach>
+		</if>
+	</delete>
+</mapper>

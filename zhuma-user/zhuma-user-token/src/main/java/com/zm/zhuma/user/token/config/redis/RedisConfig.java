@@ -1,4 +1,4 @@
-package com.zm.zhuma.app.server.config.redis;
+package com.zm.zhuma.user.token.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

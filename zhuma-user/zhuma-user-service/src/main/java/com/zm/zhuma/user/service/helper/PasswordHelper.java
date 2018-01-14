@@ -1,4 +1,4 @@
-package com.zm.zhuma.app.server.helper;
+package com.zm.zhuma.user.service.helper;
 
 
 import com.zm.zhuma.commons.utils.AESUtil;

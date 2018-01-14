@@ -5,11 +5,14 @@ import java.lang.reflect.Method;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zm.zhuma.app.server.helper.LoginTokenHelper;
-import com.zm.zhuma.app.server.model.bo.LoginUser;
+import com.zm.zhuma.user.model.bo.LoginToken;
+import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.commons.annotations.LoginAuth;
 import com.zm.zhuma.commons.enums.ResultCode;
 import com.zm.zhuma.commons.exceptions.BusinessException;
+import com.zm.zhuma.user.token.helper.LoginTokenHelper;
+import com.zm.zhuma.user.token.service.LoginTokenCacheService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -26,8 +29,8 @@ import tk.mybatis.mapper.util.StringUtil;
 @Component
 public class LoginAuthInterceptor implements HandlerInterceptor {
 
-//	@Autowired
-//	private LoginTokenCacheService loginTokenCacheService;
+	@Autowired
+	private LoginTokenCacheService loginTokenCacheService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -50,14 +53,14 @@ public class LoginAuthInterceptor implements HandlerInterceptor {
 					throw new BusinessException(ResultCode.USER_NOT_LOGGED_IN);
 				}
 
-				/*//获取登录TOKEN信息
+				//获取登录TOKEN信息
 				LoginToken loginToken = loginTokenCacheService.getById(loginTokenId);
 				if (loginToken == null) {
 					throw new BusinessException(ResultCode.USER_NOT_LOGGED_IN);
 				}
 
 				//登录TOKEN信息放入请求对象，方便后续controller中获取
-				LoginTokenHelper.addLoginTokenToRequest(loginToken);*/
+				LoginTokenHelper.addLoginTokenToRequest(loginToken);
 				return true;
 			}
 		}

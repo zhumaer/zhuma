@@ -1,4 +1,4 @@
-package com.zm.zhuma.app.server.model.bo;
+package com.zm.zhuma.user.model.bo;
 
 import java.io.Serializable;
 import java.util.Date;

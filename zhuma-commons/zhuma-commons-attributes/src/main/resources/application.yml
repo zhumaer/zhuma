@@ -1,0 +1,12 @@
+spring:
+    cloud:
+        stream:
+            bindings: 
+                attributes_change: 
+                    content-type: application/json
+                    destination: attributes.changement
+            rabbit:
+                bindings: 
+                    attributes_change: 
+                        producer: 
+                            routing-key-expression: headers.routingKey
