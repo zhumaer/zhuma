@@ -39,6 +39,11 @@
 			<artifactId>zhuma-user-api</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>com.zm</groupId>
+			<artifactId>zhuma-commons-service</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
   <build>

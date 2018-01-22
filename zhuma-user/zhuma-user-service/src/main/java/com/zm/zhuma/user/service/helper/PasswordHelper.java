@@ -17,8 +17,6 @@ public class PasswordHelper {
 
 	private static final String SECRET_KEY = "PG4j5xJGd9a6gmdx";
 
-	private static final String AES_SECRET_KEY = "JO8yLdlG7d1fms9z";
-
 	/**
 	 * 通过随机盐+秘钥加密
 	 */
@@ -51,22 +49,6 @@ public class PasswordHelper {
 		String encodePwd = encodeBySalt(noEncodePwd, generateRandomSalt());
 		assert encodePwd != null;
 		return pwd.length() == encodePwd.length();
-	}
-
-	/**
-	 * AES加密
- 	 * @param noEncodePwd 加密前明文密码
-	 */
-	public static String encodeByAES(String noEncodePwd){
-		return AESUtil.encrypt(noEncodePwd , AES_SECRET_KEY);
-	}
-
-	/**
-	 * AES解密
-	 * @param decodePwd 解密前密文
-	 */
-	public static String decodeByAES(String decodePwd){
-		return AESUtil.decrypt(decodePwd , AES_SECRET_KEY);
 	}
 
 	public static void main(String[] args) {

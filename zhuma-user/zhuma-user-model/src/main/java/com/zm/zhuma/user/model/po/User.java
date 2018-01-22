@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
@@ -31,6 +34,8 @@ public class User extends BasePO<String> {
 	/**
 	 * 用户ID
 	 */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Length(min=1, max=64)
 	private String id;
 
@@ -51,7 +56,7 @@ public class User extends BasePO<String> {
 	/**
 	 * 头像
 	 */
-	@Length(min=0, max=256)
+	@Length(max=256)
 	private String avatar;
 
 	/**

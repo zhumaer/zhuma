@@ -1,6 +1,9 @@
 package com.zm.zhuma.commons.service.impl;
 
+import com.zm.zhuma.commons.model.Model;
 import com.zm.zhuma.commons.model.po.PO;
+import com.zm.zhuma.commons.model.qo.PageQO;
+import com.zm.zhuma.commons.model.vo.PageVO;
 import com.zm.zhuma.commons.service.RestfulCrudService;
 import com.zm.zhuma.commons.validator.CreateGroup;
 import com.zm.zhuma.commons.validator.UpdateGroup;
@@ -40,6 +43,12 @@ public class RestfulCrudServiceImpl<E extends PO<PK>, PK> extends MySqlCrudServi
 	}
 
 	@Override
+	public E updateById(@PathVariable("id") PK id, @RequestBody E record) {
+		super.updateByPk(id, record);
+		return super.selectByPk(id);
+	}
+
+	@Override
 	public E getById(@PathVariable("id") PK id) {
 		return super.selectByPk(id);
 	}
@@ -47,6 +56,11 @@ public class RestfulCrudServiceImpl<E extends PO<PK>, PK> extends MySqlCrudServi
 	@Override
 	public List<E> getByIds(@RequestParam("id") Set<PK> ids) {
 		return super.selectByPks(ids);
+	}
+
+	@Override
+	public PageVO<E> getPage(@RequestBody PageQO<? extends Model> pageQO) {
+		return super.selectPage(pageQO);
 	}
 
 }
