@@ -164,6 +164,16 @@
 			<artifactId>swagger-annotations</artifactId>
 			<version>1.5.17</version>
 		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-core</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<!--依赖管理，用于管理spring-cloud的依赖 -->

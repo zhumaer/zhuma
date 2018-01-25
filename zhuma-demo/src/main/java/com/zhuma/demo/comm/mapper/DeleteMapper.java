@@ -2,7 +2,6 @@ package com.zhuma.demo.comm.mapper;
 
 import tk.mybatis.mapper.common.Marker;
 import tk.mybatis.mapper.common.base.delete.DeleteByPrimaryKeyMapper;
-import tk.mybatis.mapper.common.base.delete.DeleteMapper;
 import tk.mybatis.mapper.common.condition.DeleteByConditionMapper;
 import tk.mybatis.mapper.common.ids.DeleteByIdsMapper;
 

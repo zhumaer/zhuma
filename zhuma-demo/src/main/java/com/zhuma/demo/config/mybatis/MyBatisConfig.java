@@ -23,6 +23,7 @@ public class MyBatisConfig {
 		properties.setProperty("mappers", CrudMapper.class.getName());
 		properties.setProperty("notEmpty", "false");
 		properties.setProperty("IDENTITY", "MYSQL");
+		properties.setProperty("ORDER","BEFORE");
 		mapperScannerConfigurer.setProperties(properties);
 		return mapperScannerConfigurer;
 	}

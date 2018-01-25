@@ -1,15 +1,20 @@
 package com.zhuma.demo.model.po;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import javax.validation.constraints.Pattern;
-
+import com.zhuma.demo.annotation.EnumValue;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.zhuma.demo.annotation.EnumValue;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @desc 用户PO
@@ -17,21 +22,21 @@ import com.zhuma.demo.annotation.EnumValue;
  * @author zhumaer
  * @since 6/15/2017 2:48 PM
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class User implements Serializable {
 
-	private static final long serialVersionUID = 2594274431751408585L;
+	private static final long serialVersionUID = -7491215402569546437L;
 
 	/**
 	 * 用户ID
 	 */
-	private Long id;
-
-	/**
-	 * 登录密码
-	 */
-	@NotBlank
-	private String pwd;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY, generator = "select uuid()")
+	@Length(min=1, max=64)
+	private String id;
 
 	/**
 	 * 昵称
@@ -41,15 +46,24 @@ public class User implements Serializable {
 	private String nickname;
 
 	/**
-	 * 头像
+	 * 性别
 	 */
-	private String img;
+	@NotBlank
+	@EnumValue(enumClass=UserGenderEnum.class, enumMethod="isValidName")
+	private String gender;
 
 	/**
-	 * 电话
+	 * 头像
 	 */
-	@Pattern(regexp = "^1[3-9]\\d{9}$")
-	private String phone;
+	@Length(max=256)
+	private String avatar;
+
+	/**
+	 * 状态
+	 */
+	@NotBlank
+	@EnumValue(enumClass=UserTypeEnum.class, enumMethod="isValidName")
+	private String type;
 
 	/**
 	 * 账号状态
@@ -57,33 +71,59 @@ public class User implements Serializable {
 	@EnumValue(enumClass=UserStatusEnum.class, enumMethod="isValidName")
 	private String status;
 
-	/**
-	 * 最新的登录时间
-	 */
-	private Date latestLoginTime;
-
-	/**
-	 * 最新的登录IP
-	 */
-	private String latestLoginIp;
-
 	private Date createTime;
+
 	private Date updateTime;
-	
+
+	/**
+	 * 用户性别枚举
+	 */
+	public enum UserGenderEnum {
+		/**男*/
+		MALE,
+		/**女*/
+		FEMALE,
+		/**未知*/
+		UNKNOWN;
+
+		public static boolean isValidName(String name) {
+			for (UserGenderEnum userGenderEnum : UserGenderEnum.values()) {
+				if (userGenderEnum.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	/**
+	 * 用户类型枚举
+	 */
+	public enum UserTypeEnum {
+		/**普通*/
+		NORMAL,
+		/**管理员*/
+		ADMIN;
+
+		public static boolean isValidName(String name) {
+			for (UserTypeEnum userTypeEnum : UserTypeEnum.values()) {
+				if (userTypeEnum.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	/**
 	 * 用户状态枚举
 	 */
 	public enum UserStatusEnum {
-		/**正常的*/
-		NORMAL,
-		/**禁用的*/
-		DISABLED,
-		/**已删除的*/
-		DELETED;
+		/**启用*/
+		ENABLED,
+		/**禁用*/
+		DISABLED;
 
-		/**
-		 * 判断参数合法性
-		 */
 		public static boolean isValidName(String name) {
 			for (UserStatusEnum userStatusEnum : UserStatusEnum.values()) {
 				if (userStatusEnum.name().equals(name)) {
@@ -93,5 +133,4 @@ public class User implements Serializable {
 			return false;
 		}
 	}
-	
 }

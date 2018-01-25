@@ -24,12 +24,12 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		String apiUri = "/**";
-		//请求头参数校验
-		registry.addInterceptor(headerParamsCheckInterceptor).addPathPatterns(apiUri);
-		//登录拦截
-		registry.addInterceptor(loginedAuthInterceptor).addPathPatterns(apiUri);
 		//响应结果控制拦截
 		registry.addInterceptor(responseResultInterceptor).addPathPatterns(apiUri);
+		//请求头参数校验
+//		registry.addInterceptor(headerParamsCheckInterceptor).addPathPatterns(apiUri);
+		//登录拦截
+		registry.addInterceptor(loginedAuthInterceptor).addPathPatterns(apiUri);
 	}
 
 }
