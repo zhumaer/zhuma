@@ -21,7 +21,7 @@
 			<fileNamePattern>logs/api-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<!-- or whenever the file size reaches 64 MB -->
-				<maxFileSize>64 MB</maxFileSize>
+				<maxFileSize>128 MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 		<encoder>
