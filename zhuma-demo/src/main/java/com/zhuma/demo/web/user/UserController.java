@@ -2,7 +2,11 @@ package com.zhuma.demo.web.user;
 
 import java.util.Date;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.zhuma.demo.annotation.ResponseResult;
+import com.zhuma.demo.comm.model.qo.PageQO;
+import com.zhuma.demo.comm.model.vo.PageVO;
 import com.zhuma.demo.comm.result.DefaultErrorResult;
 import com.zhuma.demo.comm.result.PlatformResult;
 import com.zhuma.demo.comm.result.Result;
@@ -45,4 +49,10 @@ public class UserController {
         return userMapper.selectByPrimaryKey(user.getId());
     }
 
+    @GetMapping
+    public PageVO<User> getList(PageQO pageQO) {
+        Page<User> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize(), pageQO.getOrderBy());
+        userMapper.selectAll();
+        return PageVO.build(page);
+    }
 }

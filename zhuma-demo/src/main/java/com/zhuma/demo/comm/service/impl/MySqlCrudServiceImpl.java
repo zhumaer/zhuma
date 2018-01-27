@@ -159,24 +159,28 @@ public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements Crud
 		Assert.notNull(pageQO, "pageQO is not null");
 
 		Page<E> page = PageHelper.startPage(pageQO.getPageNum(), pageQO.getPageSize(), pageQO.getOrderBy());
-		Object condition = pageQO.getCondition();
-		if (condition == null) {
-			crudMapper.selectAll();
-		} else if (condition instanceof Condition) {
-			crudMapper.selectByCondition(condition);
-		} else if (condition instanceof Example) {
-			crudMapper.selectByExample(condition);
-		} else if (poType.isInstance(condition)){
-			crudMapper.select((E)condition);
-		} else {
-			try {
-				E e = poType.newInstance();
-				BeanUtil.copyProperties(condition, e);
-				crudMapper.select(e);
-			} catch (InstantiationException | IllegalAccessException e) {
-				log.error("selectPage occurs error, caused by: ", e);
-				throw new RuntimeException("poType.newInstance occurs InstantiationException or IllegalAccessException", e);
+		try {
+			Object condition = pageQO.getCondition();
+			if (condition == null) {
+				crudMapper.selectAll();
+			} else if (condition instanceof Condition) {
+				crudMapper.selectByCondition(condition);
+			} else if (condition instanceof Example) {
+				crudMapper.selectByExample(condition);
+			} else if (poType.isInstance(condition)){
+				crudMapper.select((E)condition);
+			} else {
+				try {
+					E e = poType.newInstance();
+					BeanUtil.copyProperties(condition, e);
+					crudMapper.select(e);
+				} catch (InstantiationException | IllegalAccessException e) {
+					log.error("selectPage occurs error, caused by: ", e);
+					throw new RuntimeException("poType.newInstance occurs InstantiationException or IllegalAccessException", e);
+				}
 			}
+		} finally {
+			page.close();
 		}
 
 		return PageVO.build(page);

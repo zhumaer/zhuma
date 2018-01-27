@@ -80,15 +80,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>tk.mybatis</groupId>
-			<artifactId>mapper</artifactId>
-			<version>3.4.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
-			<version>1.1.1</version>
+			<version>1.2.3</version>
 		</dependency>
 
 		<dependency>
@@ -144,7 +138,7 @@
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper-spring-boot-starter</artifactId>
-			<version>1.1.4</version>
+			<version>1.2.3</version>
 		</dependency>
 
 		<dependency>
