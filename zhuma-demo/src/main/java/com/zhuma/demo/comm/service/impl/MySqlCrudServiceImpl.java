@@ -32,7 +32,6 @@ import tk.mybatis.mapper.entity.Example;
  * @since 10/18/2017 18:31 PM
  */
 @Slf4j
-@Transactional(rollbackFor = Throwable.class)
 public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements CrudService<E, PK> {
 
 	@Autowired
@@ -113,7 +112,6 @@ public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements Crud
 		return record.getId();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public E selectByPk(PK pk) {
 		Assert.notNull(pk, "pk is not null");
@@ -121,7 +119,6 @@ public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements Crud
 		return crudMapper.selectByPrimaryKey(pk);
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public List<E> selectByPks(Iterable<PK> pks) {
 		Assert.notNull(pks, "pks is not null");
@@ -147,13 +144,11 @@ public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements Crud
 		return s.toString();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public List<E> selectAll() {
 		return crudMapper.selectAll();
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public PageVO<E> selectPage(PageQO<?> pageQO) {
 		Assert.notNull(pageQO, "pageQO is not null");

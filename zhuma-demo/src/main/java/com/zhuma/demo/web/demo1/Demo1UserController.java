@@ -1,4 +1,4 @@
-package com.zhuma.demo.web.user;
+package com.zhuma.demo.web.demo1;
 
 import java.util.Date;
 
@@ -7,23 +7,13 @@ import com.github.pagehelper.PageHelper;
 import com.zhuma.demo.annotation.ResponseResult;
 import com.zhuma.demo.comm.model.qo.PageQO;
 import com.zhuma.demo.comm.model.vo.PageVO;
-import com.zhuma.demo.comm.result.DefaultErrorResult;
-import com.zhuma.demo.comm.result.PlatformResult;
-import com.zhuma.demo.comm.result.Result;
-import com.zhuma.demo.exception.BusinessException;
-import com.zhuma.demo.exception.DataNotFoundException;
-import com.zhuma.demo.exception.UserNotLoginException;
 import com.zhuma.demo.mapper.UserMapper;
-import com.zhuma.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.zhuma.demo.model.po.User;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @desc 用户管理控制器
@@ -33,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @ResponseResult
 @RestController
-@RequestMapping("/users")
-public class UserController {
+@RequestMapping("demo1/users")
+public class Demo1UserController {
 
     @Autowired
     private UserMapper userMapper;

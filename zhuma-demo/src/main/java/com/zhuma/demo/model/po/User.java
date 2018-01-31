@@ -1,7 +1,7 @@
 package com.zhuma.demo.model.po;
 
 import com.zhuma.demo.annotation.EnumValue;
-import io.swagger.annotations.ApiModelProperty;
+import com.zhuma.demo.comm.model.po.BasePO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @desc 用户PO
@@ -26,9 +23,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class User implements Serializable {
+public class User extends BasePO<String> {
 
-	private static final long serialVersionUID = -7491215402569546437L;
+	private static final long serialVersionUID = 1831625735139271430L;
 
 	/**
 	 * 用户ID
@@ -70,10 +67,6 @@ public class User implements Serializable {
 	 */
 	@EnumValue(enumClass=UserStatusEnum.class, enumMethod="isValidName")
 	private String status;
-
-	private Date createTime;
-
-	private Date updateTime;
 
 	/**
 	 * 用户性别枚举

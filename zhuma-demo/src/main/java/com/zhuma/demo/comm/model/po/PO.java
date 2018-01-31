@@ -4,7 +4,6 @@ import com.zhuma.demo.comm.model.Model;
 
 import java.util.Date;
 
-
 public interface PO<PK> extends Model {
 
 	PK getId();
