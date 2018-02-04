@@ -30,8 +30,9 @@ public class LoginTokenHelper {
 	/**
 	 * 根据登录的相关信息生成TOKEN ID
 	 */
-	public static String generateId(String loginAccount, String ip, String platform, Date loginTime, long ttl) {
+	public static String generateId(String loginAccount, String accountType, String ip, String platform, Date loginTime, long ttl) {
 		StringBuilder noEncodeLoginTokenId = new StringBuilder(loginAccount)
+				.append(accountType)
 				.append(ip)
 				.append(platform)
 				.append(loginTime)

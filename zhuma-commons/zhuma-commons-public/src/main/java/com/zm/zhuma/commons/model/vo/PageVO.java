@@ -60,6 +60,11 @@ public class PageVO<T> implements Model {
 		return new PageVO<>(poList);
 	}
 
+	/**
+	 * @desc 构建一个分页VO对象
+	 *
+	 * @param page 数据库查出来的分页数据列表
+	 */
 	public static <T> PageVO<T> build(Page<T> page) {
 		PageVO<T> pageVO = new PageVO<>();
 		BeanUtils.copyProperties(page.toPageInfo(), pageVO);
@@ -70,66 +75,30 @@ public class PageVO<T> implements Model {
 	 * @desc 构建一个分页VO对象
 	 * 试用场景为：从数据库取出的PO列表不做任何处理，转化为VO列表返回
 	 *
-	 * @param poList 数据库查出来的分页数据列表
+	 * @param page 数据库查出来的分页数据列表
 	 * @param voClazz 要转为的VO类
 	 */
-	public static <T, E> PageVO<T> build(List<E> poList, Class<T> voClazz) {
-		PageInfo<E> pageInfo = new PageInfo<>(poList);
+	public static <T, E> PageVO<T> build(Page<E> page, Class<T> voClazz) {
 
-		PageVO<T> page = new PageVO<>();
-		BeanUtil.copyProperties(pageInfo, page, "list");
-
-		try {
-			List<T> rows = Lists.newArrayList();
-			if (poList != null) {
-				for (E e : poList) {//TODO 此处应该扩展为可通过自定义方法复制对象+注解
-					T t = voClazz.newInstance();
-					BeanUtil.copyProperties(e, t);
-					rows.add(t);
-				}
-			}
-			page.setList(rows);
-		} catch (IllegalAccessException | InstantiationException e) {
-			throw new RuntimeException(e);
-		}
-
-		return page;
-	}
-
-	public static <T, E> PageVO<T> build(PageInfo<E> pageInfo, Class<T> voZ) {
-
-		PageVO<T> page = new PageVO<>();
-		BeanUtils.copyProperties(pageInfo, page, "list");
+		PageVO<T> pageVO = new PageVO<>();
+		BeanUtils.copyProperties(page, pageVO, "list");
 
 		try {
 			List<T> VOs = Lists.newArrayList();
-			List<E> POs = pageInfo.getList();
+			List<E> POs = page.getResult();
 			if (!CollectionUtils.isEmpty(POs)) {
-				for (E e : POs) {//TODO 此处应该扩展为可通过自定义方法复制对象+注解
-					T t = voZ.newInstance();
+				for (E e : POs) {
+					T t = voClazz.newInstance();
 					BeanUtils.copyProperties(e, t);
 					VOs.add(t);
 				}
 			}
-			page.setList(VOs);
+			pageVO.setList(VOs);
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new RuntimeException(e);
 		}
 
-		return page;
-	}
-
-	public static <T, E> PageVO<T> build(PageInfo<E> pageInfo) {
-		PageVO<T> page = new PageVO<>();
-		BeanUtils.copyProperties(pageInfo, page);
-		return page;
-	}
-
-	public static <T, E> PageVO<T> build(PageInfo<E> pageInfo, List<T> voList) {
-		PageVO<T> page = new PageVO<>();
-		BeanUtil.copyProperties(pageInfo, page, "list");
-		page.setList(voList == null ? Lists.newArrayList() : voList);
-		return page;
+		return pageVO;
 	}
 
 	/**

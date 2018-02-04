@@ -1,6 +1,6 @@
 package com.zhuma.demo.interceptor;
 
-import com.zhuma.demo.annotation.ResponseResult;
+import com.zm.zhuma.commons.annotations.ResponseResult;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;

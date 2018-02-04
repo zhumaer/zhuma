@@ -15,8 +15,6 @@ import java.util.Date;
 @Data
 public abstract class BasePO<PK> implements PO<PK> {
 
-	//	private PK id;
-
 	@ApiModelProperty(value = "创建时间")
 	@Column(name = "create_time")
 	private Date createTime;

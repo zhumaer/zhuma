@@ -1,7 +1,6 @@
 package com.zm.zhuma.user.service.helper;
 
 
-import com.zm.zhuma.commons.utils.AESUtil;
 import com.zm.zhuma.commons.utils.StringUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
  */
 public class PasswordHelper {
 
-	private static final String SECRET_KEY = "PG4j5xJGd9a6gmdx";
+	private static final String SECRET_KEY = "PG4j5xJGd9a6g1dx";
 
 	/**
 	 * 通过随机盐+秘钥加密
@@ -49,13 +48,6 @@ public class PasswordHelper {
 		String encodePwd = encodeBySalt(noEncodePwd, generateRandomSalt());
 		assert encodePwd != null;
 		return pwd.length() == encodePwd.length();
-	}
-
-	public static void main(String[] args) {
-		String salt =generateRandomSalt();
-//		System.out.println(salt);
-		String pwd = encodeBySalt("Aa111111" , "f87baa3dfc753a60bd8ebe7641bc45d06cf29e7759b17a884a66216d14ebf5ef");
-		System.out.println(pwd);
 	}
 
 }

@@ -3,16 +3,16 @@ package com.zhuma.demo.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zm.zhuma.commons.enums.CallSourceEnum;
+import com.zm.zhuma.commons.enums.ResultCode;
+import com.zm.zhuma.commons.exceptions.BusinessException;
+import com.zm.zhuma.commons.utils.StringUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zhuma.demo.constant.HeaderConstants;
-import com.zhuma.demo.enums.CallSource;
-import com.zhuma.demo.enums.ResultCode;
-import com.zhuma.demo.exception.BusinessException;
-import com.zhuma.demo.util.StringUtil;
 
 /**
  * @desc HEADER头参数校验
@@ -40,11 +40,11 @@ public class HeaderParamsCheckInterceptor implements HandlerInterceptor {
 				throw new BusinessException(ResultCode.PARAM_IS_INVALID);
 			}
 
-			if ((CallSource.ANDROID.name().equals(callSource) || CallSource.IOS.name().equals(callSource)) && StringUtil.isEmpty(appVersion)) {
+			if ((CallSourceEnum.ANDROID.name().equals(callSource) || CallSourceEnum.IOS.name().equals(callSource)) && StringUtil.isEmpty(appVersion)) {
 				throw new BusinessException(ResultCode.PARAM_NOT_COMPLETE);
 			}
 
-			if (!CallSource.isValid(callSource)) {
+			if (!CallSourceEnum.isValid(callSource)) {
 				throw new BusinessException(ResultCode.PARAM_IS_INVALID);
 			}
 

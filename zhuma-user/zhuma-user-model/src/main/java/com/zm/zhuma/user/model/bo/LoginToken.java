@@ -3,6 +3,7 @@ package com.zm.zhuma.user.model.bo;
 import java.util.Date;
 
 import com.zm.zhuma.commons.enums.CallSourceEnum;
+import com.zm.zhuma.user.model.po.LoginCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class LoginToken {
 	@ApiModelProperty(value = "生存时长(单位：秒)", required = true, position = 1)
 	private Long ttl;
 
-	@ApiModelProperty(value = "登录ID", required = true, position = 2)
+	@ApiModelProperty(value = "登录IP", required = true, position = 2)
 	private String ip;
 
 	/**
@@ -43,7 +44,10 @@ public class LoginToken {
 	@ApiModelProperty(value = "登录时间", required = true, position = 4)
 	private Date createTime;
 
-	@ApiModelProperty(value = "登录的用户信息", required = true, position = 5)
+	@ApiModelProperty(value = "登录凭证", required = true, position =5)
+	LoginCredential loginCredential;
+
+	@ApiModelProperty(value = "登录的用户信息", required = true, position = 6)
 	private LoginUser loginUser;
 
 }

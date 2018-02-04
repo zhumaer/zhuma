@@ -1,7 +1,7 @@
 package com.zhuma.demo.mapper;
 
-import com.zhuma.demo.comm.mapper.CrudMapper;
-import com.zhuma.demo.model.po.User;
+import com.zm.zhuma.commons.dao.CrudMapper;
+import com.zm.zhuma.user.model.po.User;
 import org.springframework.stereotype.Repository;
 
 /**

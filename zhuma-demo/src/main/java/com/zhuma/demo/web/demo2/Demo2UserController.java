@@ -1,17 +1,16 @@
 package com.zhuma.demo.web.demo2;
-
-import com.zhuma.demo.annotation.ResponseResult;
-import com.zhuma.demo.comm.model.qo.PageQO;
-import com.zhuma.demo.comm.model.vo.PageVO;
-import com.zhuma.demo.model.po.User;
 import com.zhuma.demo.service.UserService;
+import com.zm.zhuma.commons.annotations.ResponseResult;
+import com.zm.zhuma.commons.model.qo.PageQO;
+import com.zm.zhuma.commons.model.vo.PageVO;
+import com.zm.zhuma.user.model.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @desc 用户管理控制器
+ * @desc Spring Boot项目通用功能之《通用Service第一讲》 DEMO
  * 
  * @author zhumaer
  * @since 1/31/2018 23:57 PM

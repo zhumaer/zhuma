@@ -6,12 +6,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zm.zhuma.commons.utils.IpUtil;
+import com.zm.zhuma.user.model.po.User;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,8 +25,6 @@ import com.google.common.collect.Lists;
 import com.zhuma.demo.constant.HeaderConstants;
 import com.zhuma.demo.handler.GlobalExceptionHandler;
 import com.zhuma.demo.helper.LoginHelper;
-import com.zhuma.demo.model.po.User;
-import com.zhuma.demo.util.IpUtil;
 
 /**
  * @desc 请求参数、响应体统一日志打印
@@ -33,11 +32,10 @@ import com.zhuma.demo.util.IpUtil;
  * @author zhumaer
  * @since 10/10/2017 9:54 AM
  */
+@Slf4j
 @Aspect
 @Component
 public class RestControllerAspect {
-
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
 	 * 环绕通知
@@ -68,10 +66,10 @@ public class RestControllerAspect {
 		String apiVersion = request.getHeader(HeaderConstants.API_VERSION);
 		String userAgent = request.getHeader("user-agent");
 
-		logger.info("Started request requester [{}] method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", requester, methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
+		log.info("Started request requester [{}] method [{}] params [{}] IP [{}] callSource [{}] appVersion [{}] apiVersion [{}] userAgent [{}]", requester, methodName, params, ip, callSource, appVersion, apiVersion, userAgent);
 		long start = System.currentTimeMillis();
 		Object result = joinPoint.proceed();
-		logger.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ",
+		log.info("Ended request requester [{}] method [{}] params[{}] response is [{}] cost [{}] millis ",
 				requester, methodName, params, this.deleteSensitiveContent(result), System.currentTimeMillis() - start);
 		return result;
 	}

@@ -37,8 +37,10 @@ public class LoginTokenCacheServiceImpl implements LoginTokenService {
 	public LoginToken add(LoginToken loginToken) {
 		Assert.notNull(loginToken, "loginToken is not null");
 		Assert.notNull(loginToken.getLoginUser(), "loginToken.getLoginUser() is not null");
+		Assert.notNull(loginToken.getLoginCredential(), "loginToken.getLoginCredential() is not null");
 
-		loginToken.setId(LoginTokenHelper.generateId(loginToken.getLoginUser().getLoginAccount(), loginToken.getIp(), loginToken.getPlatform(), loginToken.getCreateTime(), loginToken.getTtl()));
+		String token = LoginTokenHelper.generateId(loginToken.getLoginCredential().getAccount(), loginToken.getLoginCredential().getType(), loginToken.getIp(), loginToken.getPlatform(), loginToken.getCreateTime(), loginToken.getTtl());
+		loginToken.setId(token);
 		loginTokenValueOps.set(this.getLoginTokenCacheKey(loginToken.getId()), loginToken, CacheKeyEnum.VALUE_LOGIN_TOKENS.sec(), TimeUnit.SECONDS);
 		return loginToken;
 	}

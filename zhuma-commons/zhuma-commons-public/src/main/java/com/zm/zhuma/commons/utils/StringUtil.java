@@ -1,6 +1,5 @@
 package com.zm.zhuma.commons.utils;
 
-
 /**
  * @desc 字符串操作工具类
  * 
@@ -65,6 +64,7 @@ public class StringUtil {
 		return count;
 	}
 
+
 	/**
 	 * 替换字符串
 	 */
@@ -118,5 +118,4 @@ public class StringUtil {
 		format = replace(format, replaceOperator, "%s");
 		return formatIfArgs(format, args);
 	}
-
 }

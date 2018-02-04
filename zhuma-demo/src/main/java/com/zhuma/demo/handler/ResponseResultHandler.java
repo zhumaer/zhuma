@@ -1,10 +1,11 @@
 package com.zhuma.demo.handler;
 
-import com.zhuma.demo.annotation.ResponseResult;
-import com.zhuma.demo.comm.result.DefaultErrorResult;
-import com.zhuma.demo.comm.result.Result;
 import com.zhuma.demo.interceptor.ResponseResultInterceptor;
-import com.zhuma.demo.util.RequestContextHolderUtil;
+import com.zm.zhuma.commons.annotations.ResponseResult;
+import com.zm.zhuma.commons.result.DefaultErrorResult;
+import com.zm.zhuma.commons.result.PlatformResult;
+import com.zm.zhuma.commons.result.Result;
+import com.zm.zhuma.commons.utils.RequestContextHolderUtil;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -12,8 +13,6 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-
-import com.zhuma.demo.comm.result.PlatformResult;
 
 /**
  * @desc 接口响应体处理器

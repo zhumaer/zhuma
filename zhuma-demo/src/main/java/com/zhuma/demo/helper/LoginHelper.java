@@ -1,14 +1,13 @@
 package com.zhuma.demo.helper;
 
+import com.zm.zhuma.commons.enums.TimeEnum;
+import com.zm.zhuma.commons.utils.AESUtil;
+import com.zm.zhuma.commons.utils.CookieUtil;
+import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.user.model.po.User;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.zhuma.demo.annotation.LoginedAuth;
-import com.zhuma.demo.enums.Time;
-import com.zhuma.demo.model.po.User;
-import com.zhuma.demo.util.AESUtil;
-import com.zhuma.demo.util.CookieUtil;
-import com.zhuma.demo.util.StringUtil;
 
 /**
  * @desc 用户登录辅助类
@@ -22,7 +21,7 @@ public class LoginHelper {
 
 	private final static String USER_TOKEN_NAME = "tk";
 
-	private final static int LOGIN_MAX_AGE = Time.ONE_WEEK.sec();
+	private final static int LOGIN_MAX_AGE = TimeEnum.ONE_WEEK.sec();
 
 	private final static String LOGIN_USER_KEY = "LOGIN_USER";
 	
@@ -93,7 +92,7 @@ public class LoginHelper {
 	}
 
 	/**
-	 * 获取登录用户信息从请求对象 备注：使用该方法时需要在对应controller类或方法上加{@link LoginedAuth}}注解
+	 * 获取登录用户信息从请求对象 备注：使用该方法时需要在对应controller类或方法上加{@link LoginAuth}}注解
 	 */
 	public static User getLoginUserFromRequest(HttpServletRequest request) {
 		Object userO = request.getAttribute(LOGIN_USER_KEY);

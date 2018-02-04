@@ -7,13 +7,13 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.zhuma.demo.interceptor.HeaderParamsCheckInterceptor;
-import com.zhuma.demo.interceptor.LoginedAuthInterceptor;
+import com.zhuma.demo.interceptor.LoginAuthInterceptor;
 
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
 	@Autowired
-	private LoginedAuthInterceptor loginedAuthInterceptor;
+	private LoginAuthInterceptor LoginAuthInterceptor;
 
 	@Autowired
 	private HeaderParamsCheckInterceptor headerParamsCheckInterceptor;
@@ -29,7 +29,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 		//请求头参数校验
 //		registry.addInterceptor(headerParamsCheckInterceptor).addPathPatterns(apiUri);
 		//登录拦截
-		registry.addInterceptor(loginedAuthInterceptor).addPathPatterns(apiUri);
+		registry.addInterceptor(LoginAuthInterceptor).addPathPatterns(apiUri);
 	}
 
 }

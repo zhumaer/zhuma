@@ -1,8 +1,5 @@
 package com.zhuma.demo.constant;
 
-import com.zhuma.demo.enums.CallSource;
-
-
 /**
  * @desc Header的key罗列
  * 
@@ -27,7 +24,7 @@ public class HeaderConstants {
 	public static final String APP_VERSION = "App-Version";
 
 	/**
-	 * 调用来源 {@link CallSource}
+	 * 调用来源 {@link com.zm.zhuma.commons.enums.CallSourceEnum}
 	 */
 	public static final String CALL_SOURCE = "Call-Source";
 
