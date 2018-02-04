@@ -62,31 +62,33 @@ public abstract class SortTreeCrudServiceImpl<E extends SortTreePO<PK>, PK> exte
 	}
 
 	private List<Node<E>> getDescendantNodes(PK id) {
+		E queryModel = null;
 		try {
-			E queryModel = poType.newInstance();
-			queryModel.setParentId(id);
-			List<E> eList = crudMapper.select(queryModel);
-			List<E> sortList = eList.stream().sorted((r1, r2) -> {
-				if (r1.getSort() == null) {
-					return 1;
-				}
-				if (r2.getSort() == null) {
-					return -1;
-				}
-				return r1.getSort().compareTo(r2.getSort());
-			}).collect(Collectors.toList());
-			List<Node<E>> list = Lists.newLinkedList();
-			if (!CollectionUtils.isEmpty(sortList)) {
-				for (E parent : sortList) {
-					Node<E> node = wrapNode(parent);
-					list.add(node);
-				}
-			}
-			return list;
-		} catch (Exception e) {
-			log.error("when build tree gets errors", e);
+			queryModel = poType.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
 		}
-		return null;
+		queryModel.setParentId(id);
+		List<E> eList = crudMapper.select(queryModel);
+		List<E> sortList = eList.stream().sorted((r1, r2) -> {
+			if (r1.getSort() == null) {
+				return 1;
+			}
+			if (r2.getSort() == null) {
+				return -1;
+			}
+			return r1.getSort().compareTo(r2.getSort());
+		}).collect(Collectors.toList());
+		List<Node<E>> list = Lists.newLinkedList();
+		if (!CollectionUtils.isEmpty(sortList)) {
+			for (E parent : sortList) {
+				Node<E> node = wrapNode(parent);
+				list.add(node);
+			}
+		}
+		return list;
 	}
 
 	private Node<E> wrapNode(E parent) {

@@ -1,6 +1,6 @@
 package com.zhuma.demo.config.web;
 
-import com.zhuma.demo.resolver.LoginUserArgumentResolver;
+import com.zm.zhuma.commons.web.resolver.LoginUserArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

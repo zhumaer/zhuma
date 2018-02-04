@@ -1,7 +1,7 @@
 package com.zm.zhuma.commons.helper;
 
 import com.google.common.collect.Lists;
-import com.zm.zhuma.commons.result.ParameterInvalidItem;
+import com.zm.zhuma.commons.model.bo.ParameterInvalidItem;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;

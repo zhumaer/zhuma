@@ -1,8 +1,8 @@
 package com.zhuma.demo.web.demo2;
 import com.zhuma.demo.service.UserService;
-import com.zm.zhuma.commons.annotations.ResponseResult;
 import com.zm.zhuma.commons.model.qo.PageQO;
 import com.zm.zhuma.commons.model.vo.PageVO;
+import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.user.model.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

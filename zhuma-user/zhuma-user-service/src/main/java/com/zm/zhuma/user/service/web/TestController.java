@@ -1,8 +1,6 @@
 package com.zm.zhuma.user.service.web;
 
-import com.zm.zhuma.commons.service.impl.RestfulCrudServiceImpl;
 import com.zm.zhuma.commons.utils.JsonUtil;
-import com.zm.zhuma.user.client.UserClient;
 import com.zm.zhuma.user.model.po.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

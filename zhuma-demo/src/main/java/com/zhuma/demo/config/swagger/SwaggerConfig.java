@@ -20,14 +20,14 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.dx.asst.server"))
+				.apis(RequestHandlerSelectors.basePackage("com.zm.zhuma.app.server"))
 				.paths(PathSelectors.any())
 				.build();
 	}
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("学股堂投顾助手CRM")
+				.title("筑码API")
 				.description("接口写得好，联调通的早")
 				.version("1.0")
 				.build();

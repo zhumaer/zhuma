@@ -28,7 +28,6 @@ import java.util.List;
  * @author zhuamer
  * @since 10/18/2017 18:31 PM
  */
-@Slf4j
 public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements CrudService<E, PK> {
 
 	@Autowired
@@ -167,7 +166,6 @@ public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements Crud
 					BeanUtil.copyProperties(condition, e);
 					crudMapper.select(e);
 				} catch (InstantiationException | IllegalAccessException e) {
-					log.error("selectPage occurs error, caused by: ", e);
 					throw new RuntimeException("poType.newInstance occurs InstantiationException or IllegalAccessException", e);
 				}
 			}

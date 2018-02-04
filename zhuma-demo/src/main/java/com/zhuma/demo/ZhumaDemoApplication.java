@@ -9,7 +9,7 @@ import org.springframework.retry.annotation.EnableRetry;
 @EnableRetry
 @SpringBootApplication
 @EnableFeignClients
-@ServletComponentScan
+@ServletComponentScan(basePackages = {"com.zhuma.demo", "com.zm.zhuma.commons.web"})
 public class ZhumaDemoApplication {
 
 	public static void main(String[] args) {

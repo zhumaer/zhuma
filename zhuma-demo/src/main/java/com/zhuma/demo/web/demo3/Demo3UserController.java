@@ -2,8 +2,8 @@ package com.zhuma.demo.web.demo3;
 
 import com.zhuma.demo.service.UserService;
 import com.zm.zhuma.commons.annotations.LoginAuth;
-import com.zm.zhuma.commons.annotations.ResponseResult;
 import com.zm.zhuma.commons.exceptions.DataNotFoundException;
+import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.user.model.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
