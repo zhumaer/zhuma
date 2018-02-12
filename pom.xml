@@ -17,7 +17,6 @@
 		<module>zhuma-user</module>
 		<module>zhuma-console-server</module>
 		<module>zhuma-app-server</module>
-
     </modules>
 
 <!--    <repositories>
