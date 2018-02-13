@@ -23,6 +23,7 @@
 		<version>1.5.3.RELEASE</version>
 	</parent>
 
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
