@@ -81,7 +81,11 @@
 			<artifactId>spring-web</artifactId>
 			<version>4.3.8.RELEASE</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

@@ -139,7 +139,7 @@
 
 		<dependency>
 			<groupId>com.zm</groupId>
-			<artifactId>zhuma-commons-controller</artifactId>
+			<artifactId>zhuma-commons-web</artifactId>
             <version>${zhuma.version}</version>
 		</dependency>
 

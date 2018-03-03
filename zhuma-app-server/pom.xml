@@ -82,6 +82,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.18</version>
+		</dependency>
+
+		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.6.1</version>
@@ -196,6 +202,12 @@
 			<artifactId>spring-cloud-starter-hystrix</artifactId>
 		</dependency>
 
+        <dependency>
+            <groupId>com.zm</groupId>
+            <artifactId>zhuma-user-token</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 	<dependencyManagement>
@@ -204,13 +216,6 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-eureka</artifactId>
-
-				<exclusions>
-					<exclusion>
-						<artifactId>jsr311-api</artifactId>
-						<groupId>javax.ws.rs</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>

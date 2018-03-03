@@ -17,7 +17,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<lombok.version>1.16.18</lombok.version>
-		<swagger.version>1.5.16</swagger.version>
+		<swagger.version>1.5.18</swagger.version>
 		<tk.mapper.version>3.4.6</tk.mapper.version>
 		<pagehelper.version>1.2.3</pagehelper.version>
 		<stream.rabbit.version>1.3.0.RELEASE</stream.rabbit.version>
