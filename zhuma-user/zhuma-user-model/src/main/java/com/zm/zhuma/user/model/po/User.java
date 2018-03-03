@@ -35,7 +35,7 @@ public class User extends BasePO<String> {
 	 * 用户ID
 	 */
 	@Id
-	@GeneratedValue(generator="UUID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "SELECT REPLACE(UUID(),'-','')")
 	@Length(min=1, max=64)
 	private String id;
 
