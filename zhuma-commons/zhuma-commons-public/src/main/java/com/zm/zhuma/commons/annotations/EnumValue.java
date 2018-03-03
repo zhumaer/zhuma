@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 @Constraint(validatedBy = EnumValue.Validator.class)
 public @interface EnumValue {
 
-	String message() default "{custom.value.invalid}";
+	String message() default "无效的值";
 
 	Class<?>[] groups() default {};
 
