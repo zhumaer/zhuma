@@ -1,0 +1,4 @@
+DEMO3将向你演示，登录功能设计和如果利用Spring自定义参数解析器注入已登录用户信息等功能
+
+CSND相关讲解博客地址：
+Spring自定参数解析器之《自动注入已登录用户》：http://blog.csdn.net/aiyaya_/article/details/79221733
