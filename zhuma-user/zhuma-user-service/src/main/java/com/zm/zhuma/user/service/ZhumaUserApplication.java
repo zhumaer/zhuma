@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
 @EnableEurekaClient
-@EnableFeignClients(basePackages= {"com.zm.zhuma.**.client"})
+@EnableFeignClients
 @ServletComponentScan
 @SpringBootApplication
 public class ZhumaUserApplication {

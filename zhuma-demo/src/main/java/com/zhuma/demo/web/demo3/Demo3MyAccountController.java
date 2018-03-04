@@ -1,12 +1,14 @@
 package com.zhuma.demo.web.demo3;
 
-import com.zhuma.demo.service.UserService;
+import com.zhuma.demo.service.user.UserService;
 import com.zm.zhuma.commons.annotations.LoginAuth;
 import com.zm.zhuma.commons.exceptions.DataNotFoundException;
 import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.user.model.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -19,20 +21,20 @@ import springfox.documentation.annotations.ApiIgnore;
 @ResponseResult
 @RestController
 @RequestMapping("demo2/my-account")
-public class Demo3UserController {
+public class Demo3MyAccountController {
 
     @Autowired
     private UserService userService;
 
     @LoginAuth
-    @GetMapping
-    public User account(@ApiIgnore LoginUser loginUser) {
-        User user = userService.selectByPk(loginUser.getId());
-        if (user == null) {
-            throw new DataNotFoundException();
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public User addUser(@Validated @RequestBody User user) {
+        String userId = userService.insert(user);
+        if (userId != null) {
+            return userService.selectByPk(userId);
         }
-
-        return user;
+        return null;
     }
 
 }

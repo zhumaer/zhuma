@@ -9,7 +9,6 @@ import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.user.token.helper.LoginTokenHelper;
 import com.zm.zhuma.user.token.service.LoginTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

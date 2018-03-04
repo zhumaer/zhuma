@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.util.List;
 import java.util.Set;
 
-
 public class RestfulCrudServiceImpl<E extends PO<PK>, PK> extends MySqlCrudServiceImpl<E, PK> implements RestfulCrudService<E, PK> {
 
 	@ResponseStatus(HttpStatus.CREATED)

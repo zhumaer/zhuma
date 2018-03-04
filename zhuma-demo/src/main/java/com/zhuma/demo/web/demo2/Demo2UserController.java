@@ -1,5 +1,5 @@
 package com.zhuma.demo.web.demo2;
-import com.zhuma.demo.service.UserService;
+import com.zhuma.demo.service.user.UserService;
 import com.zm.zhuma.commons.model.qo.PageQO;
 import com.zm.zhuma.commons.model.vo.PageVO;
 import com.zm.zhuma.commons.web.annotations.ResponseResult;
