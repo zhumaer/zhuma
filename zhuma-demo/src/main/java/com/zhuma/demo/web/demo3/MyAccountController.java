@@ -1,14 +1,10 @@
 package com.zhuma.demo.web.demo3;
 
-import com.zhuma.demo.service.user.UserService;
 import com.zm.zhuma.commons.annotations.LoginAuth;
-import com.zm.zhuma.commons.exceptions.DataNotFoundException;
 import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.user.model.bo.LoginUser;
-import com.zm.zhuma.user.model.po.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -18,13 +14,15 @@ import springfox.documentation.annotations.ApiIgnore;
  * @author zhumaer
  * @since 2/4/2018 23:57 PM
  */
+@Api(value = "我的账户", description = "我的账户")
 @ResponseResult
 @RestController
 @RequestMapping("demo3/my-account")
-public class Demo3MyAccountController {
+public class MyAccountController {
 
+    @ApiOperation("查询我的画像")
     @LoginAuth
-    @GetMapping
+    @GetMapping("profile")
     public LoginUser myAccount(@ApiIgnore LoginUser loginUser) {
         return loginUser;
     }

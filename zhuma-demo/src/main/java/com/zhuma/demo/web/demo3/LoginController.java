@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @description : 登陆接口
  * @date : 2017/11/9 14点58分
  */
-@Api(value = "登陆相关接口" , description = "登陆/登出")
+@Api(value = "登陆管理" , description = "登陆/登出")
 @Slf4j
 @ResponseResult
 @RestController
 @RequestMapping("demo3")
-public class Demo3LoginController {
+public class LoginController {
 
     @Autowired
     private LoginService loginService;

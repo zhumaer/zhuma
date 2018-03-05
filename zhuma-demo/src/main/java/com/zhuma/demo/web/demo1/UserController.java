@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseResult
 @RestController
 @RequestMapping("demo1/users")
-public class Demo1UserController {
+public class UserController {
 
     @Autowired
     private UserMapper userMapper;

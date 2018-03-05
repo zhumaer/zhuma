@@ -3,6 +3,8 @@ package com.zm.zhuma.user.model.po;
 import com.zm.zhuma.commons.annotations.EnumValue;
 import com.zm.zhuma.commons.model.po.BasePO;
 import com.zm.zhuma.commons.model.po.PO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +25,7 @@ import java.util.Date;
  * @author zhumaer
  * @since 6/15/2017 2:48 PM
  */
+@ApiModel("用户PO")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,44 +34,32 @@ public class User extends BasePO<String> {
 
 	private static final long serialVersionUID = -7491215402569546437L;
 
-	/**
-	 * 用户ID
-	 */
+	@ApiModelProperty(value = "用户主键")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY,generator = "SELECT REPLACE(UUID(),'-','')")
 	@Length(min=1, max=64)
 	private String id;
 
-	/**
-	 * 昵称
-	 */
+	@ApiModelProperty(value = "昵称")
 	@NotBlank
 	@Length(min=1, max=64)
 	private String nickname;
 
-	/**
-	 * 性别
-	 */
+	@ApiModelProperty(value = "性别")
 	@NotBlank
 	@EnumValue(enumClass=UserGenderEnum.class, enumMethod="isValidName")
 	private String gender;
 
-	/**
-	 * 头像
-	 */
+	@ApiModelProperty(value = "头像")
 	@Length(max=256)
 	private String avatar;
 
-	/**
-	 * 状态
-	 */
+	@ApiModelProperty(value = "状态")
 	@NotBlank
 	@EnumValue(enumClass=UserTypeEnum.class, enumMethod="isValidName")
 	private String type;
 
-	/**
-	 * 账号状态
-	 */
+	@ApiModelProperty(value = "账号状态")
 	@EnumValue(enumClass=UserStatusEnum.class, enumMethod="isValidName")
 	private String status;
 

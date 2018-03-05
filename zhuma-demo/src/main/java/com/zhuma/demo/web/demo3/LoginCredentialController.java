@@ -7,6 +7,8 @@ import com.zm.zhuma.commons.exceptions.BusinessException;
 import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.user.client.LoginCredentialClient;
 import com.zm.zhuma.user.model.po.LoginCredential;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +19,16 @@ import org.springframework.web.bind.annotation.*;
  * @author zhumaer
  * @since 2/4/2018 23:57 PM
  */
+@Api(value = "登录凭证管理", description = "登录凭证管理")
 @ResponseResult
 @RestController
 @RequestMapping("demo3/login-credentials")
-public class Demo3LoginCredentialController {
+public class LoginCredentialController {
 
     @Autowired
     private LoginCredentialClient loginCredentialClient;
 
+    @ApiOperation("添加登录凭证")
     @PostMapping
     public LoginCredential add(@RequestBody @Validated LoginCredentialQO loginCredentialQO) {
 

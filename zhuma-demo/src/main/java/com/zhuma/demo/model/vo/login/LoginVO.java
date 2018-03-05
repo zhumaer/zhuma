@@ -2,6 +2,7 @@ package com.zhuma.demo.model.vo.login;
 
 import com.zm.zhuma.commons.model.Model;
 import com.zm.zhuma.user.model.bo.LoginUser;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import java.util.List;
  * @author zhumaer
  * @since 3/3/2018 22:39 PM
  */
+@ApiModel("登录VO")
 @Data
 @Builder
 @NoArgsConstructor

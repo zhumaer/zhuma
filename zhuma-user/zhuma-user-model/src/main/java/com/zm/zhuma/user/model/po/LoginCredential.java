@@ -2,6 +2,8 @@ package com.zm.zhuma.user.model.po;
 
 import com.zm.zhuma.commons.annotations.EnumValue;
 import com.zm.zhuma.commons.model.po.BasePO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +21,7 @@ import javax.persistence.Id;
  * @author zhumaer
  * @since 6/15/2017 2:48 PM
  */
+@ApiModel("登录凭证PO")
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,40 +30,28 @@ public class LoginCredential extends BasePO<Long> {
 
     private static final long serialVersionUID = 5550420394013305835L;
 
-    /**
-     * 主键
-     */
+    @ApiModelProperty(value = "凭证主键")
     @Id
     @GeneratedValue(generator = "JDBC")
     private Long id;
 
-    /**
-     * 账号
-     */
+    @ApiModelProperty(value = "账号")
     @NotBlank
     @Length(min=1, max=128)
     private String account;
 
-    /**
-     * 密码
-     */
+    @ApiModelProperty(value = "密码")
     private String pwd;
 
-    /**
-     * 密码加密随机盐
-     */
+    @ApiModelProperty(value = "密码加密随机盐")
     @Length(max=64)
     private String randomSalt;
 
-    /**
-     * 用户ID
-     */
+    @ApiModelProperty(value = "用户主键")
     @NotBlank
     private String userId;
 
-    /**
-     * 账号类型
-     */
+    @ApiModelProperty(value = "账号类型")
     @EnumValue(enumClass=LoginCredential.TypeEnum.class, enumMethod="isValidName")
     private String type;
 
