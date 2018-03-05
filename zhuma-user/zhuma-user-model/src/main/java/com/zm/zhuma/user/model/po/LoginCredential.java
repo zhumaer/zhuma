@@ -31,7 +31,7 @@ public class LoginCredential extends BasePO<Long> {
      * 主键
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     /**

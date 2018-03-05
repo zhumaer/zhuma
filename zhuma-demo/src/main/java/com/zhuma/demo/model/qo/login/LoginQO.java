@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -25,13 +26,13 @@ public class LoginQO {
 
     @NotBlank
     @ApiModelProperty(value = "账号")
-    private String loginAccount;
+    private String account;
 
     @NotBlank
     @ApiModelProperty(value = "密码")
     private String pwd;
 
-    @NotBlank
+    @NotEmpty
     @ApiModelProperty(value = "凭证类型")
     private List<String> type;
 }

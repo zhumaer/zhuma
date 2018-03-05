@@ -25,7 +25,6 @@ public class Demo3LoginCredentialController {
     @Autowired
     private LoginCredentialClient loginCredentialClient;
 
-//    @LoginAuth
     @PostMapping
     public LoginCredential add(@RequestBody @Validated LoginCredentialQO loginCredentialQO) {
 
@@ -37,17 +36,14 @@ public class Demo3LoginCredentialController {
         String randomSalt = PasswordHelper.generateRandomSalt();
         String encodePwd = PasswordHelper.encodeBySalt(loginCredentialQO.getPwd(), randomSalt);
 
-//        LoginCredential LoginCredential = LoginCredential.builder()
-//                .account(loginCredentialQO.getAccount())
-//                .pwd(encodePwd)
-//                .randomSalt(randomSalt)
-//                .type(loginCredentialQO.getType())
-//                .userId(loginCredentialQO.getUserId())
-//                .build();
+        LoginCredential loginCredential = com.zm.zhuma.user.model.po.LoginCredential.builder()
+                .account(loginCredentialQO.getAccount())
+                .pwd(encodePwd)
+                .randomSalt(randomSalt)
+                .type(loginCredentialQO.getType())
+                .userId(loginCredentialQO.getUserId())
+                .build();
 
-        LoginCredential loginCredential = new LoginCredential();
-        loginCredential.setType(loginCredentialQO.getType());
-        loginCredential.setAccount(loginCredentialQO.getAccount());
         return loginCredentialClient.add(loginCredential);
     }
 

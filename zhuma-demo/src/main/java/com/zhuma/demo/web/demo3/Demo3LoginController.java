@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @ResponseResult
 @RestController
-@RequestMapping(Constants.API_ROOT)
+@RequestMapping("demo3")
 public class Demo3LoginController {
 
     @Autowired

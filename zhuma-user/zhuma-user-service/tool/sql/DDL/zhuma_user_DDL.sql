@@ -15,7 +15,7 @@ CREATE TABLE `user` (
 -- 登录凭证
 DROP TABLE IF EXISTS `login_credential`;
 CREATE TABLE `login_credential` (
-  `id` varchar(64) NOT NULL COMMENT 'ID',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `account` varchar(128) NOT NULL COMMENT '账号',
   `pwd` varchar(128) NOT NULL COMMENT '登录密码',
   `random_salt` varchar(64) NOT NULL COMMENT '随机盐',
@@ -24,5 +24,6 @@ CREATE TABLE `login_credential` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_login_account` (`account`,`type`)
+  UNIQUE KEY `uk_account_type` (`account`,`type`),
+  UNIQUE KEY `uk_user_id_type` (`user_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录凭证';

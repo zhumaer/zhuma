@@ -88,7 +88,7 @@ public class RedisConfig extends CachingConfigurerSupport{
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
 		//将类名称序列化到json串中(此种方式会将类路径、名称序列化进json中，不利于以后类名、包名修改)
-		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 		return mapper;
 	}
 

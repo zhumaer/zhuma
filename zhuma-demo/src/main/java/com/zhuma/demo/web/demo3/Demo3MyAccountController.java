@@ -20,21 +20,13 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @ResponseResult
 @RestController
-@RequestMapping("demo2/my-account")
+@RequestMapping("demo3/my-account")
 public class Demo3MyAccountController {
 
-    @Autowired
-    private UserService userService;
-
     @LoginAuth
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User addUser(@Validated @RequestBody User user) {
-        String userId = userService.insert(user);
-        if (userId != null) {
-            return userService.selectByPk(userId);
-        }
-        return null;
+    @GetMapping
+    public LoginUser myAccount(@ApiIgnore LoginUser loginUser) {
+        return loginUser;
     }
 
 }

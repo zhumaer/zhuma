@@ -20,7 +20,7 @@ public class SwaggerConfig {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.apiInfo(apiInfo())
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.zm.zhuma.app.server"))
+				.apis(RequestHandlerSelectors.basePackage("com.zhuma.demo.web"))
 				.paths(PathSelectors.any())
 				.build();
 	}

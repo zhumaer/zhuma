@@ -2,6 +2,7 @@ package com.zhuma.demo.service.login.impl;
 
 import com.zhuma.demo.helper.PasswordHelper;
 import com.zhuma.demo.model.qo.login.LoginQO;
+import com.zhuma.demo.model.vo.login.LoginCredentialVO;
 import com.zhuma.demo.model.vo.login.LoginVO;
 import com.zhuma.demo.service.login.LoginService;
 import com.zm.zhuma.commons.enums.CacheKeyEnum;
@@ -48,17 +49,15 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public LoginVO login(LoginQO loginQO) {
-		//TODO 增加校验逻辑
-
-		List<LoginCredential> loginCredentialList = loginCredentialClient.getLoginCredentialList(loginQO.getLoginAccount(), loginQO.getType());
+		List<LoginCredential> loginCredentialList = loginCredentialClient.getLoginCredentialList(loginQO.getAccount(), loginQO.getType());
 		if (loginCredentialList.size() == 0) {
-			log.info("login account is nonexistent, account:{}", loginQO.getLoginAccount());
+			log.info("login account is nonexistent, account:{}", loginQO.getAccount());
 			throw new BusinessException(ResultCode.USER_LOGIN_ERROR);
 		}
 
 		//验证密码是否正确
 		LoginCredential firstLoginCredential = loginCredentialList.get(0);
-		if (!loginQO.getPwd().equals(PasswordHelper.encodeBySalt(loginQO.getPwd(), firstLoginCredential.getRandomSalt()))) {
+		if (!firstLoginCredential.getPwd().equals(PasswordHelper.encodeBySalt(loginQO.getPwd(), firstLoginCredential.getRandomSalt()))) {
 			log.info("login account' password is error");
 			throw new BusinessException(ResultCode.USER_LOGIN_ERROR);
 		}
@@ -71,13 +70,21 @@ public class LoginServiceImpl implements LoginService {
 
 		LoginToken loginToken = this.saveLoginToken(user, firstLoginCredential);
 
-		LoginVO loginVO = new LoginVO();
-		BeanUtil.copyProperties(loginToken, loginVO);
-		loginVO.setToken(loginToken.getId());
 		LoginUser loginUser = new LoginUser();
 		BeanUtil.copyProperties(user, loginUser);
-		loginVO.setUser(loginUser);
-		return loginVO;
+
+		LoginCredentialVO  loginCredential = new LoginCredentialVO();
+		BeanUtil.copyProperties(firstLoginCredential, loginCredential);
+
+		return LoginVO.builder()
+				.token(loginToken.getId())
+				.loginTime(loginToken.getCreateTime())
+				.ip(loginToken.getIp())
+				.platform(loginToken.getPlatform())
+				.ttl(loginToken.getTtl())
+				.user(loginUser)
+				.loginCredential(loginCredential)
+				.build();
 	}
 
 	private LoginToken saveLoginToken(User user, LoginCredential loginCredential) {
