@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "登录凭证管理", description = "登录凭证管理")
 @ResponseResult
-@RestController
+@RestController("demo3LoginCredentialController")
 @RequestMapping("demo3/login-credentials")
 public class LoginCredentialController {
 

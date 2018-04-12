@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  * @desc 登录用户参数解析器
  *
  * @author zhumaer
- * @since 6/20/2017 3:00 PM
+ * @since 3/5/2017 3:00 PM
  */
 @Slf4j
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {

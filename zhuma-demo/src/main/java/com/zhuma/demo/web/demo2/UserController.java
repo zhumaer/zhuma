@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 1/31/2018 23:57 PM
  */
 @ResponseResult
-@RestController
+@RestController("demo2UserController")
 @RequestMapping("demo2/users")
 public class UserController {
 

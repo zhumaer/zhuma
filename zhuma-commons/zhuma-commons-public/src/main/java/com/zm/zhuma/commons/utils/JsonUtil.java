@@ -26,8 +26,9 @@ public class JsonUtil {
 	}
 
 	public static String object2Json(Object o) {
-		if (o == null)
+		if (o == null) {
 			return null;
+		}
 
 		String s = null;
 
@@ -40,8 +41,9 @@ public class JsonUtil {
 	}
 
 	public static <T> List<String> listObject2ListJson(List<T> objects) {
-		if (objects == null)
+		if (objects == null) {
 			return null;
+		}
 
 		List<String> lists = new ArrayList<String>();
 		for (T t : objects) {
@@ -52,8 +54,9 @@ public class JsonUtil {
 	}
 
 	public static <T> List<T> listJson2ListObject(List<String> jsons, Class<T> c) {
-		if (jsons == null)
+		if (jsons == null) {
 			return null;
+		}
 
 		List<T> ts = new ArrayList<T>();
 		for (String j : jsons) {
@@ -64,8 +67,9 @@ public class JsonUtil {
 	}
 
 	public static <T> T json2Object(String json, Class<T> c) {
-		if (StringUtils.hasLength(json) == false)
+		if (StringUtils.hasLength(json) == false) {
 			return null;
+		}
 
 		T t = null;
 		try {
@@ -78,8 +82,9 @@ public class JsonUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <T> T json2Object(String json, TypeReference<T> tr) {
-		if (StringUtils.hasLength(json) == false)
+		if (StringUtils.hasLength(json) == false) {
 			return null;
+		}
 
 		T t = null;
 		try {

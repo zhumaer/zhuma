@@ -1,6 +1,5 @@
 package com.zhuma.demo;
 
-import com.zm.zhuma.user.client.LoginCredentialClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;

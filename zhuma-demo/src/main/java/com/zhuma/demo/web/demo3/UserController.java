@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
  * @desc  用户控制器
  * 
  * @author zhumaer
- * @since 2/4/2018 23:57 PM
+ * @since 3/5/2018 23:57 PM
  */
 @Api(value = "用户管理", description = "用户管理")
 @ResponseResult
-@RestController
+@RestController("demo3UserController")
 @RequestMapping("demo3/users")
 public class UserController {
 

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "登陆管理" , description = "登陆/登出")
 @Slf4j
 @ResponseResult
-@RestController
+@RestController("demo3LoginController")
 @RequestMapping("demo3")
 public class LoginController {
 
