@@ -21,7 +21,7 @@ public class IpUtil {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AESUtil.class);
 
-	private static final String ipPattern = "^(?:(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\.){3}(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\b";
+	private static final String IP_PATTERN = "^(?:(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\.){3}(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\b";
 
 	/**
 	 * @Description: 获取请求中的ip地址：过了多级反向代理，获取的ip不是唯一的，二是包含中间代理层ip。
@@ -106,7 +106,7 @@ public class IpUtil {
 			while (netInterfaces.hasMoreElements()) {
 				NetworkInterface ni = netInterfaces.nextElement();
 				Enumeration<InetAddress> ips = ni.getInetAddresses();
-				Pattern pattern = Pattern.compile(ipPattern);
+				Pattern pattern = Pattern.compile(IP_PATTERN);
 				while (ips.hasMoreElements()) {
 					String ip = ips.nextElement().getHostAddress();
 					Matcher matcher = pattern.matcher(ip);
