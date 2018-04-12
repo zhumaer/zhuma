@@ -23,6 +23,12 @@ public class IpUtil {
 
 	private static final String IP_PATTERN = "^(?:(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\.){3}(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\b";
 
+	private static final String UNKNOWN = "unknown";
+
+	private static final String LOOPBACK_ADDRESS = "127.0.0.1";
+
+	private static final String UNKNOWN_ADDRESS = "0:0:0:0:0:0:0:1";
+
 	/**
 	 * @Description: 获取请求中的ip地址：过了多级反向代理，获取的ip不是唯一的，二是包含中间代理层ip。
 	 * 
@@ -32,15 +38,15 @@ public class IpUtil {
 		String ip = "127.0.0.1";
 		if (request != null) {
 			ip = request.getHeader("x-forwarded-for");
-			if (StringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+			if (StringUtil.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
 				ip = request.getHeader("Proxy-Client-IP");
 			}
 
-			if (StringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+			if (StringUtil.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
 				ip = request.getHeader("WL-Proxy-Client-IP");
 			}
 
-			if (StringUtil.isEmpty(ip) || "unknown".equalsIgnoreCase(ip)) {
+			if (StringUtil.isEmpty(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
 				ip = request.getRemoteAddr();
 			}
 		}
@@ -57,31 +63,30 @@ public class IpUtil {
 	 * 而是一串ip值，例如：192.168.1.110， 192.168.1.120， 192.168.1.130， 192.168.1.100。其中第一个192.168.1.110才是用户真实的ip
 	 */
 	public static String getRealIp(HttpServletRequest request) {
-		String ip = "127.0.0.1";
+		String ip = LOOPBACK_ADDRESS;
 		if (request == null) {
 			return ip;
 		}
 
 		ip = request.getHeader("x-forwarded-for");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_CLIENT_IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
-			if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
+			if (LOOPBACK_ADDRESS.equals(ip) || UNKNOWN_ADDRESS.equals(ip)) {
 				//根据网卡取本机配置的IP  
-				InetAddress inet = null;
 				try {
-					inet = InetAddress.getLocalHost();
+					InetAddress inet = InetAddress.getLocalHost();
 					ip = inet.getHostAddress();
 				} catch (UnknownHostException e) {
 					LOGGER.error("getRealIp occurs error, caused by: ", e);
@@ -90,8 +95,10 @@ public class IpUtil {
 		}
 
 		//"***.***.***.***".length() = 15
-		if (ip != null && ip.length() > 15) {
-			if (ip.indexOf(",") > 0) {
+		int ipLength = 15;
+		String separator = ",";
+		if (ip != null && ip.length() > ipLength) {
+			if (ip.indexOf(separator) > 0) {
 				ip = ip.substring(0, ip.indexOf(","));
 			}
 		}
