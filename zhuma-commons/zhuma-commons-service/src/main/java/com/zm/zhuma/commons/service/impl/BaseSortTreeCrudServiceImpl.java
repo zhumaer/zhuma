@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
-public abstract class SortTreeCrudServiceImpl<E extends SortTreePO<PK>, PK> extends TreeCurdServiceImpl<E, PK> {
+public abstract class BaseSortTreeCrudServiceImpl<E extends SortTreePO<PK>, PK> extends BaseTreeCurdServiceImpl<E, PK> {
 
 	@Override
 	public List<E> selectChildren(PK parentId) {

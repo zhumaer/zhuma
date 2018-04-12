@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import java.util.List;
 
 @Slf4j
-public abstract class TreeCurdServiceImpl<E extends TreePO<PK>, PK> extends MySqlCrudServiceImpl<E, PK> implements TreeCrudService<E, PK> {
+public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends BaseMySqlCrudServiceImpl<E, PK> implements TreeCrudService<E, PK> {
 
 	@Override
 	public List<E> selectChildren(PK parentId) {

@@ -28,14 +28,14 @@ import java.util.List;
  * @author zhuamer
  * @since 10/18/2017 18:31 PM
  */
-public abstract class MySqlCrudServiceImpl<E extends PO<PK>, PK> implements CrudService<E, PK> {
+public abstract class BaseMySqlCrudServiceImpl<E extends PO<PK>, PK> implements CrudService<E, PK> {
 
 	@Autowired
 	protected CrudMapper<E> crudMapper;
 
 	protected Class<E> poType;
 
-	public MySqlCrudServiceImpl() {
+	public BaseMySqlCrudServiceImpl() {
 		ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
 		poType = (Class<E>) pt.getActualTypeArguments()[0];
 	}
