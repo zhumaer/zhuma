@@ -225,7 +225,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attribute.setObjectId(objectId);
 			convertType(attributes.get(c), attribute);
 
-			attributeDao.updateAttrs(table, attribute); // 更新属性
+			attributeDao.updateAttrs(table, attribute);
 
 			updated.put(c,
 					AttributeChangement.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
@@ -251,7 +251,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Map<String, AttributeChangement> removed = new HashMap<>();
 
 		if (!CollectionUtil.isEmpty(attributes)) {
-			Map<String, Object> previousMap = getAttributes(objectId); // 查出该object的所有属性
+			Map<String, Object> previousMap = getAttributes(objectId);
 
 			List<String> previousKeyList = Lists.newArrayList();
 
@@ -289,7 +289,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attribute.setObjectId(objectId);
 				convertType(attributes.get(c), attribute);
 
-				attributeDao.updateAttrs(table, attribute); // 更新属性
+				attributeDao.updateAttrs(table, attribute);
 
 				updated.put(c,
 						AttributeChangement.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
@@ -447,7 +447,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		result.setRemoved(removed);
 
 		if (!CollectionUtil.isEmpty(added) || !CollectionUtil.isEmpty(updated) || !CollectionUtil.isEmpty(removed)) {
-			sendAttributesChangeEvent(result);// 发送变更消息
+			sendAttributesChangeEvent(result);
 		}
 
 		return result;

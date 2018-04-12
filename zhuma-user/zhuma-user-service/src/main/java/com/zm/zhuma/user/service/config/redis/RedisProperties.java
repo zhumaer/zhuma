@@ -33,11 +33,14 @@ public class RedisProperties {
 
 		private Boolean testOnCreate;
 
-		private Boolean testOnBorrow;//在获取连接的时候检查有效性
+		//在获取连接的时候检查有效性
+		private Boolean testOnBorrow;
 
-		private Boolean testOnReturn;//当调用return Object方法时，是否进行有效性检查  
+		//当调用return Object方法时，是否进行有效性检查
+		private Boolean testOnReturn;
 
-		private Boolean testWhileIdle;//在空闲时检查有效性
+		//在空闲时检查有效性
+		private Boolean testWhileIdle;
 
 		public Integer getMaxIdle() {
 			return maxIdle;

@@ -89,7 +89,8 @@ public class IpUtil {
 			}
 		}
 
-		if (ip != null && ip.length() > 15) { //"***.***.***.***".length() = 15  
+		//"***.***.***.***".length() = 15
+		if (ip != null && ip.length() > 15) {
 			if (ip.indexOf(",") > 0) {
 				ip = ip.substring(0, ip.indexOf(","));
 			}

@@ -56,7 +56,8 @@ public enum CacheKeyEnum {
 
 	public String formatKey(Object... args) {
 		int requiredNum = StringUtil.getSubStrCount(this.code, "%s");
-		if (requiredNum != 0 && (args == null || args.length != requiredNum)) {
+		boolean isCorrectArgsNum = requiredNum != 0 && (args == null || args.length != requiredNum);
+		if (isCorrectArgsNum) {
 			throw new IllegalArgumentException("The number of parameters is not equal to the required number.");
 		}
 		return String.format(this.code, args);
