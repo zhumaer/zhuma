@@ -77,7 +77,7 @@ public class IpUtil {
 		}
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
-			if (ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")) {
+			if ("127.0.0.1".equals(ip) || "0:0:0:0:0:0:0:1".equals(ip)) {
 				//根据网卡取本机配置的IP  
 				InetAddress inet = null;
 				try {
@@ -110,7 +110,7 @@ public class IpUtil {
 				while (ips.hasMoreElements()) {
 					String ip = ips.nextElement().getHostAddress();
 					Matcher matcher = pattern.matcher(ip);
-					if (matcher.matches() && !ip.equals("127.0.0.1")) {
+					if (matcher.matches() && !"127.0.0.1".equals(ip)) {
 						ipsStr = ip;
 					}
 				}

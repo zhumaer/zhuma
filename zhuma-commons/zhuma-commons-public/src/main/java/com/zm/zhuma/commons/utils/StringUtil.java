@@ -12,7 +12,7 @@ public class StringUtil {
 	 * 判断传入的字符串是否为空串
 	 */
 	public static boolean isEmpty(String str) {
-		return str == null || (str.trim().equals(""));
+		return str == null || ("".equals(str.trim()));
 	}
 
 	/**
