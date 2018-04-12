@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -87,8 +88,8 @@ public class RedisConfig extends CachingConfigurerSupport{
 		//设置输入时忽略JSON字符串中存在而Java对象实际没有的属性
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		//将类名称序列化到json串中(此种方式会将类路径、名称序列化进json中，不利于以后类名、包名修改)
-//		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+		//支持java8时间模块序列化
+		mapper.registerModule(new JavaTimeModule());
 		return mapper;
 	}
 

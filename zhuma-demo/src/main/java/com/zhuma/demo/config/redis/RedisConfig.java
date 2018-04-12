@@ -37,21 +37,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 		return jedisConnectionFactory;
 	}
 
-//	@Bean
-//	public KeyGenerator wiselyKeyGenerator() {
-//
-//		return (target, method, params) -> {
-//			StringBuilder sb = new StringBuilder();
-//			sb.append(target.getClass().getName());
-//			sb.append(method.getName());
-//			for (Object obj : params) {
-//				sb.append(obj.toString());
-//			}
-//			return sb.toString();
-//		};
-//
-//	}
-
 	@Bean
 	public CacheManager cacheManager(@SuppressWarnings("rawtypes") RedisTemplate redisTemplate) {
 		return new RedisCacheManager(redisTemplate);
@@ -64,9 +49,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 		//设置输入时忽略JSON字符串中存在而Java对象实际没有的属性
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 		mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		//将类名称序列化到json串中(此种方式会将类路径、名称序列化进json中，不利于以后类名、包名修改)
-		//		mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-
 		//支持java8时间模块序列化
 		mapper.registerModule(new JavaTimeModule());
 		return mapper;
