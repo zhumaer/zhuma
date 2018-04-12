@@ -9,7 +9,7 @@ package com.zm.zhuma.commons.web.constants;
 public class Constants {
 
 	public static final String API_ROOT = "/api";
-	// API_HTTP_SCHEMA
+
 	public static String API_HTTP_SCHEMA = "https";
 
 }

@@ -25,7 +25,7 @@ import javax.validation.ConstraintViolationException;
 @ControllerAdvice
 public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 
-	/* 处理400类异常 */
+	/** 处理400类异常 */
 	@Override
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ConstraintViolationException.class)
@@ -54,14 +54,14 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 		return super.handleMethodArgumentNotValidException(e, request);
 	}
 
-	/* 处理自定义异常 */
+	/** 处理自定义异常 */
 	@Override
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<DefaultErrorResult> handleBusinessException(BusinessException e, HttpServletRequest request) {
 		return super.handleBusinessException(e, request);
 	}
 
-	/* 处理运行时异常 */
+	/** 处理运行时异常 */
 	@Override
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(RuntimeException.class)
