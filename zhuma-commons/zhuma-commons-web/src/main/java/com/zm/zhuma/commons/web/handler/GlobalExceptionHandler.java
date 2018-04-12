@@ -26,24 +26,28 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 
 	/* 处理400类异常 */
+	@Override
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(ConstraintViolationException.class)
 	public DefaultErrorResult handleConstraintViolationException(ConstraintViolationException e, HttpServletRequest request) {
 		return super.handleConstraintViolationException(e, request);
 	}
 
+	@Override
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public DefaultErrorResult handleConstraintViolationException(HttpMessageNotReadableException e, HttpServletRequest request) {
 		return super.handleConstraintViolationException(e, request);
 	}
 
+	@Override
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(BindException.class)
 	public DefaultErrorResult handleBindException(BindException e, HttpServletRequest request) {
 		return super.handleBindException(e, request);
 	}
 
+	@Override
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public DefaultErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
@@ -51,12 +55,14 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 	}
 
 	/* 处理自定义异常 */
+	@Override
 	@ExceptionHandler(BusinessException.class)
 	public ResponseEntity<DefaultErrorResult> handleBusinessException(BusinessException e, HttpServletRequest request) {
 		return super.handleBusinessException(e, request);
 	}
 
 	/* 处理运行时异常 */
+	@Override
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(RuntimeException.class)
 	public DefaultErrorResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
