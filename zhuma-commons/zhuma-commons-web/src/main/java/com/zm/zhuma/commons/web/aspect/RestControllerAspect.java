@@ -73,9 +73,9 @@ public class RestControllerAspect {
 
 	private String getMethodName(ProceedingJoinPoint joinPoint) {
 		String methodName = joinPoint.getSignature().toShortString();
-		String SHORT_METHOD_NAME_SUFFIX = "(..)";
-		if (methodName.endsWith(SHORT_METHOD_NAME_SUFFIX)) {
-			methodName = methodName.substring(0, methodName.length() - SHORT_METHOD_NAME_SUFFIX.length());
+		String shortMethodNameSuffix = "(..)";
+		if (methodName.endsWith(shortMethodNameSuffix)) {
+			methodName = methodName.substring(0, methodName.length() - shortMethodNameSuffix.length());
 		}
 		return methodName;
 	}

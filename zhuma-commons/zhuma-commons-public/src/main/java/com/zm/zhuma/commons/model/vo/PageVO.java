@@ -84,16 +84,16 @@ public class PageVO<T> implements Model {
 		BeanUtils.copyProperties(page, pageVO, "list");
 
 		try {
-			List<T> VOs = Lists.newArrayList();
-			List<E> POs = page.getResult();
-			if (!CollectionUtils.isEmpty(POs)) {
-				for (E e : POs) {
+			List<T> voList = Lists.newArrayList();
+			List<E> poList = page.getResult();
+			if (!CollectionUtils.isEmpty(poList)) {
+				for (E e : poList) {
 					T t = voClazz.newInstance();
 					BeanUtils.copyProperties(e, t);
-					VOs.add(t);
+					voList.add(t);
 				}
 			}
-			pageVO.setList(VOs);
+			pageVO.setList(voList);
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new RuntimeException(e);
 		}

@@ -64,7 +64,7 @@ public abstract class BaseMySqlCrudServiceImpl<E extends PO<PK>, PK> implements 
 	public int deleteByPks(Iterable<PK> pks) {
 		Assert.notNull(pks, "pks is not null");
 
-		String pksStr = this.IterableToSpitStr(pks, ",");
+		String pksStr = this.iterableToSpitStr(pks, ",");
 		if (pksStr == null) {
 			return 0;
 		}
@@ -119,7 +119,7 @@ public abstract class BaseMySqlCrudServiceImpl<E extends PO<PK>, PK> implements 
 	public List<E> selectByPks(Iterable<PK> pks) {
 		Assert.notNull(pks, "pks is not null");
 
-		String pksStr = this.IterableToSpitStr(pks, ",");
+		String pksStr = this.iterableToSpitStr(pks, ",");
 		if (pksStr == null) {
 			return new ArrayList<>();
 		}
@@ -127,7 +127,7 @@ public abstract class BaseMySqlCrudServiceImpl<E extends PO<PK>, PK> implements 
 		return crudMapper.selectByIds(pksStr);
 	}
 
-	private String IterableToSpitStr(Iterable<PK> pks, String separator) {
+	private String iterableToSpitStr(Iterable<PK> pks, String separator) {
 		StringBuilder s = new StringBuilder();
 		pks.forEach(pk -> s.append(pk).append(separator));
 
