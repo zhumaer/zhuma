@@ -45,7 +45,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	public Map<String, Object> getAttributes(OID objectId) {
 		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), null);
 
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>(16);
 		if (!CollectionUtil.isEmpty(list)) {
 			for (Attribute<OID> attribute : list) {
 				map.put(attribute.getKey(), convertType(attribute));
@@ -59,7 +59,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId),
 				Lists.newArrayList(keys));
 
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>(16);
 		if (!CollectionUtil.isEmpty(list)) {
 			for (Attribute<OID> attribute : list) {
 				map.put(attribute.getKey(), convertType(attribute));
@@ -70,7 +70,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Map<OID, Map<String, Object>> getAttributes(Iterable<OID> objectIds, Iterable<String> keys) {
-		Map<OID, Map<String, Object>> map = new HashMap<>();
+		Map<OID, Map<String, Object>> map = new HashMap<>(16);
 
 		// final Iterable<String> attrKeys = keys;
 
@@ -84,7 +84,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Map<OID, Map<String, Object>> getAttributes(Iterable<OID> objectIds) {
-		Map<OID, Map<String, Object>> map = new HashMap<>();
+		Map<OID, Map<String, Object>> map = new HashMap<>(16);
 
 		objectIds.forEach(objectId -> {
 			Map<String, Object> partMap = getAttributes(objectId);
@@ -106,7 +106,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		}
 		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, objIds, keys);
 
-		Map<OID, Object> map = new HashMap<>();
+		Map<OID, Object> map = new HashMap<>(16);
 		if (!CollectionUtil.isEmpty(list)) {
 			for (Attribute<OID> attribute : list) {
 				map.put(attribute.getObjectId(), convertType(attribute));
@@ -117,9 +117,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> setAttribute(OID objectId, String key, Object value) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		List<Attribute<OID>> addAttrList = Lists.newArrayList();
 		Attribute<OID> updateAttr = new Attribute<>();
@@ -182,9 +182,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> setAttributes(OID objectId, Map<String, Object> attributes) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
@@ -246,9 +246,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> addAttributes(OID objectId, Map<String, Object> attributes) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		if (!CollectionUtil.isEmpty(attributes)) {
 			Map<String, Object> previousMap = getAttributes(objectId);
@@ -301,9 +301,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> removeAttribute(OID objectId, String key) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		List<String> removeKeyList = Lists.newArrayList();
 
@@ -322,9 +322,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> removeAttributes(OID objectId) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		List<String> removeKeyList = Lists.newArrayList();
 
@@ -346,9 +346,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChangement<OID> removeAttributes(OID objectId, Iterable<String> keys) {
-		Map<String, AttributeChangement> added = new HashMap<>();
-		Map<String, AttributeChangement> updated = new HashMap<>();
-		Map<String, AttributeChangement> removed = new HashMap<>();
+		Map<String, AttributeChangement> added = new HashMap<>(16);
+		Map<String, AttributeChangement> updated = new HashMap<>(16);
+		Map<String, AttributeChangement> removed = new HashMap<>(16);
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
@@ -472,7 +472,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		}
 		List<Attribute<OID>> list = attributeDao.getAttrMapByKeyAndValue(table, objIds, key, value);;
 
-		Map<OID, Object> map = new HashMap<>();
+		Map<OID, Object> map = new HashMap<>(16);
 		if (!CollectionUtil.isEmpty(list)) {
 			for (Attribute<OID> attribute : list) {
 				map.put(attribute.getObjectId(), convertType(attribute));
