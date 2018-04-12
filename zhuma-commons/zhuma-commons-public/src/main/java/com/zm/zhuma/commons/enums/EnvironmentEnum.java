@@ -10,9 +10,17 @@ import org.springframework.util.Assert;
  * @since 8/31/2017 3:00 PM
  */
 public enum EnvironmentEnum {
-
+	/**
+	 * 线上
+	 */
 	PROD,
+	/**
+	 * 联调
+	 */
 	FE,
+	/**
+	 * 测试
+	 */
 	QA;
 
 	public static boolean isProdEnv(Environment env) {
