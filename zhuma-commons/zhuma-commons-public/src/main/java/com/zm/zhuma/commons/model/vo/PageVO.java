@@ -33,16 +33,16 @@ public class PageVO<T> implements Model {
 	private static final long serialVersionUID = -4426958360243585882L;
 
 	@ApiModelProperty(value = "当前页号")
-	private int pageNum;
+	private Integer pageNum;
 
 	@ApiModelProperty(value = "每页的数量")
-	private int pageSize;
+	private Integer pageSize;
 
 	@ApiModelProperty(value = "总记录数")
-	private long total;
+	private Long total;
 
 	@ApiModelProperty(value = "总页数")
-	private int pages;
+	private Integer pages;
 
 	@ApiModelProperty(value = "结果集")
 	private List<T> list;
