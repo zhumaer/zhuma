@@ -27,26 +27,46 @@ public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends 
 	}
 
 	@Override
-	public List<Node<E>> selectChildNodes(PK parentId) {
-		return this.selectChildNodes(parentId, null);
-	}
-
-	@Override
-	public List<Node<E>> selectChildNodes(PK parentId, Integer level) {
+	public Node<E> selectNodeByParentId(PK parentId) {
 		Assert.notNull(parentId, "parentId is null");
 
-		level = level == null || level <= 0 ? 10 : level;
-
-		List<Node<E>> nodeList = Lists.newArrayList();
-
-		List<PK> parentIds = Lists.newArrayList();
-		parentIds.add(parentId);
-
-		int currentLevel = 0;
-		while (currentLevel < level) {
-			//组织子节点
+		Node<E> tree = new Node<>();
+		E parent = super.selectByPk(parentId);
+		if (parent != null) {
+			Node<E> eNode = wrapNode(parent);
+			tree = buildTree(eNode);
 		}
 
-		return nodeList;
+		return tree;
+	}
+
+	private Node<E> buildTree(Node<E> eNode) {
+		List<Node<E>> descendantNodes = getDescendantNodes(eNode.getParent().getId());
+		List<Node<E>> children = eNode.getChildren();
+		children.addAll(descendantNodes);
+		eNode.setChildren(children);
+		for (Node<E> node : descendantNodes) {
+			buildTree(node);
+		}
+
+		return eNode;
+	}
+
+	private List<Node<E>> getDescendantNodes(PK id) {
+		List<E> eList = this.selectChildren(id);
+
+		List<Node<E>> list = Lists.newLinkedList();
+		for (E parent : eList) {
+			Node<E> node = wrapNode(parent);
+			list.add(node);
+		}
+
+		return list;
+	}
+
+	private Node<E> wrapNode(E parent) {
+		Node<E> node = new Node<>();
+		node.setParent(parent);
+		return node;
 	}
 }

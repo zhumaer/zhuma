@@ -24,4 +24,5 @@ public class Node<E extends TreePO> {
 	private E parent;
 
 	private List<Node<E>> children;
+
 }

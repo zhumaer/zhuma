@@ -41,27 +41,10 @@ public interface TreeSelectService<E extends TreePO, PK> {
     List<E> selectChildren(PK parentId);
 
     /**
-     * 根据父节点id,获取所有子节点的数据,包含子节点的子节点
+     * 获取当前节点下树数据
      *
      * @param parentId 父节点ID
-     * @return 所有子节点的数据
-     */
-    List<Node<E>> selectChildNodes(PK parentId);
-
-    /**
-     * 根据父节点id,获取所有子节点的数据,包含子节点的子节点
-     *
-     * @param parentId 父节点ID
-     * @param level 向下获取的层级，为NULL代表获所有
-     * @return 按层级获取子节点的数据
-     */
-    List<Node<E>> selectChildNodes(PK parentId, Integer level);
-
-    /**
-     * 获取node信息
-     *
-     * @param parentId 父节点ID
-     * @return 按层级获取子节点的数据
+     * @return 树信息
      */
     Node<E> selectNodeByParentId(PK parentId);
 

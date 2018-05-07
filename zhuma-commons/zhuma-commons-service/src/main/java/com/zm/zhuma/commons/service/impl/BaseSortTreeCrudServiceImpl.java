@@ -1,11 +1,9 @@
 package com.zm.zhuma.commons.service.impl;
 
-import com.google.common.collect.Lists;
 import com.zm.zhuma.commons.model.bo.Node;
 import com.zm.zhuma.commons.model.po.SortTreePO;
+import com.zm.zhuma.commons.utils.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,79 +19,30 @@ public abstract class BaseSortTreeCrudServiceImpl<E extends SortTreePO<PK>, PK> 
 	}
 
 	@Override
-	public List<Node<E>> selectChildNodes(PK parentId) {
-		List<Node<E>> childNodes = super.selectChildNodes(parentId);
-		//TODO 排序
-		return childNodes;
-	}
-
-	@Override
-	public List<Node<E>> selectChildNodes(PK parentId, Integer level) {
-		List<Node<E>> childNodes = super.selectChildNodes(parentId, level);
-		//TODO 排序
-		return childNodes;
-	}
-
-	@Override
 	public Node<E> selectNodeByParentId(PK parentId) {
-		Assert.notNull(parentId, "parentId is null");
-
-		Node<E> tree = new Node<>();
-		E parent = super.selectByPk(parentId);
-		if (parent != null) {
-			Node<E> eNode = wrapNode(parent);
-			tree = buildTree(eNode);
-		}
-
-		return tree;
-	}
-
-	private Node<E> buildTree(Node<E> eNode) {
-		List<Node<E>> descendantNodes = getDescendantNodes(eNode.getParent().getId());
-		if (!CollectionUtils.isEmpty(descendantNodes)) {
-			List<Node<E>> childen = eNode.getChildren();
-			childen.addAll(descendantNodes);
-			eNode.setChildren(childen);
-			for (Node<E> node : descendantNodes) {
-				buildTree(node);
-			}
-		}
-		return eNode;
-	}
-
-	private List<Node<E>> getDescendantNodes(PK id) {
-		E queryModel = null;
-		try {
-			queryModel = poType.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		queryModel.setParentId(id);
-		List<E> eList = crudMapper.select(queryModel);
-		List<E> sortList = eList.stream().sorted((r1, r2) -> {
-			if (r1.getSort() == null) {
-				return 1;
-			}
-			if (r2.getSort() == null) {
-				return -1;
-			}
-			return r1.getSort().compareTo(r2.getSort());
-		}).collect(Collectors.toList());
-		List<Node<E>> list = Lists.newLinkedList();
-		if (!CollectionUtils.isEmpty(sortList)) {
-			for (E parent : sortList) {
-				Node<E> node = wrapNode(parent);
-				list.add(node);
-			}
-		}
-		return list;
-	}
-
-	private Node<E> wrapNode(E parent) {
-		Node<E> node = new Node<>();
-		node.setParent(parent);
+		Node<E> node = super.selectNodeByParentId(parentId);
+		sortChildrenNode(node);
 		return node;
 	}
+
+	private void sortChildrenNode(Node<E> node) {
+		if (node.getParent() != null && CollectionUtil.isNotEmpty(node.getChildren())) {
+			List<Node<E>> children = node.getChildren();
+
+			List<Node<E>> sortedChildren = children.stream().sorted((node1, node2) -> {
+				E e1 = node1.getParent();
+				E e2 = node2.getParent();
+				if (e1 == null || e2 == null) {
+					throw new NullPointerException();
+				}
+
+				return e1.compareTo(e2);
+			}).collect(Collectors.toList());
+
+			node.setChildren(sortedChildren);
+
+			sortedChildren.forEach(item -> sortChildrenNode(item));
+		}
+	}
+
 }

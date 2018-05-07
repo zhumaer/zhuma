@@ -39,7 +39,7 @@ public class CollectionUtil {
 	 * 返回a-b的新List.
 	 */
 	public static <T> List<T> subtract(final Collection<T> a, final Collection<T> b) {
-		List<T> list = new ArrayList<T>(a);
+		List<T> list = new ArrayList<>(a);
 		for (T element : b) {
 			list.remove(element);
 		}
@@ -51,7 +51,7 @@ public class CollectionUtil {
 	 * 返回a与b的交集的新List.
 	 */
 	public static <T> List<T> intersection(Collection<T> a, Collection<T> b) {
-		List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<>();
 
 		for (T element : a) {
 			if (b.contains(element)) {
