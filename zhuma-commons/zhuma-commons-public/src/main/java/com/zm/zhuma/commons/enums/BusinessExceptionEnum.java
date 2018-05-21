@@ -22,6 +22,11 @@ public enum BusinessExceptionEnum {
 	NOT_FOUND(DataNotFoundException.class, HttpStatus.NOT_FOUND, ResultCode.RESULE_DATA_NONE),
 
 	/**
+	 * 接口方法不允许
+	 */
+	METHOD_NOT_ALLOWED(MethodNotAllowException.class, HttpStatus.METHOD_NOT_ALLOWED, ResultCode.INTERFACE_ADDRESS_INVALID),
+
+	/**
 	 * 数据已存在
 	 */
 	CONFLICT(DataConflictException.class, HttpStatus.CONFLICT, ResultCode.DATA_ALREADY_EXISTED),

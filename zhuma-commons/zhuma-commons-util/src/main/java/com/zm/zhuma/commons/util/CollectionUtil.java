@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
 import org.springframework.util.ObjectUtils;
 

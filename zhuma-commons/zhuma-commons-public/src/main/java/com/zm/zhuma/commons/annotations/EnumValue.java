@@ -1,6 +1,7 @@
 package com.zm.zhuma.commons.annotations;
 
-import com.zm.zhuma.commons.utils.StringUtil;
+
+import com.zm.zhuma.commons.util.StringUtil;
 
 import javax.validation.Constraint;
 import javax.validation.ConstraintValidator;

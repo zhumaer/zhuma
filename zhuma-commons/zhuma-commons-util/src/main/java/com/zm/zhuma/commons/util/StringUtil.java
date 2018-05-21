@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
 /**
  * @desc 字符串操作工具类

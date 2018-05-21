@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.zm.zhuma.commons.model.Model;
 import com.zm.zhuma.commons.model.qo.PageQO;
-import com.zm.zhuma.commons.utils.BeanUtil;
+import com.zm.zhuma.commons.util.BeanUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

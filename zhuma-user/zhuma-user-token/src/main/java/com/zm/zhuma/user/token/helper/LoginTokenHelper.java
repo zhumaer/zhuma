@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.zm.zhuma.user.model.bo.LoginToken;
 import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.commons.annotations.LoginAuth;
-import com.zm.zhuma.commons.utils.CookieUtil;
-import com.zm.zhuma.commons.utils.RequestContextUtil;
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.CookieUtil;
+import com.zm.zhuma.commons.util.RequestContextUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**

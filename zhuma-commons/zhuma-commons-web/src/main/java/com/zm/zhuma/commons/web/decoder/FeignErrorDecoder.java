@@ -2,7 +2,7 @@ package com.zm.zhuma.commons.web.decoder;
 
 import com.zm.zhuma.commons.exceptions.BusinessException;
 import com.zm.zhuma.commons.web.result.DefaultErrorResult;
-import com.zm.zhuma.commons.utils.JsonUtil;
+import com.zm.zhuma.commons.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 

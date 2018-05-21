@@ -3,7 +3,7 @@ package com.zm.zhuma.commons.web.interceptor;
 import com.zm.zhuma.commons.annotations.LoginAuth;
 import com.zm.zhuma.commons.enums.ResultCode;
 import com.zm.zhuma.commons.exceptions.BusinessException;
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import com.zm.zhuma.user.model.bo.LoginToken;
 import com.zm.zhuma.user.model.bo.LoginUser;
 import com.zm.zhuma.user.token.helper.LoginTokenHelper;

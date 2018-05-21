@@ -16,8 +16,8 @@ import com.zm.zhuma.commons.attributes.service.AttributeService;
 
 import com.google.common.collect.Lists;
 
-import com.zm.zhuma.commons.utils.CollectionUtil;
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.CollectionUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -191,14 +191,10 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		List<String> previousKeyList = Lists.newArrayList();
 		List<String> currentKeyList = Lists.newArrayList();
 		if (!CollectionUtil.isEmpty(previousMap)) {
-			previousKeyList = previousMap.keySet().stream().map(c -> {
-				return c;
-			}).collect(Collectors.toList());
+			previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
 		}
 		if (!CollectionUtil.isEmpty(attributes)) {
-			currentKeyList = attributes.keySet().stream().map(c -> {
-				return c;
-			}).collect(Collectors.toList());
+			currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
 		}
 
 		List<String> addKeyList = CollectionUtil.subtract(currentKeyList,

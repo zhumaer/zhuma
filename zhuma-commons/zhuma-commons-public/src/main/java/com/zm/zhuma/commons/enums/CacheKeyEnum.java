@@ -1,6 +1,6 @@
 package com.zm.zhuma.commons.enums;
 
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 
 /**
  * 统一定义缓存KEY

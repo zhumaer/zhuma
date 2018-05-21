@@ -4,7 +4,7 @@ import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.commons.web.result.DefaultErrorResult;
 import com.zm.zhuma.commons.web.result.PlatformResult;
 import com.zm.zhuma.commons.web.result.Result;
-import com.zm.zhuma.commons.utils.RequestContextUtil;
+import com.zm.zhuma.commons.util.RequestContextUtil;
 import com.zm.zhuma.commons.web.interceptor.ResponseResultInterceptor;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

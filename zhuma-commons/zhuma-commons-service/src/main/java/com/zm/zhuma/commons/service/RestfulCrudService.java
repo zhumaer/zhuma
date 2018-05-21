@@ -20,7 +20,7 @@ public interface RestfulCrudService<E, PK> {
 	E add(@RequestBody E e);
 
 	@DeleteMapping("{id}")
-	void deleteById(PK id);
+	int deleteById(@PathVariable("id") PK id);
 
 	@PatchMapping("{id}")
 	E updateByIdSelective(@PathVariable("id") PK id, @RequestBody E record);

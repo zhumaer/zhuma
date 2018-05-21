@@ -1,10 +1,9 @@
 package com.zm.zhuma.commons.web.interceptor;
 
 import com.zm.zhuma.commons.enums.EnvironmentEnum;
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

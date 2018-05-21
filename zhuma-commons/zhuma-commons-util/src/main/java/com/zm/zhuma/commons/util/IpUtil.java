@@ -1,7 +1,6 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -17,9 +16,8 @@ import java.util.regex.Pattern;
  * @author zhumaer
  * @since 6/20/2017 16:37 PM
  */
+@Slf4j
 public class IpUtil {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(AESUtil.class);
 
 	private static final String IP_PATTERN = "^(?:(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\.){3}(?:[01]?\\d{1,2}|2[0-4]\\d|25[0-5])\\b";
 
@@ -89,7 +87,7 @@ public class IpUtil {
 					InetAddress inet = InetAddress.getLocalHost();
 					ip = inet.getHostAddress();
 				} catch (UnknownHostException e) {
-					LOGGER.error("getRealIp occurs error, caused by: ", e);
+					log.error("getRealIp occurs error, caused by: ", e);
 				}
 			}
 		}
@@ -124,7 +122,7 @@ public class IpUtil {
 				}
 			}
 		} catch (Exception e) {
-			LOGGER.error("getServiceIp occurs error, caused by: ", e);
+			log.error("getServiceIp occurs error, caused by: ", e);
 		}
 
 		return ipsStr;

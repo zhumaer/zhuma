@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 
-import com.zm.zhuma.commons.annotations.FieldAlias;
+import com.zm.zhuma.commons.util.annotations.FieldAlias;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;

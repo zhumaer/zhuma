@@ -31,8 +31,8 @@ public class RestfulCrudServiceImpl<E extends PO<PK>, PK> extends BaseMySqlCrudS
 
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@Override
-	public void deleteById(@PathVariable("id") PK id) {
-		super.deleteByPk(id);
+	public int deleteById(@PathVariable("id") PK id) {
+		return super.deleteByPk(id);
 	}
 
 	@Override

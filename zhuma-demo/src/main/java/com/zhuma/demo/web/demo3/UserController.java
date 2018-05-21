@@ -32,4 +32,13 @@ public class UserController {
         return userClient.add(user);
     }
 
+    /**
+     * 通常系统都是不允许删除用户的（删除也是逻辑删除），当你的userClient使用了RestfulCrudService时，如果不想支持该方法，
+     * 就覆盖它，并抛出MethodNotAllowException
+     */
+    @ApiOperation("删除用户")
+    @DeleteMapping("{id}")
+    public void addUser(@PathVariable("id") String id) {
+        userClient.deleteById(id);
+    }
 }

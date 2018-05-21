@@ -1,9 +1,11 @@
 package com.zm.zhuma.user.service.web;
 
+import com.zm.zhuma.commons.exceptions.MethodNotAllowException;
 import com.zm.zhuma.commons.service.impl.RestfulCrudServiceImpl;
 import com.zm.zhuma.user.client.UserClient;
 import com.zm.zhuma.user.model.po.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,4 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController("userClientService")
 @RequestMapping("/users")
 public class UserClientService extends RestfulCrudServiceImpl<User, String> implements UserClient {
+
+    @Override
+    public int deleteById(@PathVariable("id") String id) {
+        throw new MethodNotAllowException();
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;

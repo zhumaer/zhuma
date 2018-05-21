@@ -2,7 +2,7 @@ package com.zm.zhuma.commons.exceptions;
 
 import com.zm.zhuma.commons.enums.ResultCode;
 import com.zm.zhuma.commons.enums.BusinessExceptionEnum;
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import lombok.Data;
 
 /**

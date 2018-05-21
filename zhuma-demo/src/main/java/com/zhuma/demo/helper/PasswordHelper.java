@@ -1,7 +1,7 @@
 package com.zhuma.demo.helper;
 
 
-import com.zm.zhuma.commons.utils.StringUtil;
+import com.zm.zhuma.commons.util.StringUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.UUID;

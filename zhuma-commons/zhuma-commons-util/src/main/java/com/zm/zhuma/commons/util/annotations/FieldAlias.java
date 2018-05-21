@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.annotations;
+package com.zm.zhuma.commons.util.annotations;
 
 
 import java.lang.annotation.*;

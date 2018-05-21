@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.utils;
+package com.zm.zhuma.commons.util;
 
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.request.RequestContextHolder;
