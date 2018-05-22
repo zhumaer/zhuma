@@ -1,4 +1,4 @@
-package com.zm.zhuma.commons.helper;
+package com.zm.zhuma.commons.web.helper;
 
 import com.google.common.collect.Lists;
 import com.zm.zhuma.commons.model.bo.ParameterInvalidItem;

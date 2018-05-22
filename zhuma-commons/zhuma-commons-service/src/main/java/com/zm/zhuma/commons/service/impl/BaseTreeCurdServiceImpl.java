@@ -7,6 +7,7 @@ import com.zm.zhuma.commons.service.TreeCrudService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -42,7 +43,7 @@ public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends 
 
 	private Node<E> buildTree(Node<E> eNode) {
 		List<Node<E>> descendantNodes = getDescendantNodes(eNode.getParent().getId());
-		List<Node<E>> children = eNode.getChildren();
+		List<Node<E>> children = eNode.getChildren() == null ? Lists.newArrayList() : eNode.getChildren();
 		children.addAll(descendantNodes);
 		eNode.setChildren(children);
 		for (Node<E> node : descendantNodes) {

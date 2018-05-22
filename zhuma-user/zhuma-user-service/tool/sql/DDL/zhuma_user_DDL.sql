@@ -27,3 +27,16 @@ CREATE TABLE `login_credential` (
   UNIQUE KEY `uk_account_type` (`account`,`type`),
   UNIQUE KEY `uk_user_id_type` (`user_id`,`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录凭证';
+
+-- 组织架构表
+DROP TABLE IF EXISTS `org`;
+CREATE TABLE `org` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(64) NOT NULL COMMENT '组织架构名称',
+  `type` varchar(32) NOT NULL COMMENT '类型',
+  `sort` int(11) DEFAULT 0 COMMENT '排序值',
+  `parent_id` int(11) NOT NULL COMMENT '父ID',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='组织架构';

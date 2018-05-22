@@ -15,7 +15,7 @@ import javax.persistence.Column;
 public abstract class BaseSortTreePO<PK> extends BaseTreePO<PK> implements SortTreePO<PK>{
 
 	@ApiModelProperty(value = "排序值")
-	@Column
-	private Long sort;
+	@Column(name = "sort")
+	private Integer sort;
 
 }

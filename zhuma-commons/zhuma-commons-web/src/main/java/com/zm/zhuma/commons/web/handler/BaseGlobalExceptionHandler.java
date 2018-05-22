@@ -2,7 +2,7 @@ package com.zm.zhuma.commons.web.handler;
 
 import com.zm.zhuma.commons.enums.ResultCode;
 import com.zm.zhuma.commons.exceptions.BusinessException;
-import com.zm.zhuma.commons.helper.ParameterInvalidItemHelper;
+import com.zm.zhuma.commons.web.helper.ParameterInvalidItemHelper;
 import com.zm.zhuma.commons.model.bo.ParameterInvalidItem;
 import com.zm.zhuma.commons.web.result.DefaultErrorResult;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 10/10/2017 9:54 AM
  */
 @Slf4j
-public class BaseGlobalExceptionHandler {
+public abstract class BaseGlobalExceptionHandler {
 
 	/**
 	 * 违反约束异常
