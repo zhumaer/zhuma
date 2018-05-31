@@ -1,6 +1,6 @@
 package com.zm.zhuma.commons.attributes.service;
 
-import com.zm.zhuma.commons.attributes.model.AttributesChangement;
+import com.zm.zhuma.commons.attributes.model.AttributesChange;
 
 import java.util.Map;
 
@@ -66,7 +66,7 @@ public interface AttributeService<OID> {
 	 * @param key 属性key
 	 * @param value 属性值
 	 */
-	AttributesChangement<OID> setAttribute(OID objectId, String key, Object value);
+	AttributesChange<OID> setAttribute(OID objectId, String key, Object value);
 
 	/**
 	 * 设置对象属性
@@ -74,7 +74,7 @@ public interface AttributeService<OID> {
 	 * @param objectId 对象id
 	 * @param attributes 属性map，key：属性key，value：属性值
 	 */
-	AttributesChangement<OID> setAttributes(OID objectId, Map<String, Object> attributes);
+	AttributesChange<OID> setAttributes(OID objectId, Map<String, Object> attributes);
 
 	/**
 	 * 添加对象属性
@@ -82,26 +82,26 @@ public interface AttributeService<OID> {
 	 * @param objectId
 	 * @param attributes
 	 */
-	AttributesChangement<OID> addAttributes(OID objectId, Map<String, Object> attributes);
+	AttributesChange<OID> addAttributes(OID objectId, Map<String, Object> attributes);
 
 	/**
 	 * 删除单个属性
 	 * @param objectId 对象id
 	 * @param key 属性key
 	 */
-	AttributesChangement<OID> removeAttribute(OID objectId, String key);
+	AttributesChange<OID> removeAttribute(OID objectId, String key);
 
 	/**
 	 * 删除对象属性
 	 * @param objectId 对象id
 	 */
-	AttributesChangement<OID> removeAttributes(OID objectId);
+	AttributesChange<OID> removeAttributes(OID objectId);
 
 	/**
 	 * 删除对象属性
 	 * @param objectId 对象id
 	 * @param keys 属性keys
 	 */
-	AttributesChangement<OID> removeAttributes(OID objectId, Iterable<String> keys);
+	AttributesChange<OID> removeAttributes(OID objectId, Iterable<String> keys);
 
 }

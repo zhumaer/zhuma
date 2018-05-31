@@ -1,17 +1,19 @@
 package com.zm.zhuma.commons.attributes.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Maps;
 import com.zm.zhuma.commons.attributes.dao.AttributeDao;
 import com.zm.zhuma.commons.attributes.event.publisher.AttributeEventPublisher;
 import com.zm.zhuma.commons.attributes.model.Attribute;
-import com.zm.zhuma.commons.attributes.model.AttributeChangement;
+import com.zm.zhuma.commons.attributes.model.AttributeChange;
 import com.zm.zhuma.commons.attributes.model.AttributesChangedEvent;
-import com.zm.zhuma.commons.attributes.model.AttributesChangement;
+import com.zm.zhuma.commons.attributes.model.AttributesChange;
 import com.zm.zhuma.commons.attributes.service.AttributeService;
 
 import com.google.common.collect.Lists;
@@ -20,6 +22,8 @@ import com.zm.zhuma.commons.util.CollectionUtil;
 import com.zm.zhuma.commons.util.StringUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.exceptions.TooManyResultsException;
+import org.springframework.util.Assert;
 
 @Slf4j
 @Setter
@@ -33,46 +37,42 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Object getAttribute(OID objectId, String key) {
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId),
-				Lists.newArrayList(key));
-		if (!CollectionUtil.isEmpty(list)) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(key, "key is not null");
+
+		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(key));
+
+		if (list.size() == 0) {
+			return null;
+		} else if (list.size() == 1) {
 			return convertType(list.get(0));
+		} else {
+			throw new TooManyResultsException();
 		}
-		return null;
 	}
 
 	@Override
 	public Map<String, Object> getAttributes(OID objectId) {
+		Assert.notNull(objectId, "objectId is not null");
+
 		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), null);
 
-		Map<String, Object> map = new HashMap<>(16);
-		if (!CollectionUtil.isEmpty(list)) {
-			for (Attribute<OID> attribute : list) {
-				map.put(attribute.getKey(), convertType(attribute));
-			}
-		}
-		return map;
+		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
 	}
 
 	@Override
 	public Map<String, Object> getAttributes(OID objectId, Iterable<String> keys) {
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId),
-				Lists.newArrayList(keys));
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(keys, "keys is not null");
 
-		Map<String, Object> map = new HashMap<>(16);
-		if (!CollectionUtil.isEmpty(list)) {
-			for (Attribute<OID> attribute : list) {
-				map.put(attribute.getKey(), convertType(attribute));
-			}
-		}
-		return map;
+		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(keys));
+
+		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
 	}
 
 	@Override
 	public Map<OID, Map<String, Object>> getAttributes(Iterable<OID> objectIds, Iterable<String> keys) {
-		Map<OID, Map<String, Object>> map = new HashMap<>(16);
-
-		// final Iterable<String> attrKeys = keys;
+		Map<OID, Map<String, Object>> map = Maps.newHashMap();
 
 		objectIds.forEach(objectId -> {
 			Map<String, Object> partMap = getAttributes(objectId, keys);
@@ -84,7 +84,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Map<OID, Map<String, Object>> getAttributes(Iterable<OID> objectIds) {
-		Map<OID, Map<String, Object>> map = new HashMap<>(16);
+		Assert.notNull(objectIds, "objectIds is not null");
+
+		Map<OID, Map<String, Object>> map = Maps.newHashMap();
 
 		objectIds.forEach(objectId -> {
 			Map<String, Object> partMap = getAttributes(objectId);
@@ -96,30 +98,32 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Map<OID, Object> getAttributes(Iterable<OID> objectIds, String key) {
-		List<OID> objIds = Lists.newArrayList();
-		List<String> keys = Lists.newArrayList();
-		if (null != objectIds) {
-			objIds = Lists.newArrayList(objectIds);
-		}
-		if (StringUtil.isNotEmpty(key)) {
-			keys = Lists.newArrayList(key);
-		}
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, objIds, keys);
+		Assert.notNull(objectIds, "objectIds is not null");
+		Assert.notNull(key, "key is not null");
 
-		Map<OID, Object> map = new HashMap<>(16);
-		if (!CollectionUtil.isEmpty(list)) {
-			for (Attribute<OID> attribute : list) {
-				map.put(attribute.getObjectId(), convertType(attribute));
-			}
-		}
-		return map;
+		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectIds), Lists.newArrayList(key));
+
+		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, attribute -> this.convertType(attribute),(key1, key2) -> key2));
 	}
 
 	@Override
-	public AttributesChangement<OID> setAttribute(OID objectId, String key, Object value) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public Map<OID, Object> getAttributes(Iterable<OID> objectIds, String key, Object value) {
+		Assert.notNull(objectIds, "objectIds is not null");
+		Assert.notNull(key, "key is not null");
+
+		List<Attribute<OID>> list = attributeDao.getAttrMapByKeyAndValue(table, Lists.newArrayList(objectIds), key, value);
+
+		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, attribute -> this.convertType(attribute),(key1, key2) -> key2));
+	}
+
+	@Override
+	public AttributesChange<OID> setAttribute(OID objectId, String key, Object value) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(key, "key is not null");
+
+		Map<String, AttributeChange> added = Maps.newHashMap();
+		Map<String, AttributeChange> updated = Maps.newHashMap();
+		Map<String, AttributeChange> removed = Maps.newHashMap();
 
 		List<Attribute<OID>> addAttrList = Lists.newArrayList();
 		Attribute<OID> updateAttr = new Attribute<>();
@@ -134,32 +138,32 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 					attribute = new Attribute<>();
 					if (entry.getKey().equals(key)) {
 						updated.put(entry.getKey(),
-								AttributeChangement.builder().previous(entry.getValue()).current(value).build());
+								AttributeChange.builder().previous(entry.getValue()).current(value).build());
 						attribute.setKey(key);
 						attribute.setObjectId(objectId);
 						convertType(value, attribute);
 						updateAttr = attribute;
 					} else {
 						removed.put(entry.getKey(),
-								AttributeChangement.builder().previous(entry.getValue()).current(value).build());
+								AttributeChange.builder().previous(entry.getValue()).current(value).build());
 						removeKeyList.add(entry.getKey());
 					}
 				}
 			} else {
-				added.put(key, AttributeChangement.builder().previous(null).current(value).build());
+				added.put(key, AttributeChange.builder().previous(null).current(value).build());
 				attribute.setKey(key);
 				attribute.setObjectId(objectId);
 				convertType(value, attribute);
 				addAttrList.add(attribute);
 				for (Map.Entry<String, Object> entry : previousMap.entrySet()) {
 					removed.put(entry.getKey(),
-							AttributeChangement.builder().previous(entry.getValue()).current(value).build());
+							AttributeChange.builder().previous(entry.getValue()).current(value).build());
 
 					removeKeyList.add(entry.getKey());
 				}
 			}
 		} else {
-			added.put(key, AttributeChangement.builder().previous(null).current(value).build());
+			added.put(key, AttributeChange.builder().previous(null).current(value).build());
 
 			attribute.setKey(key);
 			attribute.setObjectId(objectId);
@@ -181,10 +185,13 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
-	public AttributesChangement<OID> setAttributes(OID objectId, Map<String, Object> attributes) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public AttributesChange<OID> setAttributes(OID objectId, Map<String, Object> attributes) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(attributes, "attributes is not null");
+
+		Map<String, AttributeChange> added = Maps.newHashMap();
+		Map<String, AttributeChange> updated = Maps.newHashMap();
+		Map<String, AttributeChange> removed = Maps.newHashMap();
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
@@ -210,7 +217,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attribute.setObjectId(objectId);
 			convertType(attributes.get(c), attribute);
 
-			added.put(c, AttributeChangement.builder().previous(null).current(attributes.get(c)).build());
+			added.put(c, AttributeChange.builder().previous(null).current(attributes.get(c)).build());
 
 			return attribute;
 		}).collect(Collectors.toList());
@@ -224,7 +231,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attributeDao.updateAttrs(table, attribute);
 
 			updated.put(c,
-					AttributeChangement.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
+					AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 		});
 
 		if (!CollectionUtil.isEmpty(addAttrList)) {
@@ -232,7 +239,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		}
 		if (!CollectionUtil.isEmpty(removeKeyList)) {
 			removeKeyList.forEach(c -> {
-				removed.put(c, AttributeChangement.builder().previous(previousMap.get(c)).current(null).build());
+				removed.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(null).build());
 			});
 			attributeDao.deleteAttrs(table, objectId, removeKeyList);
 		}
@@ -241,10 +248,13 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
-	public AttributesChangement<OID> addAttributes(OID objectId, Map<String, Object> attributes) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public AttributesChange<OID> addAttributes(OID objectId, Map<String, Object> attributes) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(attributes, "attributes is not null");
+
+		Map<String, AttributeChange> added = Maps.newHashMap();
+		Map<String, AttributeChange> updated = Maps.newHashMap();
+		Map<String, AttributeChange> removed = Maps.newHashMap();
 
 		if (!CollectionUtil.isEmpty(attributes)) {
 			Map<String, Object> previousMap = getAttributes(objectId);
@@ -271,7 +281,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attribute.setObjectId(objectId);
 				convertType(attributes.get(c), attribute);
 
-				added.put(c, AttributeChangement.builder().previous(null).current(attributes.get(c)).build());
+				added.put(c, AttributeChange.builder().previous(null).current(attributes.get(c)).build());
 
 				return attribute;
 			}).collect(Collectors.toList());
@@ -288,7 +298,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attributeDao.updateAttrs(table, attribute);
 
 				updated.put(c,
-						AttributeChangement.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
+						AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 			});
 		}
 
@@ -296,17 +306,20 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
-	public AttributesChangement<OID> removeAttribute(OID objectId, String key) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public AttributesChange<OID> removeAttribute(OID objectId, String key) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(key, "key is not null");
+
+		Map<String, AttributeChange> added = new HashMap<>(16);
+		Map<String, AttributeChange> updated = new HashMap<>(16);
+		Map<String, AttributeChange> removed = new HashMap<>(16);
 
 		List<String> removeKeyList = Lists.newArrayList();
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
 		if (!CollectionUtil.isEmpty(previousMap) && previousMap.containsKey(key)) {
-			removed.put(key, AttributeChangement.builder().previous(previousMap.get(key)).current(null).build());
+			removed.put(key, AttributeChange.builder().previous(previousMap.get(key)).current(null).build());
 			removeKeyList.add(key);
 			attributeDao.deleteAttrs(table, objectId, removeKeyList);
 		}
@@ -317,10 +330,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
-	public AttributesChangement<OID> removeAttributes(OID objectId) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public AttributesChange<OID> removeAttributes(OID objectId) {
+		Assert.notNull(objectId, "objectId is not null");
+
+		Map<String, AttributeChange> added = Maps.newHashMap();
+		Map<String, AttributeChange> updated = Maps.newHashMap();
+		Map<String, AttributeChange> removed = Maps.newHashMap();
 
 		List<String> removeKeyList = Lists.newArrayList();
 
@@ -329,7 +344,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		if (!CollectionUtil.isEmpty(previousMap)) {
 			for (Map.Entry<String, Object> entry : previousMap.entrySet()) {
 				removed.put(entry.getKey(),
-						AttributeChangement.builder().previous(entry.getValue()).current(null).build());
+						AttributeChange.builder().previous(entry.getValue()).current(null).build());
 				removeKeyList.add(entry.getKey());
 			}
 			if (!CollectionUtil.isEmpty(removeKeyList)) {
@@ -341,24 +356,24 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
-	public AttributesChangement<OID> removeAttributes(OID objectId, Iterable<String> keys) {
-		Map<String, AttributeChangement> added = new HashMap<>(16);
-		Map<String, AttributeChangement> updated = new HashMap<>(16);
-		Map<String, AttributeChangement> removed = new HashMap<>(16);
+	public AttributesChange<OID> removeAttributes(OID objectId, Iterable<String> keys) {
+		Assert.notNull(objectId, "objectId is not null");
+		Assert.notNull(keys, "keys is not null");
+
+		Map<String, AttributeChange> added = Maps.newHashMap();
+		Map<String, AttributeChange> updated = Maps.newHashMap();
+		Map<String, AttributeChange> removed = Maps.newHashMap();
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
-		List<String> previousKeyList = previousMap.keySet().stream().map(c -> {
-			return c;
-		}).collect(Collectors.toList());
+		List<String> previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
 		List<String> currentKeyList = (List<String>) keys;
 
-		List<String> removeKeyList = CollectionUtil.intersection(previousKeyList,
-				currentKeyList);
+		List<String> removeKeyList = CollectionUtil.intersection(previousKeyList, currentKeyList);
 
 		if (!CollectionUtil.isEmpty(previousMap) && !CollectionUtil.isEmpty(removeKeyList)) {
 			for (String key : removeKeyList) {
-				removed.put(key, AttributeChangement.builder().previous(previousMap.get(key)).current(null).build());
+				removed.put(key, AttributeChange.builder().previous(previousMap.get(key)).current(null).build());
 			}
 			attributeDao.deleteAttrs(table, objectId, removeKeyList);
 		}
@@ -368,11 +383,20 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	/** 保存扩展属性时对象类型转换 */
 	public void convertType(Object obj, Attribute<OID> attribute) {
-		String type = null;
-		String value = null;
+		String type;
+		String value;
 
 		if (obj instanceof Integer) {
 			type = Integer.class.getSimpleName();
+			value = obj.toString();
+		} else if (obj instanceof Float) {
+			type = Float.class.getSimpleName();
+			value = obj.toString();
+		}  else if (obj instanceof Double) {
+			type = Double.class.getSimpleName();
+			value = obj.toString();
+		} else if (obj instanceof BigDecimal) {
+			type = BigDecimal.class.getSimpleName();
 			value = obj.toString();
 		} else if (obj instanceof Long) {
 			type = Long.class.getSimpleName();
@@ -381,9 +405,6 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			type = Date.class.getSimpleName();
 			Date date = (Date) obj;
 			value = date.getTime() + "";
-		} else if (obj instanceof Double) {
-			type = Double.class.getSimpleName();
-			value = obj.toString();
 		} else if (obj instanceof Boolean) {
 			type = Boolean.class.getSimpleName();
 			value = obj.toString();
@@ -412,17 +433,21 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	public Object convertType(Attribute<OID> attribute) {
 		String type = attribute.getType();
 		String value = attribute.getValue();
-		Object result = null;
+		Object result;
 
 		if (Integer.class.getSimpleName().equals(type)) {
 			result = Integer.valueOf(value);
+		} else if (Float.class.getSimpleName().equals(type)) {
+			result = Float.valueOf(value);
+		} else if (Double.class.getSimpleName().equals(type)) {
+			result = Double.valueOf(value);
+		} else if (BigDecimal.class.getSimpleName().equals(type)) {
+			result = BigDecimal.valueOf(Double.valueOf(value));
 		} else if (Long.class.getSimpleName().equals(type)) {
 			result = Long.valueOf(value);
 		} else if (Date.class.getSimpleName().equals(type)) {
 			Date date = new Date(Long.valueOf(value));
 			result = date;
-		} else if (Double.class.getSimpleName().equals(type)) {
-			result = Double.valueOf(value);
 		} else if (Boolean.class.getSimpleName().equals(type)) {
 			result = Boolean.valueOf(value);
 		} else if (String.class.getSimpleName().equals(type)) {
@@ -434,9 +459,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		return result;
 	}
 
-	private AttributesChangement<OID> backResult(OID objectId, Map<String, AttributeChangement> added,
-			Map<String, AttributeChangement> updated, Map<String, AttributeChangement> removed) {
-		AttributesChangement<OID> result = new AttributesChangement<>();
+	private AttributesChange<OID> backResult(OID objectId, Map<String, AttributeChange> added,
+											 Map<String, AttributeChange> updated, Map<String, AttributeChange> removed) {
+		AttributesChange<OID> result = new AttributesChange<>();
 		result.setObjectId(objectId);
 		result.setAdded(added);
 		result.setUpdated(updated);
@@ -451,29 +476,13 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	/**
 	 * 发送属性变更消息
-	 * @param attributesChangement
+	 * @param attributesChange
 	 */
-	private void sendAttributesChangeEvent(AttributesChangement<OID> attributesChangement) {
-		AttributesChangedEvent<OID> event = AttributesChangedEvent.<OID> builder().data(attributesChangement)
+	private void sendAttributesChangeEvent(AttributesChange<OID> attributesChange) {
+		AttributesChangedEvent<OID> event = AttributesChangedEvent.<OID> builder().data(attributesChange)
 				.occurredTime(new Date()).build();
 		eventPublisher.publishAttributesChangedEvent(event, table);
 		log.debug("{} is published.", event);
 	}
 
-	@Override
-	public Map<OID, Object> getAttributes(Iterable<OID> objectIds, String key, Object value) {
-		List<OID> objIds = Lists.newArrayList();
-		if (null != objectIds) {
-			objIds = Lists.newArrayList(objectIds);
-		}
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeyAndValue(table, objIds, key, value);;
-
-		Map<OID, Object> map = new HashMap<>(16);
-		if (!CollectionUtil.isEmpty(list)) {
-			for (Attribute<OID> attribute : list) {
-				map.put(attribute.getObjectId(), convertType(attribute));
-			}
-		}
-		return map;
-	}
 }

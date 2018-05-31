@@ -12,17 +12,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttributesChangement<OID> implements Serializable {
+public class AttributesChange<OID> implements Serializable {
 	private static final long serialVersionUID = -5008407345712737581L;
 
 	private String objectType;
 
 	private OID objectId;
 
-	private Map<String, AttributeChangement> added;
+	private Map<String, AttributeChange> added;
 
-	private Map<String, AttributeChangement> updated;
+	private Map<String, AttributeChange> updated;
 
-	private Map<String, AttributeChangement> removed;
+	private Map<String, AttributeChange> removed;
 
 }

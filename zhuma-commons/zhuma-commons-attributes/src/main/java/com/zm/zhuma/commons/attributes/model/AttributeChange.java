@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttributeChangement implements Serializable {
+public class AttributeChange implements Serializable {
 	private static final long serialVersionUID = -662090239071614840L;
 
 	private Object previous;

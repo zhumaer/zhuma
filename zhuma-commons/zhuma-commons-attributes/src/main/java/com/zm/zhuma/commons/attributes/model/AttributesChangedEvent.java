@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class AttributesChangedEvent<OID> implements Serializable {
 	private static final long serialVersionUID = -5098574719305009319L;
 
-	private AttributesChangement<OID> data;
+	private AttributesChange<OID> data;
 
 	private Date occurredTime;
 
