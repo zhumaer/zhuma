@@ -47,7 +47,7 @@
 	   </foreach>
 	</insert>
 
-	<update id="updateAttrs">
+	<update id="updateAttr">
 		update ${tableName}
 		<set>
 			<if test="attr.value != null">`value` = #{attr.value},</if>
@@ -59,7 +59,30 @@
 			<if test="attr.key != null and attr.key != '' "> and `key` = #{attr.key}</if>
 		</where>
 	</update>
-	
+
+	<update id="updateAttrs">
+		update ${tableName}
+
+		<set>
+			`value` = CASE
+			<foreach collection="attrs" item="attr" index="index">
+				when id = #{attr.id} then #{attr.value}
+			</foreach>
+			`type` = CASE
+			<foreach collection="attrs" item="attr" index="index">
+				when id = #{attr.id} then #{attr.type}
+			</foreach>
+		</set>
+
+		<where>
+			`id` in
+			<foreach collection="attrs" item="attr" index="index" open="(" separator="," close=")">
+				#{attr.id}
+			</foreach>
+		</where>
+
+	</update>
+
 	<delete id="deleteAttrs">
 		delete from ${tableName} where objectId=#{objectId} 
 		<if test="keys != null and keys.size() > 0">

@@ -15,7 +15,9 @@ public interface AttributeDao<OID> {
 	void addAttrs(@Param(value = "tableName") String tableName,
                   @Param(value = "attributes") List<Attribute<OID>> attributes);
 
-	void updateAttrs(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
+	void updateAttr(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
+
+	void updateAttrs(@Param(value = "tableName") String tableName, @Param("attrs") List<Attribute<OID>> attributes);
 
 	void deleteAttrs(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId,
                      @Param(value = "keys") List<String> keys);

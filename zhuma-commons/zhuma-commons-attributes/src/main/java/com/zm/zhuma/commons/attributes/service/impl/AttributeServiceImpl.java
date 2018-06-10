@@ -2,7 +2,6 @@ package com.zm.zhuma.commons.attributes.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,7 +18,6 @@ import com.zm.zhuma.commons.attributes.service.AttributeService;
 import com.google.common.collect.Lists;
 
 import com.zm.zhuma.commons.util.CollectionUtil;
-import com.zm.zhuma.commons.util.StringUtil;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
@@ -118,71 +116,11 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public AttributesChange<OID> setAttribute(OID objectId, String key, Object value) {
-		Assert.notNull(objectId, "objectId is not null");
-		Assert.notNull(key, "key is not null");
-
-		Map<String, AttributeChange> added = Maps.newHashMap();
-		Map<String, AttributeChange> updated = Maps.newHashMap();
-		Map<String, AttributeChange> removed = Maps.newHashMap();
-
-		List<Attribute<OID>> addAttrList = Lists.newArrayList();
-		Attribute<OID> updateAttr = new Attribute<>();
-		List<String> removeKeyList = Lists.newArrayList();
-
-		Map<String, Object> previousMap = getAttributes(objectId);
-
-		Attribute<OID> attribute = new Attribute<>();
-		if (!CollectionUtil.isEmpty(previousMap)) {
-			if (previousMap.containsKey(key)) {
-				for (Map.Entry<String, Object> entry : previousMap.entrySet()) {
-					attribute = new Attribute<>();
-					if (entry.getKey().equals(key)) {
-						updated.put(entry.getKey(),
-								AttributeChange.builder().previous(entry.getValue()).current(value).build());
-						attribute.setKey(key);
-						attribute.setObjectId(objectId);
-						convertType(value, attribute);
-						updateAttr = attribute;
-					} else {
-						removed.put(entry.getKey(),
-								AttributeChange.builder().previous(entry.getValue()).current(value).build());
-						removeKeyList.add(entry.getKey());
-					}
-				}
-			} else {
-				added.put(key, AttributeChange.builder().previous(null).current(value).build());
-				attribute.setKey(key);
-				attribute.setObjectId(objectId);
-				convertType(value, attribute);
-				addAttrList.add(attribute);
-				for (Map.Entry<String, Object> entry : previousMap.entrySet()) {
-					removed.put(entry.getKey(),
-							AttributeChange.builder().previous(entry.getValue()).current(value).build());
-
-					removeKeyList.add(entry.getKey());
-				}
-			}
-		} else {
-			added.put(key, AttributeChange.builder().previous(null).current(value).build());
-
-			attribute.setKey(key);
-			attribute.setObjectId(objectId);
-			convertType(value, attribute);
-			addAttrList.add(attribute);
-		}
-
-		if (!CollectionUtil.isEmpty(addAttrList)) {
-			attributeDao.addAttrs(table, addAttrList);
-		}
-		if (null != updateAttr && StringUtil.isNotEmpty(updateAttr.getKey())) {
-			attributeDao.updateAttrs(table, updateAttr);
-		}
-		if (!CollectionUtil.isEmpty(removeKeyList)) {
-			attributeDao.deleteAttrs(table, objectId, removeKeyList);
-		}
-
-		return backResult(objectId, added, updated, removed);
+		Map<String, Object> attributes = Maps.newHashMap();
+		attributes.put(key, value);
+		return this.setAttributes(objectId, attributes);
 	}
+
 
 	@Override
 	public AttributesChange<OID> setAttributes(OID objectId, Map<String, Object> attributes) {
@@ -195,21 +133,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
-		List<String> previousKeyList = Lists.newArrayList();
-		List<String> currentKeyList = Lists.newArrayList();
-		if (!CollectionUtil.isEmpty(previousMap)) {
-			previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
-		}
-		if (!CollectionUtil.isEmpty(attributes)) {
-			currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
-		}
+		List<String> previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
+		List<String> currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
 
-		List<String> addKeyList = CollectionUtil.subtract(currentKeyList,
-				previousKeyList);
-		List<String> updateKeyList = CollectionUtil.intersection(currentKeyList,
-				previousKeyList);
-		List<String> removeKeyList = CollectionUtil.subtract(previousKeyList,
-				currentKeyList);
+		List<String> addKeyList = CollectionUtil.subtract(currentKeyList, previousKeyList);
+		List<String> updateKeyList = CollectionUtil.intersection(currentKeyList, previousKeyList);
+		List<String> removeKeyList = CollectionUtil.subtract(previousKeyList, currentKeyList);
 
 		List<Attribute<OID>> addAttrList = addKeyList.stream().map(c -> {
 			Attribute<OID> attribute = new Attribute<>();
@@ -222,29 +151,27 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			return attribute;
 		}).collect(Collectors.toList());
 
+		if (!CollectionUtil.isEmpty(addAttrList)) {
+			attributeDao.addAttrs(table, addAttrList);
+		}
+
 		updateKeyList.forEach(c -> {
 			Attribute<OID> attribute = new Attribute<>();
 			attribute.setKey(c);
 			attribute.setObjectId(objectId);
 			convertType(attributes.get(c), attribute);
 
-			attributeDao.updateAttrs(table, attribute);
+			attributeDao.updateAttr(table, attribute);
 
-			updated.put(c,
-					AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
+			updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 		});
 
-		if (!CollectionUtil.isEmpty(addAttrList)) {
-			attributeDao.addAttrs(table, addAttrList);
-		}
 		if (!CollectionUtil.isEmpty(removeKeyList)) {
-			removeKeyList.forEach(c -> {
-				removed.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(null).build());
-			});
+			removeKeyList.forEach(c -> removed.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(null).build()));
 			attributeDao.deleteAttrs(table, objectId, removeKeyList);
 		}
 
-		return backResult(objectId, added, updated, removed);
+		return buildResult(objectId, added, updated, removed);
 	}
 
 	@Override
@@ -259,22 +186,13 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		if (!CollectionUtil.isEmpty(attributes)) {
 			Map<String, Object> previousMap = getAttributes(objectId);
 
-			List<String> previousKeyList = Lists.newArrayList();
+			List<String> previousKeyList = Lists.newArrayList(previousMap.keySet());
 
-			if (!CollectionUtil.isEmpty(previousMap)) {
-				previousKeyList = previousMap.keySet().stream().map(c -> {
-					return c;
-				}).collect(Collectors.toList());
-			}
+			List<String> currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
 
-			List<String> currentKeyList = attributes.keySet().stream().map(c -> {
-				return c;
-			}).collect(Collectors.toList());
+			List<String> addKeyList = CollectionUtil.subtract(currentKeyList, previousKeyList);
+			List<String> updateKeyList = CollectionUtil.intersection(currentKeyList, previousKeyList);
 
-			List<String> addKeyList = CollectionUtil.subtract(currentKeyList,
-					previousKeyList);
-			List<String> updateKeyList = CollectionUtil.intersection(currentKeyList,
-					previousKeyList);
 			List<Attribute<OID>> addAttrList = addKeyList.stream().map(c -> {
 				Attribute<OID> attribute = new Attribute<>();
 				attribute.setKey(c);
@@ -285,6 +203,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 				return attribute;
 			}).collect(Collectors.toList());
+
 			if (!CollectionUtil.isEmpty(addAttrList)) {
 				attributeDao.addAttrs(table, addAttrList);
 			}
@@ -295,38 +214,18 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attribute.setObjectId(objectId);
 				convertType(attributes.get(c), attribute);
 
-				attributeDao.updateAttrs(table, attribute);
+				attributeDao.updateAttr(table, attribute);
 
-				updated.put(c,
-						AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
+				updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 			});
 		}
 
-		return backResult(objectId, added, updated, removed);
+		return buildResult(objectId, added, updated, removed);
 	}
 
 	@Override
 	public AttributesChange<OID> removeAttribute(OID objectId, String key) {
-		Assert.notNull(objectId, "objectId is not null");
-		Assert.notNull(key, "key is not null");
-
-		Map<String, AttributeChange> added = new HashMap<>(16);
-		Map<String, AttributeChange> updated = new HashMap<>(16);
-		Map<String, AttributeChange> removed = new HashMap<>(16);
-
-		List<String> removeKeyList = Lists.newArrayList();
-
-		Map<String, Object> previousMap = getAttributes(objectId);
-
-		if (!CollectionUtil.isEmpty(previousMap) && previousMap.containsKey(key)) {
-			removed.put(key, AttributeChange.builder().previous(previousMap.get(key)).current(null).build());
-			removeKeyList.add(key);
-			attributeDao.deleteAttrs(table, objectId, removeKeyList);
-		}
-
-		attributeDao.deleteAttrs(table, objectId, Lists.newArrayList(key));
-
-		return backResult(objectId, added, updated, removed);
+		return this.removeAttributes(objectId, Lists.newArrayList(key));
 	}
 
 	@Override
@@ -343,16 +242,16 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 		if (!CollectionUtil.isEmpty(previousMap)) {
 			for (Map.Entry<String, Object> entry : previousMap.entrySet()) {
-				removed.put(entry.getKey(),
-						AttributeChange.builder().previous(entry.getValue()).current(null).build());
+				removed.put(entry.getKey(), AttributeChange.builder().previous(entry.getValue()).current(null).build());
 				removeKeyList.add(entry.getKey());
 			}
+
 			if (!CollectionUtil.isEmpty(removeKeyList)) {
 				attributeDao.deleteAttrs(table, objectId, removeKeyList);
 			}
 		}
 
-		return backResult(objectId, added, updated, removed);
+		return buildResult(objectId, added, updated, removed);
 	}
 
 	@Override
@@ -367,7 +266,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Map<String, Object> previousMap = getAttributes(objectId);
 
 		List<String> previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
-		List<String> currentKeyList = (List<String>) keys;
+		List<String> currentKeyList =  Lists.newArrayList(keys);
 
 		List<String> removeKeyList = CollectionUtil.intersection(previousKeyList, currentKeyList);
 
@@ -378,7 +277,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attributeDao.deleteAttrs(table, objectId, removeKeyList);
 		}
 
-		return backResult(objectId, added, updated, removed);
+		return buildResult(objectId, added, updated, removed);
 	}
 
 	/** 保存扩展属性时对象类型转换 */
@@ -459,13 +358,8 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		return result;
 	}
 
-	private AttributesChange<OID> backResult(OID objectId, Map<String, AttributeChange> added,
-											 Map<String, AttributeChange> updated, Map<String, AttributeChange> removed) {
-		AttributesChange<OID> result = new AttributesChange<>();
-		result.setObjectId(objectId);
-		result.setAdded(added);
-		result.setUpdated(updated);
-		result.setRemoved(removed);
+	private AttributesChange<OID> buildResult(OID objectId, Map<String, AttributeChange> added,  Map<String, AttributeChange> updated, Map<String, AttributeChange> removed) {
+		AttributesChange<OID> result = AttributesChange.<OID>builder().objectId(objectId).added(added).updated(updated).removed(removed).build();
 
 		if (!CollectionUtil.isEmpty(added) || !CollectionUtil.isEmpty(updated) || !CollectionUtil.isEmpty(removed)) {
 			sendAttributesChangeEvent(result);
@@ -479,8 +373,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	 * @param attributesChange
 	 */
 	private void sendAttributesChangeEvent(AttributesChange<OID> attributesChange) {
-		AttributesChangedEvent<OID> event = AttributesChangedEvent.<OID> builder().data(attributesChange)
-				.occurredTime(new Date()).build();
+
+		AttributesChangedEvent<OID> event = AttributesChangedEvent.<OID>builder()
+				.data(attributesChange)
+				.occurredTime(new Date())
+				.build();
+
 		eventPublisher.publishAttributesChangedEvent(event, table);
 		log.debug("{} is published.", event);
 	}
