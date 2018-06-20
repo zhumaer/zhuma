@@ -13,7 +13,7 @@ import java.util.List;
 @Slf4j
 public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends BaseMySqlCrudServiceImpl<E, PK> implements TreeCrudService<E, PK> {
 
-	private static int MAX_TREE_HIGH = 3;
+	private static int MAX_TREE_HIGH = 10;
 
 	@Override
 	public List<E> selectChildren(PK parentId) {
