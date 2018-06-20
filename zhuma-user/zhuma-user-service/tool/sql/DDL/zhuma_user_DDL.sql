@@ -1,4 +1,6 @@
-﻿-- 用户表
+﻿CREATE SCHEMA IF NOT EXISTS `zhuma` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+
+-- 用户表
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` varchar(64) NOT NULL COMMENT 'ID',
@@ -38,5 +40,6 @@ CREATE TABLE `org` (
   `parent_id` int(11) NOT NULL COMMENT '父ID',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX index_parent_id(`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='组织架构';

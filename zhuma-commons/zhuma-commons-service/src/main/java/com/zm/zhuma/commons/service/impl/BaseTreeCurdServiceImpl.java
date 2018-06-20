@@ -13,6 +13,8 @@ import java.util.List;
 @Slf4j
 public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends BaseMySqlCrudServiceImpl<E, PK> implements TreeCrudService<E, PK> {
 
+	private static int MAX_TREE_HIGH = 3;
+
 	@Override
 	public List<E> selectChildren(PK parentId) {
 		Assert.notNull(parentId, "parentId is null");
@@ -31,23 +33,30 @@ public abstract class BaseTreeCurdServiceImpl<E extends TreePO<PK>, PK> extends 
 	public Node<E> selectNodeByParentId(PK parentId) {
 		Assert.notNull(parentId, "parentId is null");
 
+		int currentTreeHigh = 1;
+
 		Node<E> tree = new Node<>();
 		E parent = super.selectByPk(parentId);
 		if (parent != null) {
 			Node<E> eNode = wrapNode(parent);
-			tree = buildTree(eNode);
+			tree = buildTree(eNode, currentTreeHigh);
 		}
 
 		return tree;
 	}
 
-	private Node<E> buildTree(Node<E> eNode) {
+	private Node<E> buildTree(Node<E> eNode, int currentTreeHigh) {
+		if (currentTreeHigh++ >= MAX_TREE_HIGH) {
+			return eNode;
+		}
+
 		List<Node<E>> descendantNodes = getDescendantNodes(eNode.getParent().getId());
 		List<Node<E>> children = eNode.getChildren() == null ? Lists.newArrayList() : eNode.getChildren();
 		children.addAll(descendantNodes);
 		eNode.setChildren(children);
+
 		for (Node<E> node : descendantNodes) {
-			buildTree(node);
+			buildTree(node, currentTreeHigh);
 		}
 
 		return eNode;
