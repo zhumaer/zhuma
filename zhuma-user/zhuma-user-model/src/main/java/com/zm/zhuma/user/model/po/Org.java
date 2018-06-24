@@ -19,12 +19,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 /**
- * @desc 用户PO
+ * @desc 组织架构实体
 
  * @author zhumaer
  * @since 6/15/2017 2:48 PM
  */
-@ApiModel("用户PO")
+@ApiModel("组织架构实体")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
