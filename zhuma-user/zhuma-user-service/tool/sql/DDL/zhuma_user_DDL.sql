@@ -28,7 +28,7 @@ CREATE TABLE `login_credential` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_account_type` (`account`,`type`),
   UNIQUE KEY `uk_user_id_type` (`user_id`,`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录凭证';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='登录凭证';
 
 -- 组织架构表
 DROP TABLE IF EXISTS `org`;
@@ -43,3 +43,16 @@ CREATE TABLE `org` (
   PRIMARY KEY (`id`),
   INDEX index_parent_id(`parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='组织架构';
+
+-- 用户属性表
+DROP TABLE IF EXISTS `user_attr`;
+CREATE TABLE `user_attr` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `objectId` varchar(64) NOT NULL COMMENT '对象ID',
+  `key` varchar(64) NOT NULL COMMENT '键',
+  `value` varchar(1024) DEFAULT NULL COMMENT '值',
+  `type` varchar(32) NOT NULL COMMENT '类型',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX uq_object_id_key(`objectId`, `key`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户属性表';
