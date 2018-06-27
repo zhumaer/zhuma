@@ -23,6 +23,7 @@
 		<module>zhuma-commons-web</module>
 		<module>zhuma-commons-elasticsearch</module>
 		<module>zhuma-commons-attributes</module>
+		<module>zhuma-commons-lock</module>
     </modules>
 	
 	<properties>
@@ -70,7 +71,7 @@
 			<version>2.5</version>
 		</dependency>
 
-		<!--mybatis support java 8 time typeHandler -->
+		<!--mybatis handler java 8 time typeHandler -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-typehandlers-jsr310</artifactId>
