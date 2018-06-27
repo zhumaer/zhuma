@@ -5,8 +5,9 @@ import java.util.List;
 import com.zm.zhuma.commons.attributes.model.Attribute;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@Mapper
+@Repository
 public interface AttributeDao<OID> {
 
 	List<Attribute<OID>> getAttrMapByKeys(@Param(value = "tableName") String tableName,
@@ -15,9 +16,7 @@ public interface AttributeDao<OID> {
 	void addAttrs(@Param(value = "tableName") String tableName,
                   @Param(value = "attributes") List<Attribute<OID>> attributes);
 
-	void updateAttr(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
-
-	void updateAttrs(@Param(value = "tableName") String tableName, @Param("attrs") List<Attribute<OID>> attributes);
+	void updateAttrs(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
 
 	void deleteAttrs(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId,
                      @Param(value = "keys") List<String> keys);

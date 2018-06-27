@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dx.commons.attributes.dao.AttributeDao">
+<mapper namespace="com.zm.zhuma.commons.attributes.dao.AttributeDao">
 
-	<select id="getAttrMapByKeys" resultType="com.dx.commons.attributes.model.Attribute">
+	<select id="getAttrMapByKeys" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
@@ -22,7 +22,7 @@
 		</where>
 	</select>
 	
-	<select id="getAttrMapByKeyAndValue" resultType="com.dx.commons.attributes.model.Attribute">
+	<select id="getAttrMapByKeyAndValue" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
@@ -47,7 +47,7 @@
 	   </foreach>
 	</insert>
 
-	<update id="updateAttr">
+	<update id="updateAttrs">
 		update ${tableName}
 		<set>
 			<if test="attr.value != null">`value` = #{attr.value},</if>
@@ -58,29 +58,6 @@
 			<if test="attr.objectId != null and attr.objectId != ''"> and objectId = #{attr.objectId}</if>
 			<if test="attr.key != null and attr.key != '' "> and `key` = #{attr.key}</if>
 		</where>
-	</update>
-
-	<update id="updateAttrs">
-		update ${tableName}
-
-		<set>
-			`value` = CASE
-			<foreach collection="attrs" item="attr" index="index">
-				when id = #{attr.id} then #{attr.value}
-			</foreach>
-			`type` = CASE
-			<foreach collection="attrs" item="attr" index="index">
-				when id = #{attr.id} then #{attr.type}
-			</foreach>
-		</set>
-
-		<where>
-			`id` in
-			<foreach collection="attrs" item="attr" index="index" open="(" separator="," close=")">
-				#{attr.id}
-			</foreach>
-		</where>
-
 	</update>
 
 	<delete id="deleteAttrs">

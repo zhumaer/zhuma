@@ -95,7 +95,7 @@
 			<version>1.2.32</version>
 		</dependency>
 
-		<!--mybatis support java 8 time typeHandler -->
+		<!--mybatis handler java 8 time typeHandler -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-typehandlers-jsr310</artifactId>
@@ -222,6 +222,11 @@
 			<artifactId>guava</artifactId>
 			<version>23.0</version>
 		</dependency>
+        <dependency>
+            <groupId>com.zm</groupId>
+            <artifactId>zhuma-commons-attributes</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 	<!--依赖管理，用于管理spring-cloud的依赖 -->

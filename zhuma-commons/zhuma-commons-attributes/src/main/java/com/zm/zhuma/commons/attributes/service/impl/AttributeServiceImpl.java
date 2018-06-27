@@ -18,13 +18,13 @@ import com.zm.zhuma.commons.attributes.service.AttributeService;
 import com.google.common.collect.Lists;
 
 import com.zm.zhuma.commons.util.CollectionUtil;
+import lombok.Data;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.util.Assert;
 
 @Slf4j
-@Setter
 public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	private String table = null;
@@ -32,6 +32,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	private AttributeDao<OID> attributeDao;
 
 	private AttributeEventPublisher<OID> eventPublisher;
+
+	public AttributeServiceImpl(String table, AttributeDao<OID> attributeDao, AttributeEventPublisher<OID> eventPublisher) {
+		this.table = table;
+		this.attributeDao = attributeDao;
+		this.eventPublisher = eventPublisher;
+	}
 
 	@Override
 	public Object getAttribute(OID objectId, String key) {
@@ -161,7 +167,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attribute.setObjectId(objectId);
 			convertType(attributes.get(c), attribute);
 
-			attributeDao.updateAttr(table, attribute);
+			attributeDao.updateAttrs(table, attribute);
 
 			updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 		});
@@ -214,7 +220,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attribute.setObjectId(objectId);
 				convertType(attributes.get(c), attribute);
 
-				attributeDao.updateAttr(table, attribute);
+				attributeDao.updateAttrs(table, attribute);
 
 				updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 			});
@@ -373,11 +379,15 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	 * @param attributesChange
 	 */
 	private void sendAttributesChangeEvent(AttributesChange<OID> attributesChange) {
+		if (eventPublisher == null) {
+			return;
+		}
 
 		AttributesChangedEvent<OID> event = AttributesChangedEvent.<OID>builder()
 				.data(attributesChange)
 				.occurredTime(new Date())
 				.build();
+
 
 		eventPublisher.publishAttributesChangedEvent(event, table);
 		log.debug("{} is published.", event);
