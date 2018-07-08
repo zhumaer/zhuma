@@ -4,7 +4,6 @@ import com.zm.zhuma.commons.attributes.model.AttributesChange;
 
 import java.util.Map;
 
-
 /**
  * 属性Service
  *
@@ -20,12 +19,29 @@ public interface AttributeService<OID> {
 	Map<String, Object> getAttributes(OID objectId);
 
 	/**
+	 * 获取对象所有属性
+	 * @param objectId 对象id
+	 * @param objectClass 属性对应的类
+	 * @return 所有属性对应转化的类对象
+	 */
+	<T> T getAttributes(OID objectId, Class<T> objectClass);
+
+	/**
 	 * 获取对象某一个属性
 	 * @param objectId 对象id
 	 * @param key 属性key
 	 * @return 属性值
 	 */
 	Object getAttribute(OID objectId, String key);
+
+	/**
+	 * 获取对象某一个属性
+	 * @param objectId 对象id
+	 * @param key 属性key
+	 * @param valueClass 属性value类
+	 * @return 属性值
+	 */
+	<V> V getAttribute(OID objectId, String key, Class<V> valueClass);
 
 	/**
 	 * 获取对象某一批属性

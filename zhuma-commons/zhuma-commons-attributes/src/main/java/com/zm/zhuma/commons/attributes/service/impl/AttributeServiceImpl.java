@@ -17,8 +17,10 @@ import com.zm.zhuma.commons.attributes.service.AttributeService;
 
 import com.google.common.collect.Lists;
 
+import com.zm.zhuma.commons.util.BeanUtil;
 import com.zm.zhuma.commons.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanMap;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.util.Assert;
 
@@ -47,6 +49,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	}
 
 	@Override
+	public <T> T getAttributes(OID objectId, Class<T> objectClass) {
+		Map<String, Object> attrMap = getAttributes(objectId);
+		return null;
+	}
+
+	@Override
 	public Object getAttribute(OID objectId, String key) {
 		Assert.notNull(objectId, "objectId is not null");
 		Assert.notNull(key, "key is not null");
@@ -60,6 +68,12 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		} else {
 			throw new TooManyResultsException();
 		}
+	}
+
+	@Override
+	public <V> V getAttribute(OID objectId, String key, Class<V> valueClass) {
+		V value = (V) getAttribute(objectId, key);
+		return value;
 	}
 
 	@Override
