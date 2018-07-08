@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.common.collect.Maps;
-import com.zm.zhuma.commons.attributes.dao.AttributeDao;
+import com.zm.zhuma.commons.attributes.mapper.AttributeMapper;
 import com.zm.zhuma.commons.attributes.event.publisher.AttributeEventPublisher;
 import com.zm.zhuma.commons.attributes.model.Attribute;
 import com.zm.zhuma.commons.attributes.model.AttributeChange;
@@ -18,8 +18,6 @@ import com.zm.zhuma.commons.attributes.service.AttributeService;
 import com.google.common.collect.Lists;
 
 import com.zm.zhuma.commons.util.CollectionUtil;
-import lombok.Data;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.util.Assert;
@@ -29,14 +27,23 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	private String table = null;
 
-	private AttributeDao<OID> attributeDao;
+	private AttributeMapper<OID> attributeDao;
 
 	private AttributeEventPublisher<OID> eventPublisher;
 
-	public AttributeServiceImpl(String table, AttributeDao<OID> attributeDao, AttributeEventPublisher<OID> eventPublisher) {
+	public AttributeServiceImpl(String table, AttributeMapper<OID> attributeDao, AttributeEventPublisher<OID> eventPublisher) {
 		this.table = table;
 		this.attributeDao = attributeDao;
 		this.eventPublisher = eventPublisher;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes(OID objectId) {
+		Assert.notNull(objectId, "objectId is not null");
+
+		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), null);
+
+		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
 	}
 
 	@Override
@@ -53,15 +60,6 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		} else {
 			throw new TooManyResultsException();
 		}
-	}
-
-	@Override
-	public Map<String, Object> getAttributes(OID objectId) {
-		Assert.notNull(objectId, "objectId is not null");
-
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), null);
-
-		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
 	}
 
 	@Override

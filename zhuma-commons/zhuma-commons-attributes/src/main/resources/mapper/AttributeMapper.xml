@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mapper.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zm.zhuma.commons.attributes.dao.AttributeDao">
+<mapper namespace="com.zm.zhuma.commons.attributes.mapper.AttributeMapper">
 
 	<select id="getAttrMapByKeys" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
-				objectId in
+				`object_id` in
 				<foreach collection="objectIds" item="id" open="(" separator="," close=")">
 					#{id}
 				</foreach>
@@ -26,7 +26,7 @@
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
-				objectId in
+				`object_id` in
 				<foreach collection="objectIds" item="id" open="(" separator="," close=")">
 					#{id}
 				</foreach>
@@ -41,7 +41,7 @@
 	</select>
 	
 	<insert id="addAttrs" useGeneratedKeys="true">
-	   insert into ${tableName} (objectId,`key`,value,type,createTime) values
+	   insert into ${tableName} (`object_id`,`key`,`value`,`type`,`create_time`) values
 	   <foreach collection="attributes" item="item" index="index" separator=",">
 	   	(#{item.objectId},#{item.key},#{item.value},#{item.type},now())
 	   </foreach>
@@ -51,17 +51,17 @@
 		update ${tableName}
 		<set>
 			<if test="attr.value != null">`value` = #{attr.value},</if>
-			<if test="attr.type != null">type = #{attr.type}</if>
+			<if test="attr.type != null">`type` = #{attr.type}</if>
 		</set>
 		<where>
 			<if test="attr.id != null">id = #{attr.id}</if>
-			<if test="attr.objectId != null and attr.objectId != ''"> and objectId = #{attr.objectId}</if>
+			<if test="attr.objectId != null and attr.objectId != ''"> and `object_id` = #{attr.objectId}</if>
 			<if test="attr.key != null and attr.key != '' "> and `key` = #{attr.key}</if>
 		</where>
 	</update>
 
 	<delete id="deleteAttrs">
-		delete from ${tableName} where objectId=#{objectId} 
+		delete from ${tableName} where `object_id`=#{objectId}
 		<if test="keys != null and keys.size() > 0">
 			and `key` in
 			<foreach collection="keys" item="key" open="(" separator=","

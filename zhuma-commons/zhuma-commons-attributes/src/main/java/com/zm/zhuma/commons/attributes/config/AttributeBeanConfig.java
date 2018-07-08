@@ -1,13 +1,10 @@
 package com.zm.zhuma.commons.attributes.config;
 
-import com.zm.zhuma.commons.attributes.dao.AttributeDao;
-import com.zm.zhuma.commons.attributes.event.AttributeEventOutputs;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
-import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.context.annotation.Configuration;
 
 

@@ -1,14 +1,13 @@
-package com.zm.zhuma.commons.attributes.dao;
+package com.zm.zhuma.commons.attributes.mapper;
 
 import java.util.List;
 
 import com.zm.zhuma.commons.attributes.model.Attribute;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AttributeDao<OID> {
+public interface AttributeMapper<OID> {
 
 	List<Attribute<OID>> getAttrMapByKeys(@Param(value = "tableName") String tableName,
                                           @Param(value = "objectIds") List<OID> objectIds, @Param(value = "keys") List<String> keys);

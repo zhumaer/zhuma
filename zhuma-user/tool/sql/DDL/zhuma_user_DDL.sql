@@ -48,11 +48,11 @@ CREATE TABLE `org` (
 DROP TABLE IF EXISTS `user_attr`;
 CREATE TABLE `user_attr` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `objectId` varchar(64) NOT NULL COMMENT '对象ID',
+  `object_id` varchar(64) NOT NULL COMMENT '对象ID',
   `key` varchar(64) NOT NULL COMMENT '键',
   `value` varchar(1024) DEFAULT NULL COMMENT '值',
   `type` varchar(32) NOT NULL COMMENT '类型',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE INDEX uq_object_id_key(`objectId`, `key`)
+  UNIQUE INDEX uq_object_id_key(`object_id`, `key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户属性表';

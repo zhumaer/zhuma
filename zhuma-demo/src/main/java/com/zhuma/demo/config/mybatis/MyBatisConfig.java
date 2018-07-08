@@ -17,7 +17,7 @@ public class MyBatisConfig {
 	public MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		mapperScannerConfigurer.setBasePackage("com.zhuma.demo.mapper,com.zm.zhuma.commons.attributes.dao");
+		mapperScannerConfigurer.setBasePackage("com.zhuma.demo.mapper,com.zm.zhuma.commons.attributes.mapper");
 
 		Properties properties = new Properties();
 		properties.setProperty("mappers", CrudMapper.class.getName());

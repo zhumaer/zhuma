@@ -13,7 +13,14 @@ import java.util.Map;
 public interface AttributeService<OID> {
 
 	/**
-	 * 获取对象属性
+	 * 获取对象所有属性
+	 * @param objectId 对象id
+	 * @return 属性map，key：属性key，value：属性值
+	 */
+	Map<String, Object> getAttributes(OID objectId);
+
+	/**
+	 * 获取对象某一个属性
 	 * @param objectId 对象id
 	 * @param key 属性key
 	 * @return 属性值
@@ -21,14 +28,7 @@ public interface AttributeService<OID> {
 	Object getAttribute(OID objectId, String key);
 
 	/**
-	 * 获取对象属性
-	 * @param objectId 对象id
-	 * @return 属性map，key：属性key，value：属性值
-	 */
-	Map<String, Object> getAttributes(OID objectId);
-
-	/**
-	 * 获取对象属性
+	 * 获取对象某一批属性
 	 * @param objectId 对象id
 	 * @param keys 属性keys
 	 * @return 属性map，key：属性key，value：属性值

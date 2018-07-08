@@ -25,7 +25,7 @@ public class DefaultAttributeEventPublisher<OID> implements AttributeEventPublis
 	public void publishAttributesChangedEvent(AttributesChangedEvent<OID> event, String tableName) {
 		String routingKey = "attributes." + tableName;
 		outputs.posted().send(toMessage(routingKey, event));
-		log.info("attributes_changement_event,routingKey={},event={}",routingKey,event);
+		log.debug("attributes_changement_event,routingKey={},event={}",routingKey,event);
 	}
 
 	private Message<?> toMessage(String routingKey, Object obj) {
