@@ -76,6 +76,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public Map<OID, Map<String, Object>> getAttributes(Iterable<OID> objectIds, Iterable<String> keys) {
+		Assert.notNull(objectIds, "objectIds is not null");
+		Assert.notNull(keys, "objectId is not null");
+
 		Map<OID, Map<String, Object>> map = Maps.newHashMap();
 
 		objectIds.forEach(objectId -> {
