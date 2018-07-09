@@ -22,4 +22,8 @@ public interface AttributeMapper<OID> {
 	
 	List<Attribute<OID>> getAttrMapByKeyAndValue(@Param(value = "tableName") String tableName,
                                                  @Param(value = "objectIds") List<OID> objectIds, @Param(value = "key") String key, @Param(value = "value") Object value);
+
+	List<Attribute<OID>> getAttrMapByKeyAndValues(@Param(value = "tableName") String tableName,
+			@Param(value = "key") String key, @Param(value = "values") List<Object> values);
+
 }

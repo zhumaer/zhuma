@@ -39,7 +39,22 @@
 			</if>
 		</where>
 	</select>
-	
+
+	<select id="getAttrMapByKeyAndValues" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
+		select * from ${tableName}
+		<where>
+			<if test="key != null and key != ''">
+				`key` = #{key}
+			</if>
+			<if test="values != null and values.size() > 0">
+				and `value` in
+				<foreach collection="values" item="value" open="(" separator="," close=")">
+					#{value}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
 	<insert id="addAttrs" useGeneratedKeys="true">
 	   insert into ${tableName} (`object_id`,`key`,`value`,`type`,`create_time`) values
 	   <foreach collection="attributes" item="item" index="index" separator=",">
@@ -48,11 +63,7 @@
 	</insert>
 
 	<update id="updateAttrs">
-		update ${tableName}
-		<set>
-			<if test="attr.value != null">`value` = #{attr.value},</if>
-			<if test="attr.type != null">`type` = #{attr.type}</if>
-		</set>
+		update ${tableName} set `value` = #{attr.value},type = #{attr.type}
 		<where>
 			<if test="attr.id != null">id = #{attr.id}</if>
 			<if test="attr.objectId != null and attr.objectId != ''"> and `object_id` = #{attr.objectId}</if>
