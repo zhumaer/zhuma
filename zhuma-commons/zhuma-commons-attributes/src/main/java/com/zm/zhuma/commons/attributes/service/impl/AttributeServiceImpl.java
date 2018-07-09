@@ -43,9 +43,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 	public Map<String, Object> getAttributes(OID objectId) {
 		Assert.notNull(objectId, "objectId is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), null);
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeys(table, Lists.newArrayList(objectId), null);
 
-		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
+		return list.stream().collect(Collectors.toMap(Attribute::getKey, this::convertType,(key1, key2) -> key2));
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Assert.notNull(objectId, "objectId is not null");
 		Assert.notNull(key, "key is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(key));
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(key));
 
 		if (list.size() == 0) {
 			return null;
@@ -72,8 +72,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	@Override
 	public <V> V getAttribute(OID objectId, String key, Class<V> valueClass) {
-		V value = (V) getAttribute(objectId, key);
-		return value;
+		return (V) getAttribute(objectId, key);
 	}
 
 	@Override
@@ -81,9 +80,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Assert.notNull(objectId, "objectId is not null");
 		Assert.notNull(keys, "keys is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(keys));
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeys(table, Lists.newArrayList(objectId), Lists.newArrayList(keys));
 
-		return list.stream().collect(Collectors.toMap(Attribute::getKey, attribute -> this.convertType(attribute),(key1, key2) -> key2));
+		return list.stream().collect(Collectors.toMap(Attribute::getKey, this::convertType,(key1, key2) -> key2));
 	}
 
 	@Override
@@ -120,9 +119,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Assert.notNull(objectIds, "objectIds is not null");
 		Assert.notNull(key, "key is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeys(table, Lists.newArrayList(objectIds), Lists.newArrayList(key));
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeys(table, Lists.newArrayList(objectIds), Lists.newArrayList(key));
 
-		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, attribute -> this.convertType(attribute),(key1, key2) -> key2));
+		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, this::convertType,(key1, key2) -> key2));
 	}
 
 	@Override
@@ -130,9 +129,9 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Assert.notNull(objectIds, "objectIds is not null");
 		Assert.notNull(key, "key is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeyAndValue(table, Lists.newArrayList(objectIds), key, value);
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeyAndValue(table, Lists.newArrayList(objectIds), key, value);
 
-		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, attribute -> this.convertType(attribute),(key1, key2) -> key2));
+		return list.stream().collect(Collectors.toMap(Attribute::getObjectId, this::convertType,(key1, key2) -> key2));
 	}
 
 	@Override
@@ -140,7 +139,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		Assert.notNull(key, "key is not null");
 		Assert.notNull(values, "values is not null");
 
-		List<Attribute<OID>> list = attributeDao.getAttrMapByKeyAndValues(table, key, Lists.newArrayList(values));
+		List<Attribute<OID>> list = attributeDao.getAttributeMapByKeyAndValues(table, key, Lists.newArrayList(values));
 
 		Map<OID, Object> map = new HashMap<>();
 		for (Attribute<OID> attribute : list) {
@@ -169,8 +168,8 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
-		List<String> previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
-		List<String> currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
+		List<String> previousKeyList = Lists.newArrayList(previousMap.keySet());
+		List<String> currentKeyList = Lists.newArrayList(attributes.keySet());
 
 		List<String> addKeyList = CollectionUtil.subtract(currentKeyList, previousKeyList);
 		List<String> updateKeyList = CollectionUtil.intersection(currentKeyList, previousKeyList);
@@ -188,7 +187,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 		}).collect(Collectors.toList());
 
 		if (!CollectionUtil.isEmpty(addAttrList)) {
-			attributeDao.addAttrs(table, addAttrList);
+			attributeDao.addAttributes(table, addAttrList);
 		}
 
 		updateKeyList.forEach(c -> {
@@ -197,14 +196,14 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			attribute.setObjectId(objectId);
 			convertType(attributes.get(c), attribute);
 
-			attributeDao.updateAttrs(table, attribute);
+			attributeDao.updateAttributes(table, attribute);
 
 			updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 		});
 
 		if (!CollectionUtil.isEmpty(removeKeyList)) {
 			removeKeyList.forEach(c -> removed.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(null).build()));
-			attributeDao.deleteAttrs(table, objectId, removeKeyList);
+			attributeDao.deleteAttributes(table, objectId, removeKeyList);
 		}
 
 		return buildResult(objectId, added, updated, removed);
@@ -224,7 +223,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 			List<String> previousKeyList = Lists.newArrayList(previousMap.keySet());
 
-			List<String> currentKeyList = attributes.keySet().stream().collect(Collectors.toList());
+			List<String> currentKeyList = Lists.newArrayList(attributes.keySet());
 
 			List<String> addKeyList = CollectionUtil.subtract(currentKeyList, previousKeyList);
 			List<String> updateKeyList = CollectionUtil.intersection(currentKeyList, previousKeyList);
@@ -241,7 +240,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			}).collect(Collectors.toList());
 
 			if (!CollectionUtil.isEmpty(addAttrList)) {
-				attributeDao.addAttrs(table, addAttrList);
+				attributeDao.addAttributes(table, addAttrList);
 			}
 
 			updateKeyList.forEach(c -> {
@@ -250,7 +249,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 				attribute.setObjectId(objectId);
 				convertType(attributes.get(c), attribute);
 
-				attributeDao.updateAttrs(table, attribute);
+				attributeDao.updateAttributes(table, attribute);
 
 				updated.put(c, AttributeChange.builder().previous(previousMap.get(c)).current(attributes.get(c)).build());
 			});
@@ -283,7 +282,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			}
 
 			if (!CollectionUtil.isEmpty(removeKeyList)) {
-				attributeDao.deleteAttrs(table, objectId, removeKeyList);
+				attributeDao.deleteAttributes(table, objectId, removeKeyList);
 			}
 		}
 
@@ -301,7 +300,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 		Map<String, Object> previousMap = getAttributes(objectId);
 
-		List<String> previousKeyList = previousMap.keySet().stream().collect(Collectors.toList());
+		List<String> previousKeyList = Lists.newArrayList(previousMap.keySet());
 		List<String> currentKeyList =  Lists.newArrayList(keys);
 
 		List<String> removeKeyList = CollectionUtil.intersection(previousKeyList, currentKeyList);
@@ -310,14 +309,14 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			for (String key : removeKeyList) {
 				removed.put(key, AttributeChange.builder().previous(previousMap.get(key)).current(null).build());
 			}
-			attributeDao.deleteAttrs(table, objectId, removeKeyList);
+			attributeDao.deleteAttributes(table, objectId, removeKeyList);
 		}
 
 		return buildResult(objectId, added, updated, removed);
 	}
 
 	/** 保存扩展属性时对象类型转换 */
-	public void convertType(Object obj, Attribute<OID> attribute) {
+	private void convertType(Object obj, Attribute<OID> attribute) {
 		String type = null;
 		String value = null;
 
@@ -359,11 +358,8 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	/**
 	 * 返回值类型转换
-	 * 
-	 * @param attribute
-	 * @return
 	 */
-	public Object convertType(Attribute<OID> attribute) {
+	private Object convertType(Attribute<OID> attribute) {
 		String type = attribute.getType();
 		String value = attribute.getValue();
 		Object result = null;
@@ -380,8 +376,7 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 			} else if (Long.class.getSimpleName().equals(type)) {
 				result = Long.valueOf(value);
 			} else if (Date.class.getSimpleName().equals(type)) {
-				Date date = new Date(Long.valueOf(value));
-				result = date;
+				result = new Date(Long.valueOf(value));
 			} else if (Boolean.class.getSimpleName().equals(type)) {
 				result = Boolean.valueOf(value);
 			} else if (String.class.getSimpleName().equals(type)) {
@@ -406,7 +401,6 @@ public class AttributeServiceImpl<OID> implements AttributeService<OID> {
 
 	/**
 	 * 发送属性变更消息
-	 * @param attributesChange
 	 */
 	private void sendAttributesChangeEvent(AttributesChange<OID> attributesChange) {
 		if (eventPublisher == null) {

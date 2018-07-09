@@ -9,21 +9,21 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AttributeMapper<OID> {
 
-	List<Attribute<OID>> getAttrMapByKeys(@Param(value = "tableName") String tableName,
+	List<Attribute<OID>> getAttributeMapByKeys(@Param(value = "tableName") String tableName,
                                           @Param(value = "objectIds") List<OID> objectIds, @Param(value = "keys") List<String> keys);
 
-	void addAttrs(@Param(value = "tableName") String tableName,
+	void addAttributes(@Param(value = "tableName") String tableName,
                   @Param(value = "attributes") List<Attribute<OID>> attributes);
 
-	void updateAttrs(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
+	void updateAttributes(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
 
-	void deleteAttrs(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId,
+	void deleteAttributes(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId,
                      @Param(value = "keys") List<String> keys);
 	
-	List<Attribute<OID>> getAttrMapByKeyAndValue(@Param(value = "tableName") String tableName,
+	List<Attribute<OID>> getAttributeMapByKeyAndValue(@Param(value = "tableName") String tableName,
                                                  @Param(value = "objectIds") List<OID> objectIds, @Param(value = "key") String key, @Param(value = "value") Object value);
 
-	List<Attribute<OID>> getAttrMapByKeyAndValues(@Param(value = "tableName") String tableName,
+	List<Attribute<OID>> getAttributeMapByKeyAndValues(@Param(value = "tableName") String tableName,
 			@Param(value = "key") String key, @Param(value = "values") List<Object> values);
 
 }

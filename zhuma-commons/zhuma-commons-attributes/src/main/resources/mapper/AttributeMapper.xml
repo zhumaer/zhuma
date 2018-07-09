@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zm.zhuma.commons.attributes.mapper.AttributeMapper">
 
-	<select id="getAttrMapByKeys" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
+	<select id="getAttributeMapByKeys" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
@@ -22,7 +22,7 @@
 		</where>
 	</select>
 	
-	<select id="getAttrMapByKeyAndValue" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
+	<select id="getAttributeMapByKeyAndValue" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="objectIds != null and objectIds.size() > 0">
@@ -40,7 +40,7 @@
 		</where>
 	</select>
 
-	<select id="getAttrMapByKeyAndValues" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
+	<select id="getAttributeMapByKeyAndValues" resultType="com.zm.zhuma.commons.attributes.model.Attribute">
 		select * from ${tableName}
 		<where>
 			<if test="key != null and key != ''">
@@ -55,14 +55,14 @@
 		</where>
 	</select>
 
-	<insert id="addAttrs" useGeneratedKeys="true">
+	<insert id="addAttributes" useGeneratedKeys="true">
 	   insert into ${tableName} (`object_id`,`key`,`value`,`type`,`create_time`) values
 	   <foreach collection="attributes" item="item" index="index" separator=",">
 	   	(#{item.objectId},#{item.key},#{item.value},#{item.type},now())
 	   </foreach>
 	</insert>
 
-	<update id="updateAttrs">
+	<update id="updateAttributes">
 		update ${tableName} set `value` = #{attr.value},type = #{attr.type}
 		<where>
 			<if test="attr.id != null">id = #{attr.id}</if>
@@ -71,7 +71,7 @@
 		</where>
 	</update>
 
-	<delete id="deleteAttrs">
+	<delete id="deleteAttributes">
 		delete from ${tableName} where `object_id`=#{objectId}
 		<if test="keys != null and keys.size() > 0">
 			and `key` in
