@@ -1,5 +1,6 @@
 package com.zm.zhuma.commons.web.handler;
 
+import com.zm.zhuma.commons.util.JsonUtil;
 import com.zm.zhuma.commons.web.annotations.ResponseResult;
 import com.zm.zhuma.commons.web.result.DefaultErrorResult;
 import com.zm.zhuma.commons.web.result.PlatformResult;
@@ -43,6 +44,8 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 						.msg(defaultErrorResult.getMessage())
 						.data(defaultErrorResult.getErrors())
 						.build();
+			} else if (body instanceof String) {
+				return JsonUtil.object2Json(PlatformResult.success(body));
 			}
 
 			return PlatformResult.success(body);
