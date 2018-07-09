@@ -21,7 +21,7 @@ import org.springframework.util.ClassUtils;
 
 /**
  * @desc 自动配置类
- *
+ * 备注：redisson配置方法：https://github.com/redisson/redisson/wiki/
  * @author zhumaer
  * @since 6/27/2018 11:29 PM
  */
@@ -35,7 +35,6 @@ public class EasyLockAutoConfiguration {
     private RedissonProperties redissonProperties;
 
     @Bean(destroyMethod = "shutdown")
-    @ConditionalOnMissingBean
     RedissonClient redisson() throws Exception {
         Config config = new Config();
         if(redissonProperties.getClusterServer()!=null){

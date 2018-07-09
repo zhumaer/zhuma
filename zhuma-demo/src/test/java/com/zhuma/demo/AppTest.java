@@ -1,4 +1,4 @@
-package com.zm.zm_demo;
+package com.zhuma.demo;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

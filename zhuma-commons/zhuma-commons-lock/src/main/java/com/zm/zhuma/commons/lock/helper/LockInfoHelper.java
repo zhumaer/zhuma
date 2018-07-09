@@ -23,12 +23,12 @@ public class LockInfoHelper {
     private RedissonProperties redissonProperties;
 
     @Autowired
-    private BusinessKeyHelper businessKeyProvider;
+    private BusinessKeyHelper businessKeyHelper;
 
     public EasyLockInfo get(ProceedingJoinPoint joinPoint, EasyLock lock) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         LockType type= lock.lockType();
-        String businessKeyName=businessKeyProvider.getKeyName(joinPoint,lock);
+        String businessKeyName=businessKeyHelper.getKeyName(joinPoint,lock);
         String lockName = LOCK_NAME_PREFIX+LOCK_NAME_SEPARATOR+getName(lock.name(), signature)+businessKeyName;
         long waitTime = getWaitTime(lock);
         long leaseTime = getLeaseTime(lock);

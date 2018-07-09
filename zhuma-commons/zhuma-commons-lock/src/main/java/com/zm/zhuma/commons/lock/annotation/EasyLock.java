@@ -33,11 +33,11 @@ public @interface EasyLock {
     /**
      * 最多等待时间（单位：秒）
      */
-    long waitTime() default Long.MIN_VALUE;
+    long waitTime() default 30;
 
     /**
      * 自动解锁时间（单位：秒）
      */
-    long leaseTime() default Long.MIN_VALUE;
+    long leaseTime() default -1;
 
 }

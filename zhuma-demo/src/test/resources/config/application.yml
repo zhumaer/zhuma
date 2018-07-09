@@ -1,0 +1,13 @@
+# local config
+spring:
+    profiles: local
+
+---
+# qa config
+spring:
+    profiles: qa
+
+---
+spring:
+    profiles: prod
+
