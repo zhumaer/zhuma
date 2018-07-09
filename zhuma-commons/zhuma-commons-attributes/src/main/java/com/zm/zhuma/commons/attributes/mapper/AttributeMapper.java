@@ -9,21 +9,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AttributeMapper<OID> {
 
-	List<Attribute<OID>> getAttributeMapByKeys(@Param(value = "tableName") String tableName,
-                                          @Param(value = "objectIds") List<OID> objectIds, @Param(value = "keys") List<String> keys);
+	void addAttributes(@Param(value = "tableName") String tableName, @Param(value = "attributes") List<Attribute<OID>> attributes);
 
-	void addAttributes(@Param(value = "tableName") String tableName,
-                  @Param(value = "attributes") List<Attribute<OID>> attributes);
+	void deleteAttributes(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId, @Param(value = "keys") List<String> keys);
 
 	void updateAttributes(@Param(value = "tableName") String tableName, @Param("attr") Attribute<OID> attribute);
 
-	void deleteAttributes(@Param(value = "tableName") String tableName, @Param(value = "objectId") OID objectId,
-                     @Param(value = "keys") List<String> keys);
-	
-	List<Attribute<OID>> getAttributeMapByKeyAndValue(@Param(value = "tableName") String tableName,
-                                                 @Param(value = "objectIds") List<OID> objectIds, @Param(value = "key") String key, @Param(value = "value") Object value);
+	List<Attribute<OID>> getAttributeMapByKeys(@Param(value = "tableName") String tableName, @Param(value = "objectIds") List<OID> objectIds, @Param(value = "keys") List<String> keys);
 
-	List<Attribute<OID>> getAttributeMapByKeyAndValues(@Param(value = "tableName") String tableName,
-			@Param(value = "key") String key, @Param(value = "values") List<Object> values);
+	List<Attribute<OID>> getAttributeMapByKeyAndValue(@Param(value = "tableName") String tableName, @Param(value = "objectIds") List<OID> objectIds, @Param(value = "key") String key, @Param(value = "value") Object value);
+
+	List<Attribute<OID>> getAttributeMapByKeyAndValues(@Param(value = "tableName") String tableName, @Param(value = "key") String key, @Param(value = "values") List<Object> values);
 
 }
