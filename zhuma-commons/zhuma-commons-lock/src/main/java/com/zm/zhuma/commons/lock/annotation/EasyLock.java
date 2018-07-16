@@ -3,6 +3,7 @@ package com.zm.zhuma.commons.lock.annotation;
 import com.zm.zhuma.commons.lock.model.LockType;
 
 import java.lang.annotation.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @desc 分布式锁
@@ -31,13 +32,17 @@ public @interface EasyLock {
     LockType lockType() default LockType.Reentrant;
 
     /**
-     * 最多等待时间（单位：秒）
+     * 最多等待时间（默认单位：秒）
      */
     long waitTime() default 30;
 
     /**
-     * 自动解锁时间（单位：秒）
+     * 自动解锁时间（默认单位：秒）
      */
     long leaseTime() default -1;
 
+    /**
+     * 时间单位
+     */
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
 }
