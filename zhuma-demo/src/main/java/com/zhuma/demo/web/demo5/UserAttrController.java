@@ -16,7 +16,7 @@ import java.util.Map;
  * @desc 用户管理控制器
  * 
  * @author zhumaer
- * @since 6/20/2017 16:37 PM
+ * @since 7/16/2018 16:37 PM
  */
 @ResponseResult
 @RestController("demo4UserAttrController")
@@ -32,8 +32,17 @@ public class UserAttrController {
     }
 
     @GetMapping
-    Map<String, Object>  getAtts(@PathVariable("userId") String userId) {
+    Map<String, Object>  get(@PathVariable("userId") String userId) {
         return userAttributeService.getAttributes(userId);
     }
 
+    @PatchMapping
+    AttributesChange<String> patch(@PathVariable("userId") String userId,@RequestBody Map<String, Object> attrMap) {
+        return userAttributeService.setAttributes(userId, attrMap);
+    }
+
+    @DeleteMapping
+    AttributesChange<String> delete(@PathVariable("userId") String userId) {
+        return userAttributeService.deleteAttributes(userId);
+    }
 }
