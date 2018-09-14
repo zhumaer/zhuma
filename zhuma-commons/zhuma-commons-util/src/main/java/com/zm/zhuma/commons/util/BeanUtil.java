@@ -11,6 +11,7 @@ import java.util.*;
 
 import com.zm.zhuma.commons.util.annotations.FieldAlias;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang3.ArrayUtils;
@@ -200,5 +201,11 @@ public class BeanUtil {
 		}
 
 		return fatMap;
+	}
+
+	public static void main(String[] args) {
+		Test test1 = new Test();
+		Test test2 = new Test();
+		BeanUtil.copyProperties(test1,test2);
 	}
 }

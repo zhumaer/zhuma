@@ -71,6 +71,13 @@
 			<version>2.5</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 		<!--mybatis handler java 8 time typeHandler -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
