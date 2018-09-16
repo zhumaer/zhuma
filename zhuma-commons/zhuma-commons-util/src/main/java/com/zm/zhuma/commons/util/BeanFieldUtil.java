@@ -18,6 +18,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,25 +39,31 @@ public class BeanFieldUtil {
 		supportAnnMap.put(Trim.class, new Trim.Converter());
 	}
 
-	public static void autoConvert(Object source) {
-		autoConvert(source, true,null);
+	public static void autoConvert(Object target) {
+		autoConvert(target, true,null);
 	}
 
-	public static void autoConvert(Object source, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
-		Assert.notNull(source, "source cannot be null");
+	public static void autoConvert(Object target, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
+		Assert.notNull(target, "target cannot be null");
 
-        if (source instanceof Iterable) {
-            Iterable sourceIt = (Iterable)source;
+		Object targetProxy = target;
+
+		if (target.getClass().isArray()) {
+            targetProxy = new ArrayList<>(Arrays.asList((Object[])targetProxy));
+        }
+
+        if (targetProxy instanceof Iterable) {
+            Iterable sourceIt = (Iterable)targetProxy;
             sourceIt.forEach(item -> convertBean(item, ignoreException, supportAnnotations));
         } else {
-            convertBean(source, ignoreException, supportAnnotations);
+            convertBean(targetProxy, ignoreException, supportAnnotations);
         }
 
 	}
 
-    private static void convertBean(Object source, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
-        Class<?> sourceClazz = source.getClass();
-        PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(sourceClazz);
+    private static void convertBean(Object target, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
+        Class<?> targetClazz = target.getClass();
+        PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(targetClazz);
         Set<Class<? extends Annotation>> supportAnnotationSet = supportAnnotations != null ? Sets.newHashSet(supportAnnotations) : null;
 
         for (PropertyDescriptor targetPd : targetPds) {
@@ -66,12 +74,12 @@ public class BeanFieldUtil {
 
             Field field;
             try {
-                field = getDeclaredField(sourceClazz, targetPd.getName());
+                field = getDeclaredField(targetClazz, targetPd.getName());
             } catch (NoSuchFieldException e) {
                 continue;
             }
 
-            PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(sourceClazz, targetPd.getName());
+            PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(targetClazz, targetPd.getName());
             if (sourcePd == null) {
                 continue;
             }
@@ -92,7 +100,7 @@ public class BeanFieldUtil {
                         continue;
                     }
 
-                    Object value = readMethod.invoke(source);
+                    Object value = readMethod.invoke(target);
 
                     if (hasConvertAnn(annotations)) {
                         autoConvert(value, ignoreException, supportAnnotations);
@@ -120,13 +128,13 @@ public class BeanFieldUtil {
                     }
 
                     if (isModified) {
-                        writeMethod.invoke(source, value);
+                        writeMethod.invoke(target, value);
                     }
                 } catch (Throwable ex) {
                     if (ignoreException) {
                         log.warn("Fail to convertBean, caused by:", ex);
                     } else {
-                        throw new RuntimeException("Could not set property '" + targetPd.getName() + "' to source", ex);
+                        throw new RuntimeException("Fail to set property '" + targetPd.getName() + "' to target", ex);
                     }
                 }
             }
@@ -181,7 +189,8 @@ public class BeanFieldUtil {
 
         sourceBean.setBaseSourceBeanList(baseSourceBeanList);
 
-		BeanFieldUtil.autoConvert(sourceBean);
+        SourceBean[] sourceBeanArr = new SourceBean[]{sourceBean};
+		BeanFieldUtil.autoConvert(sourceBeanArr);
 		System.out.println(sourceBean.toString());
 	}
 }
