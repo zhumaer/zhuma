@@ -32,7 +32,7 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 		HttpServletRequest request = RequestContextUtil.getRequest();
 		ResponseResult responseResultAnn = (ResponseResult) request.getAttribute(ResponseResultInterceptor.RESPONSE_RESULT);
-		return responseResultAnn == null || ApiStyleEnum.NONE.name().equalsIgnoreCase(request.getHeader(HeaderConstants.API_STYLE));
+		return responseResultAnn != null && !ApiStyleEnum.NONE.name().equalsIgnoreCase(request.getHeader(HeaderConstants.API_STYLE));
 	}
 
 	@Override
