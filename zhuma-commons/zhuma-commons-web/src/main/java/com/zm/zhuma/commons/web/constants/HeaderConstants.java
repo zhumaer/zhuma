@@ -1,5 +1,6 @@
 package com.zm.zhuma.commons.web.constants;
 
+import com.zm.zhuma.commons.enums.ApiStyleEnum;
 import com.zm.zhuma.commons.enums.CallSourceEnum;
 
 /**
@@ -30,4 +31,8 @@ public class HeaderConstants {
 	 */
 	public static final String CALL_SOURCE = "Call-Source";
 
+	/**
+	 * API的返回格式 {@link ApiStyleEnum}
+	 */
+	public static final String API_STYLE = "Api-Style";
 }
