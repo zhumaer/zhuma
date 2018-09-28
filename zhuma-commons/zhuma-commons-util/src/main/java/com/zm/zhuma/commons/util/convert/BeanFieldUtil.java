@@ -1,13 +1,10 @@
-package com.zm.zhuma.commons.util;
+package com.zm.zhuma.commons.util.convert;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.zm.zhuma.commons.util.annotations.Convert;
 import com.zm.zhuma.commons.util.annotations.FullToHalf;
 import com.zm.zhuma.commons.util.annotations.Trim;
-import com.zm.zhuma.commons.util.test.BaseSourceBean;
-import com.zm.zhuma.commons.util.test.SourceBean;
-import com.zm.zhuma.commons.util.test.SourceBean2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.Assert;
@@ -24,10 +21,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @desc Bean 字段操作工具类（支持添加{@link FullToHalf} 注解）
+ * @desc Bean 字段值转化工具（支持添加{@link FullToHalf} {@link Trim}  等注解）
  *
- * @author zhuxiaoma
- * @since 7/6/2017 3:13 PM
+ * @author zhumaer
+ * @since 2018/9/16
  */
 @Slf4j
 public class BeanFieldUtil {
@@ -39,10 +36,22 @@ public class BeanFieldUtil {
 		supportAnnMap.put(Trim.class, new Trim.Converter());
 	}
 
+	/**
+     * 根据注解标记转化输入对象的字段值
+     *
+     * 备注：支持数组、集合、对象嵌对象/集合等情况
+     */
 	public static void autoConvert(Object target) {
 		autoConvert(target, true,null);
 	}
 
+    /**
+     * 根据注解标记转化输入对象的字段值
+     *
+     * @Param target 转化目标
+     * @Param ignoreException 出异常时是否忽略
+     * @Param supportAnnotations 所支持的注解（备注：值为null时，代表支持所有配置的注解）
+     */
 	public static void autoConvert(Object target, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
 		Assert.notNull(target, "target cannot be null");
 
@@ -61,6 +70,9 @@ public class BeanFieldUtil {
 
 	}
 
+	/**
+     * 转化对象
+     */
     private static void convertBean(Object target, boolean ignoreException, Class<? extends Annotation>... supportAnnotations) {
         Class<?> targetClazz = target.getClass();
         PropertyDescriptor[] targetPds = BeanUtils.getPropertyDescriptors(targetClazz);
@@ -79,12 +91,7 @@ public class BeanFieldUtil {
                 continue;
             }
 
-            PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(targetClazz, targetPd.getName());
-            if (sourcePd == null) {
-                continue;
-            }
-
-            Method readMethod = sourcePd.getReadMethod();
+            Method readMethod = targetPd.getReadMethod();
             if (readMethod != null && ClassUtils.isAssignable(writeMethod.getParameterTypes()[0], readMethod.getReturnType())) {
                 try {
                     if (!Modifier.isPublic(readMethod.getDeclaringClass().getModifiers())) {
@@ -119,7 +126,7 @@ public class BeanFieldUtil {
                                     value = beanFieldConverter.convert(value);
                                     isModified = true;
                                 }
-                            } catch (ClassCastException e) {//TODO 此种方式应该想办法替换下
+                            } catch (ClassCastException e) {
                                 String prompt = String.format("%s annotation cannot be mark on %s field", ann.annotationType().getSimpleName(), value.getClass().getTypeName());
                                 throw new RuntimeException(prompt);
                             }
@@ -158,39 +165,17 @@ public class BeanFieldUtil {
     /**
 	 * 获取某个类下的属性（包含父类）
 	 */
-	private static Field getDeclaredField(Class<?> targetClazz, String fieldName) throws NoSuchFieldException {
-		Class<?> clazz = targetClazz;
-		while (clazz != Object.class) {
-			try {
-				return clazz.getDeclaredField(fieldName);
-			} catch (NoSuchFieldException e) {
-				clazz = clazz.getSuperclass();
-			}
-		}
+    private static Field getDeclaredField(Class<?> targetClazz, String fieldName) throws NoSuchFieldException {
+        Class<?> clazz = targetClazz;
+        while (clazz != Object.class) {
+            try {
+                return clazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            }
+        }
 
-		throw new NoSuchFieldException();
-	}
+        throw new NoSuchFieldException();
+    }
 
-	public static void main(String[] args) {
-		SourceBean sourceBean = SourceBean.builder()
-				.name("１ａｄｓｆａｄｓ阿萨德刚1   ")
-				.build();
-
-		sourceBean.setBaseName("  1ｄｓｆａ  asdf啊啊发的");
-
-//        List<SourceBean> list = Lists.newArrayList();
-//        list.add(sourceBean);
-
-        Set<BaseSourceBean> baseSourceBeanList = Sets.newHashSet();
-        SourceBean2 sourceBean21 = new SourceBean2();
-        sourceBean21.setName("     Ａ    ");
-        sourceBean21.setTrimName("  111  ");
-        baseSourceBeanList.add(sourceBean21);
-
-        sourceBean.setBaseSourceBeanList(baseSourceBeanList);
-
-        SourceBean[] sourceBeanArr = new SourceBean[]{sourceBean};
-		BeanFieldUtil.autoConvert(sourceBeanArr);
-		System.out.println(sourceBean.toString());
-	}
 }

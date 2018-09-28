@@ -1,8 +1,7 @@
 package com.zm.zhuma.commons.util.annotations;
 
-
-import com.zm.zhuma.commons.util.BeanFieldConverter;
-import com.zm.zhuma.commons.util.StringUtil;
+import com.zm.zhuma.commons.util.convert.BeanFieldConverter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -12,9 +11,9 @@ import java.lang.annotation.Target;
 
 /**
  * @desc 字符串去两边空格
- * 
- * @author zhuxiaoma
- * @since 9/12/2018 3:13 PM
+ *
+ * @author zhumaer
+ * @since 2018/9/16
  */
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
@@ -33,7 +32,7 @@ public @interface Trim {
 
         @Override
         public boolean isNeedConvert(String field) {
-            if (StringUtil.isEmpty(field)) {
+            if (StringUtils.isEmpty(field)) {
                 return false;
             }
             return field.startsWith(" ") || field.endsWith(" ");
