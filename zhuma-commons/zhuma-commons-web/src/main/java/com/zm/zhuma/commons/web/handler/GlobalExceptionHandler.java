@@ -64,10 +64,11 @@ public class GlobalExceptionHandler extends BaseGlobalExceptionHandler {
 	/** 处理运行时异常 */
 	@Override
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(RuntimeException.class)
-	public DefaultErrorResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+	@ExceptionHandler(Throwable.class)
+	public DefaultErrorResult handleThrowable(Throwable e, HttpServletRequest request) {
 		//TODO 可通过邮件、微信公众号等方式发送信息至开发人员、记录存档等操作
-		return super.handleRuntimeException(e, request);
+		return super.handleThrowable(e, request);
 	}
+
 
 }

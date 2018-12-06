@@ -73,10 +73,10 @@ public abstract class BaseGlobalExceptionHandler {
 	}
 
 	/**
-	 * 处理运行时系统异常（反500错误码）
+	 * 处理未预测到的其他错误（反500错误码）
 	 */
-	protected DefaultErrorResult handleRuntimeException(RuntimeException e, HttpServletRequest request) {
-		log.error("handleRuntimeException start, uri:{}, caused by: ", request.getRequestURI(), e);
+	protected DefaultErrorResult handleThrowable(Throwable e, HttpServletRequest request) {
+		log.error("handleThrowable start, uri:{}, caused by: ", request.getRequestURI(), e);
 		return DefaultErrorResult.failure(ResultCode.SYSTEM_INNER_ERROR, e, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
