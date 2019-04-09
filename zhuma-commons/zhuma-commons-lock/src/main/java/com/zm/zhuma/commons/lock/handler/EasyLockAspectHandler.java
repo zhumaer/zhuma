@@ -31,7 +31,7 @@ public class EasyLockAspectHandler {
             return joinPoint.proceed();
         } finally {
             if (currentThreadLock) {
-                lock.release();
+//                lock.release();
             }
         }
     }
